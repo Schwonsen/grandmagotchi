@@ -3,6 +3,8 @@ package com.uniks.grandmagotchi;
 public class GrannyAttributes {
 	
 	private String name;
+	private Boolean hungry;
+	private Boolean thirsty;
 	
 	
 
