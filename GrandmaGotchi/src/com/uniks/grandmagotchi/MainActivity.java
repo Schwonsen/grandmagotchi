@@ -2,8 +2,10 @@ package com.uniks.grandmagotchi;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends Activity {
@@ -26,12 +28,17 @@ public class MainActivity extends Activity {
     
     public void btnClickStartGame(View view) {
     	
-    	setContentView(R.layout.living_room);
-    	EditText fieldGrannyName = (EditText)findViewById(R.id.tfGrannysName);
-    	grannyAttributes.setName(fieldGrannyName.getText().toString());
-    	
-    	
-    	
+    	Button btnStartGame =(Button) findViewById(R.id.btnStartGame);
+    	btnStartGame.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(MainActivity.this, LivingRoomActivity.class));
+		    	EditText fieldGrannyName = (EditText)findViewById(R.id.tfGrannysName);
+		    	grannyAttributes.setName(fieldGrannyName.getText().toString());
+			}
+		});    	
     }
     
 }
