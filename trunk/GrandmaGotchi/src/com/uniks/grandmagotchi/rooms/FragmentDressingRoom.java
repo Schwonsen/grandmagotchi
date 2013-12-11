@@ -1,13 +1,12 @@
 package com.uniks.grandmagotchi.rooms;
 
-import com.uniks.grandmagotchi.R;
-import com.uniks.grandmagotchi.R.layout;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.uniks.grandmagotchi.R;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
