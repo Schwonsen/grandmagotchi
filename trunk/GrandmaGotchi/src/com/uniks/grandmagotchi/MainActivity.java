@@ -1,6 +1,8 @@
 package com.uniks.grandmagotchi;
 
+import com.uniks.grandmagotchi.data.DatabaseAdapter;
 import com.uniks.grandmagotchi.data.GrannyAttributes;
+import com.uniks.grandmagotchi.util.Message;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -16,24 +18,14 @@ public class MainActivity extends Activity {
 
 	Button btnStartGame;
 	EditText editName;
+	DatabaseAdapter databaseHandler;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        btnStartGame = (Button) findViewById(R.id.btnStartGame);
-        btnStartGame.setOnClickListener(new View.OnClickListener()
-		{
-			
-			@Override
-			public void onClick(View v)
-			{
-				startActivity(new Intent(MainActivity.this, RoomActivity.class));
-		    	EditText fieldGrannyName = (EditText)findViewById(R.id.tfGrannysName);
-		    	grannyAttributes.setName(fieldGrannyName.getText().toString());
-			}
-		});
+        databaseHandler = new DatabaseAdapter(this);
         
         editName = (EditText) findViewById(R.id.tfGrannysName);
         editName.setOnClickListener(new View.OnClickListener()
@@ -56,19 +48,23 @@ public class MainActivity extends Activity {
         return true;
     }
     
-//    public void btnClickStartGame(View view) {
-//    	
-//    	Button btnStartGame =(Button) findViewById(R.id.btnStartGame);
-//    	btnStartGame.setOnClickListener(new View.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				startActivity(new Intent(MainActivity.this, RoomActivity.class));
-//		    	EditText fieldGrannyName = (EditText)findViewById(R.id.tfGrannysName);
-//		    	grannyAttributes.setName(fieldGrannyName.getText().toString());
-//			}
-//		});    	
-//    }
+    
+    public void btnClickStartGame(View view)
+    {
+    	EditText fieldGrannyName = (EditText)findViewById(R.id.tfGrannysName);
+    	String grannyName = fieldGrannyName.toString();
+    	long id = databaseHandler.insertData(grannyName);
+		
+		if(id < 0)
+		{
+			Message.message(MainActivity.this, "Unsuccessful written in Database");
+		}
+		else
+		{
+			Message.message(MainActivity.this, "Successfully written in Database");
+		}
+		startActivity(new Intent(MainActivity.this, RoomActivity.class));
+    }
+
     
 }
