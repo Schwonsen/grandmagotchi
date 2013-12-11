@@ -12,10 +12,38 @@ public class MainActivity extends Activity {
 	
 	public GrannyAttributes grannyAttributes = new GrannyAttributes();
 
+	Button btnStartGame;
+	EditText editName;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        btnStartGame = (Button) findViewById(R.id.btnStartGame);
+        btnStartGame.setOnClickListener(new View.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				startActivity(new Intent(MainActivity.this, RoomActivity.class));
+		    	EditText fieldGrannyName = (EditText)findViewById(R.id.tfGrannysName);
+		    	grannyAttributes.setName(fieldGrannyName.getText().toString());
+			}
+		});
+        
+        editName = (EditText) findViewById(R.id.tfGrannysName);
+        editName.setOnClickListener(new View.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				editName.setHint("");
+			}
+		});
+        
     }
 
 
@@ -26,19 +54,19 @@ public class MainActivity extends Activity {
         return true;
     }
     
-    public void btnClickStartGame(View view) {
-    	
-    	Button btnStartGame =(Button) findViewById(R.id.btnStartGame);
-    	btnStartGame.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				startActivity(new Intent(MainActivity.this, LivingRoomActivity.class));
-		    	EditText fieldGrannyName = (EditText)findViewById(R.id.tfGrannysName);
-		    	grannyAttributes.setName(fieldGrannyName.getText().toString());
-			}
-		});    	
-    }
+//    public void btnClickStartGame(View view) {
+//    	
+//    	Button btnStartGame =(Button) findViewById(R.id.btnStartGame);
+//    	btnStartGame.setOnClickListener(new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				startActivity(new Intent(MainActivity.this, RoomActivity.class));
+//		    	EditText fieldGrannyName = (EditText)findViewById(R.id.tfGrannysName);
+//		    	grannyAttributes.setName(fieldGrannyName.getText().toString());
+//			}
+//		});    	
+//    }
     
 }

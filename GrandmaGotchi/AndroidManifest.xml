@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.uniks.grandmagotchi.LivingRoomActivity"
+            android:name="com.uniks.grandmagotchi.RoomActivity"
             android:label="@string/title_activity_living_room" >
         </activity>
     </application>
