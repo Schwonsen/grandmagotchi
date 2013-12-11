@@ -1,4 +1,7 @@
-package com.uniks.grandmagotchi;
+package com.uniks.grandmagotchi.rooms;
+
+import com.uniks.grandmagotchi.R;
+import com.uniks.grandmagotchi.R.layout;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,10 +13,10 @@ import android.view.ViewGroup;
  * A simple {@link android.support.v4.app.Fragment} subclass.
  * 
  */
-public class FragmentWashingRoom extends Fragment
+public class FragmentDressingRoom extends Fragment
 {
 
-	public FragmentWashingRoom()
+	public FragmentDressingRoom()
 	{
 		// Required empty public constructor
 	}
@@ -23,7 +26,7 @@ public class FragmentWashingRoom extends Fragment
 			Bundle savedInstanceState)
 	{
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_washing_room,
+		return inflater.inflate(R.layout.fragment_dressing_room,
 				container, false);
 	}
 

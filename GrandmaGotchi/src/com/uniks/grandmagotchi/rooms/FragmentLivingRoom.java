@@ -1,4 +1,7 @@
-package com.uniks.grandmagotchi;
+package com.uniks.grandmagotchi.rooms;
+
+import com.uniks.grandmagotchi.R;
+import com.uniks.grandmagotchi.R.layout;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
