@@ -1,6 +1,13 @@
 package com.uniks.grandmagotchi;
 
 
+import com.uniks.grandmagotchi.rooms.FragmentBedroom;
+import com.uniks.grandmagotchi.rooms.FragmentDressingRoom;
+import com.uniks.grandmagotchi.rooms.FragmentDrugstore;
+import com.uniks.grandmagotchi.rooms.FragmentKitchen;
+import com.uniks.grandmagotchi.rooms.FragmentLivingRoom;
+import com.uniks.grandmagotchi.rooms.FragmentWashingRoom;
+
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -92,10 +99,20 @@ public class RoomActivity extends FragmentActivity implements TabListener
 		tabWashingRoom.setText("Washing Room");
 		tabWashingRoom.setTabListener(this);
 		
+		ActionBar.Tab tabBedroom = actionBar.newTab();
+		tabBedroom.setText("Bedroom");
+		tabBedroom.setTabListener(this);
+		
+		ActionBar.Tab tabDrugstore = actionBar.newTab();
+		tabDrugstore.setText("Drugstore");
+		tabDrugstore.setTabListener(this);
+		
 		actionBar.addTab(tabLivingRoom);
 		actionBar.addTab(tabKitchen);
 		actionBar.addTab(tabDressingRoom);
 		actionBar.addTab(tabWashingRoom);
+		actionBar.addTab(tabBedroom);
+		actionBar.addTab(tabDrugstore);
 
 	}
 
@@ -155,6 +172,14 @@ public class RoomActivity extends FragmentActivity implements TabListener
 			{
 				fragment = new FragmentWashingRoom();
 			}
+			else if(position == 4)
+			{
+				fragment = new FragmentBedroom();
+			}
+			else if(position == 5)
+			{
+				fragment = new FragmentDrugstore();
+			}
 			
 			
 			return fragment;
@@ -164,7 +189,7 @@ public class RoomActivity extends FragmentActivity implements TabListener
 		public int getCount()
 		{
 			// returns the number of pages
-			return 4;
+			return 6;
 		}
 		
 	}

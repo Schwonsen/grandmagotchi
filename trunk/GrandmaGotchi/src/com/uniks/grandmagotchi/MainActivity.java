@@ -1,5 +1,7 @@
 package com.uniks.grandmagotchi;
 
+import com.uniks.grandmagotchi.data.GrannyAttributes;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;

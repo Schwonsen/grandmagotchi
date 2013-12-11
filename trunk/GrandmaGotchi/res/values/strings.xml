@@ -8,10 +8,12 @@
     <string name="label_grannyName">Name:</string>
     <string name="title_activity_living_room">LivingRoomActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="fragment_living_room">This is the Living Room (watching TV or whatever)</string>
+    <string name="fragment_living_room">This is the Living Room (watching TV and order Food)</string>
     <string name="fragment_kitchen">This is the Kitchen (eat and drink)</string>
     <string name="fragment_dressing_room">This is the Dressing Room (change cloth)</string>
-    <string name="fragment_washing_room">This is the Washingroom (wash clothes and dishes)</string>
+    <string name="fragment_washing_room">This is the Washingroom (wash clothes, dishes or the whole house)</string>
+    <string name="fragment_bedroom">This is the Bedroom (sleep zZzZZzz)</string>
+    <string name="fragment_drugstore">This is the Drugstore (get medication)</string>
     <string name="hint_login_name">Grannys Name</string>
 
 </resources>

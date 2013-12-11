@@ -1,4 +1,4 @@
-package com.uniks.grandmagotchi;
+package com.uniks.grandmagotchi.data;
 
 public class GrannyAttributes {
 	
