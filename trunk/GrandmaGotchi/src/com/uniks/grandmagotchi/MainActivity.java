@@ -2,6 +2,7 @@ package com.uniks.grandmagotchi;
 
 import com.uniks.grandmagotchi.data.DatabaseAdapter;
 import com.uniks.grandmagotchi.data.GrannyAttributes;
+import com.uniks.grandmagotchi.util.DebugClass;
 import com.uniks.grandmagotchi.util.Message;
 
 import android.os.Bundle;
@@ -19,12 +20,14 @@ public class MainActivity extends Activity {
 	Button btnStartGame;
 	EditText editName;
 	DatabaseAdapter databaseHandler;
+	DebugClass dMode;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
+        dMode = new DebugClass();
         databaseHandler = new DatabaseAdapter(this);
         
         editName = (EditText) findViewById(R.id.tfGrannysName);
@@ -57,13 +60,14 @@ public class MainActivity extends Activity {
 		
 		if(id < 0)
 		{
-			Message.message(MainActivity.this, "Unsuccessful written in Database");
+			if(dMode.getDebugMode()) Message.message(MainActivity.this, "Unsuccessful written in Database");
 		}
 		else
 		{
-			Message.message(MainActivity.this, "Successfully written in Database");
+			if(dMode.getDebugMode()) Message.message(MainActivity.this, "Successfully written in Database");
 		}
 		startActivity(new Intent(MainActivity.this, RoomActivity.class));
+		MainActivity.this.finish();
     }
 
     
