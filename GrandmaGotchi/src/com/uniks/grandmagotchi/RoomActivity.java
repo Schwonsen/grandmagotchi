@@ -7,12 +7,15 @@ import com.uniks.grandmagotchi.rooms.FragmentDrugstore;
 import com.uniks.grandmagotchi.rooms.FragmentKitchen;
 import com.uniks.grandmagotchi.rooms.FragmentLivingRoom;
 import com.uniks.grandmagotchi.rooms.FragmentWashingRoom;
+import com.uniks.grandmagotchi.util.DebugClass;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,14 +29,27 @@ import android.util.Log;
 public class RoomActivity extends FragmentActivity implements TabListener
 {
 
+	// positions for different Rooms 
+	// (always write a constant for a new Room for better legibility of code)
+	private static final int LIVINGROOM_POS = 0;
+	private static final int KITCHEN_POS = 1;
+	private static final int DRESSINGROOM_POS = 2;
+	private static final int WASHINGROOM_POS = 3;
+	private static final int BEDROOM_POS = 4;
+	private static final int DRUGSTORE_POS = 5;
+	
+	private static final int NUMBER_OF_ROOMS = 6;
+	
 	ViewPager viewPager;
 	ActionBar actionBar;
+	DebugClass dMode;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_room);	
+		dMode = new DebugClass();
 		
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		//since we extends FragmentActivity we can call FragAdapter with the Support Fragment Manager
@@ -49,14 +65,14 @@ public class RoomActivity extends FragmentActivity implements TabListener
 			// if you change the fragment by viewPager the actionBar calls the position and change its status	
 			// for the opposite site look at the onTabSelected Method down below
 				actionBar.setSelectedNavigationItem(position);
-				Log.d("VIVZ", "onPageSelected at position " + position);
+				if(dMode.getDebugMode()) Log.d("VIVZ", "onPageSelected at position " + position);
 				
 			}
 			
 			@Override
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
 			{
-				Log.d("VIVZ", "onPageScrolled at position " + position + " from position " + positionOffset +
+				if(dMode.getDebugMode()) Log.d("VIVZ", "onPageScrolled at position " + position + " from position " + positionOffset +
 						" with number of pixels = " + positionOffsetPixels);
 				
 			}
@@ -64,25 +80,29 @@ public class RoomActivity extends FragmentActivity implements TabListener
 			@Override
 			public void onPageScrollStateChanged(int state)
 			{
-				if(state == ViewPager.SCROLL_STATE_IDLE)
+				if(dMode.getDebugMode()) 
 				{
-					Log.d("VIVZ", "onPageScrollStateChanged IDLE");
+					if(state == ViewPager.SCROLL_STATE_IDLE)
+					{
+						Log.d("VIVZ", "onPageScrollStateChanged IDLE");
+					}
+					else if(state == ViewPager.SCROLL_STATE_DRAGGING)
+					{
+						Log.d("VIVZ", "onPageScrollStateChanged DRAGGING");
+					}
+					else if(state == ViewPager.SCROLL_STATE_SETTLING)
+					{
+						Log.d("VIVZ", "onPageScrollStateChanged SETTLING");
+					}
 				}
-				else if(state == ViewPager.SCROLL_STATE_DRAGGING)
-				{
-					Log.d("VIVZ", "onPageScrollStateChanged DRAGGING");
-				}
-				else if(state == ViewPager.SCROLL_STATE_SETTLING)
-				{
-					Log.d("VIVZ", "onPageScrollStateChanged SETTLING");
-				}
-				
 			}
 		});
+		
 		actionBar = getActionBar();
 		// using tabs in action bar
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
+		// initialization and adding of rooms in tabs 
 		ActionBar.Tab tabLivingRoom = actionBar.newTab();
 		tabLivingRoom.setText("Living Room");
 		tabLivingRoom.setTabListener(this);
@@ -113,7 +133,28 @@ public class RoomActivity extends FragmentActivity implements TabListener
 		actionBar.addTab(tabWashingRoom);
 		actionBar.addTab(tabBedroom);
 		actionBar.addTab(tabDrugstore);
+		
 
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		   AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		    builder.setMessage("Are you sure you want to exit?")
+		           .setCancelable(false)
+		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		               public void onClick(DialogInterface dialog, int id) {
+		                    RoomActivity.this.finish();
+		               }
+		           })
+		           .setNegativeButton("No", new DialogInterface.OnClickListener() {
+		               public void onClick(DialogInterface dialog, int id) {
+		                    dialog.cancel();
+		               }
+		           });
+		    AlertDialog alert = builder.create();
+		    alert.show();
 	}
 
 	@Override
@@ -156,27 +197,27 @@ public class RoomActivity extends FragmentActivity implements TabListener
 			
 			Fragment fragment = null;
 			
-			if(position == 0)
+			if(position == LIVINGROOM_POS)
 			{
 				fragment = new FragmentLivingRoom();
 			}
-			else if(position == 1)
+			else if(position == KITCHEN_POS)
 			{
 				fragment = new FragmentKitchen();
 			}
-			else if(position == 2)
+			else if(position == DRESSINGROOM_POS)
 			{
 				fragment = new FragmentDressingRoom();
 			}
-			else if(position == 3)
+			else if(position == WASHINGROOM_POS)
 			{
 				fragment = new FragmentWashingRoom();
 			}
-			else if(position == 4)
+			else if(position == BEDROOM_POS)
 			{
 				fragment = new FragmentBedroom();
 			}
-			else if(position == 5)
+			else if(position == DRUGSTORE_POS)
 			{
 				fragment = new FragmentDrugstore();
 			}
@@ -188,10 +229,11 @@ public class RoomActivity extends FragmentActivity implements TabListener
 		@Override
 		public int getCount()
 		{
-			// returns the number of pages
-			return 6;
+			// returns the number of rooms
+			return NUMBER_OF_ROOMS;
 		}
 		
 	}
 	
 }
+
