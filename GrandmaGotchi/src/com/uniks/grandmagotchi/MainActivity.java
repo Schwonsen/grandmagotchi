@@ -2,7 +2,7 @@
 package com.uniks.grandmagotchi;
 
 import com.uniks.grandmagotchi.data.DatabaseAdapter;
-import com.uniks.grandmagotchi.data.GrannyAttributes;
+import com.uniks.grandmagotchi.data.Attributes;
 import com.uniks.grandmagotchi.util.DebugClass;
 import com.uniks.grandmagotchi.util.Message;
 
@@ -16,12 +16,13 @@ import android.widget.EditText;
 
 public class MainActivity extends Activity {
 	
-	public GrannyAttributes grannyAttributes = new GrannyAttributes();
+	public Attributes grannyAttributes = new Attributes();
 
 	Button btnStartGame;
 	EditText editName, fieldName, fieldPassword;
 	DatabaseAdapter databaseHandler;
 	DebugClass dMode;
+	Attributes attributes;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class MainActivity extends Activity {
         
         dMode = new DebugClass();
         databaseHandler = new DatabaseAdapter(this);
+        attributes = new Attributes();
         
         fieldName = (EditText) findViewById(R.id.userNameValue);
     	fieldPassword = (EditText) findViewById(R.id.passwordValue);
@@ -51,19 +53,28 @@ public class MainActivity extends Activity {
     	String name = fieldName.getText().toString().trim();
     	String password = fieldPassword.getText().toString().trim();
 
-		String id = databaseHandler.getData(name, password);
-
-		if(!id.equals(""))
+    	if(!name.equals("") && !password.equals(""))
 		{
-			if(dMode.getDebugMode()) Message.message(this, id);
-			
-			startActivity(new Intent(MainActivity.this, RoomActivity.class));
-			MainActivity.this.finish();	
+    		String id = databaseHandler.getData(name, password);
+
+    		if(!id.equals(""))
+    		{
+    			if(dMode.getDebugMode()) Message.message(this, id);
+    		
+    			attributes.setId(id);
+    			startActivity(new Intent(MainActivity.this, RoomActivity.class));
+    			MainActivity.this.finish();	
+    		}
+    		else
+    		{
+    			Message.message(this, "Wrong name or password");
+    		}
 		}
 		else
 		{
-			Message.message(this, "Wrong name or password");
+			Message.message(this, "name and password field must not be empty");
 		}
+    	
 		
     }
     
