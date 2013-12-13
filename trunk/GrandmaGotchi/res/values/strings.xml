@@ -15,5 +15,11 @@
     <string name="fragment_bedroom">This is the Bedroom (sleep zZzZZzz)</string>
     <string name="fragment_drugstore">This is the Drugstore (get medication)</string>
     <string name="hint_login_name">Grannys Name</string>
+    <string name="tv_username">User Name</string>
+    <string name="tv_password">Password</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_create_new_game">Create New Game</string>
+    <string name="title_activity_create_new_game">CreateNewGameActivity</string>
+    <string name="btn_start_game">Start Game</string>
 
 </resources>

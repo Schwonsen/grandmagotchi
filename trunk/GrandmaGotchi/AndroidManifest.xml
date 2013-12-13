@@ -26,6 +26,10 @@
             android:name="com.uniks.grandmagotchi.RoomActivity"
             android:label="@string/title_activity_living_room" >
         </activity>
+        <activity
+            android:name="com.uniks.grandmagotchi.CreateNewGameActivity"
+            android:label="@string/title_activity_create_new_game" >
+        </activity>
     </application>
 
 </manifest>

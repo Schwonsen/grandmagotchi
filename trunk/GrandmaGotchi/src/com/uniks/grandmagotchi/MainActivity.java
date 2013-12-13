@@ -1,3 +1,4 @@
+
 package com.uniks.grandmagotchi;
 
 import com.uniks.grandmagotchi.data.DatabaseAdapter;
@@ -18,7 +19,7 @@ public class MainActivity extends Activity {
 	public GrannyAttributes grannyAttributes = new GrannyAttributes();
 
 	Button btnStartGame;
-	EditText editName;
+	EditText editName, fieldName, fieldPassword;
 	DatabaseAdapter databaseHandler;
 	DebugClass dMode;
 	
@@ -30,16 +31,8 @@ public class MainActivity extends Activity {
         dMode = new DebugClass();
         databaseHandler = new DatabaseAdapter(this);
         
-        editName = (EditText) findViewById(R.id.tfGrannysName);
-        editName.setOnClickListener(new View.OnClickListener()
-		{
-			
-			@Override
-			public void onClick(View v)
-			{
-				editName.setHint("");
-			}
-		});
+        fieldName = (EditText) findViewById(R.id.userNameValue);
+    	fieldPassword = (EditText) findViewById(R.id.passwordValue);
         
     }
 
@@ -52,22 +45,32 @@ public class MainActivity extends Activity {
     }
     
     
-    public void btnClickStartGame(View view)
+    public void btnOnClickLogin(View view)
     {
-    	EditText fieldGrannyName = (EditText)findViewById(R.id.tfGrannysName);
-    	String grannyName = fieldGrannyName.toString();
-    	long id = databaseHandler.insertData(grannyName);
-		
-		if(id < 0)
+    	
+    	String name = fieldName.getText().toString().trim();
+    	String password = fieldPassword.getText().toString().trim();
+
+		String id = databaseHandler.getData(name, password);
+
+		if(!id.equals(""))
 		{
-			if(dMode.getDebugMode()) Message.message(MainActivity.this, "Unsuccessful written in Database");
+			if(dMode.getDebugMode()) Message.message(this, id);
+			
+			startActivity(new Intent(MainActivity.this, RoomActivity.class));
+			MainActivity.this.finish();	
 		}
 		else
 		{
-			if(dMode.getDebugMode()) Message.message(MainActivity.this, "Successfully written in Database");
+			Message.message(this, "Wrong name or password");
 		}
-		startActivity(new Intent(MainActivity.this, RoomActivity.class));
-		MainActivity.this.finish();
+		
+    }
+    
+    public void btnOnClickCreateNewGame(View view)
+    {
+    	startActivity(new Intent(MainActivity.this, CreateNewGameActivity.class));
+    	MainActivity.this.finish();
     }
 
     
