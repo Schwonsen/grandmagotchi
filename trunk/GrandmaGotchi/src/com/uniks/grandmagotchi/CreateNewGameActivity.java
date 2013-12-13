@@ -36,19 +36,27 @@ public class CreateNewGameActivity extends Activity
 		
 		String name = userName.getText().toString().trim();
 		String password = userPassword.getText().toString().trim();
-
-		long id = databaseHandler.insertData(name, password);
 		
-		if(id < 0)
+		if(!name.equals("") && !password.equals(""))
 		{
-			if(dMode.getDebugMode()) Message.message(CreateNewGameActivity.this, "Unsuccessful written in Database");
+			long id = databaseHandler.insertData(name, password);
+			
+			if(id < 0)
+			{
+				if(dMode.getDebugMode()) Message.message(CreateNewGameActivity.this, "Unsuccessful written in Database");
+			}
+			else
+			{
+				if(dMode.getDebugMode()) Message.message(CreateNewGameActivity.this, "Successfully written in Database");
+			}
+			startActivity(new Intent(CreateNewGameActivity.this, RoomActivity.class));
+			CreateNewGameActivity.this.finish();
 		}
 		else
 		{
-			if(dMode.getDebugMode()) Message.message(CreateNewGameActivity.this, "Successfully written in Database");
+			Message.message(this, "name and password field must not be empty");
 		}
-		startActivity(new Intent(CreateNewGameActivity.this, RoomActivity.class));
-		CreateNewGameActivity.this.finish();
+		
 	}
 	
 
