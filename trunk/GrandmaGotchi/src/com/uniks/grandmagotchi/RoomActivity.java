@@ -1,6 +1,10 @@
 package com.uniks.grandmagotchi;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import com.uniks.grandmagotchi.rooms.FragmentBedroom;
 import com.uniks.grandmagotchi.rooms.FragmentDressingRoom;
 import com.uniks.grandmagotchi.rooms.FragmentDrugstore;
@@ -8,6 +12,7 @@ import com.uniks.grandmagotchi.rooms.FragmentKitchen;
 import com.uniks.grandmagotchi.rooms.FragmentLivingRoom;
 import com.uniks.grandmagotchi.rooms.FragmentWashingRoom;
 import com.uniks.grandmagotchi.util.DebugClass;
+import com.uniks.grandmagotchi.util.Message;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
@@ -145,7 +150,15 @@ public class RoomActivity extends FragmentActivity implements TabListener
 		           .setCancelable(false)
 		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int id) {
-		                    RoomActivity.this.finish();
+		            	   
+//		            	   SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy_HHmmss");
+//		            	   String currentDateandTime = sdf.format(new Date());
+		            	   
+		            	   String date = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
+		            	   
+		            	   if(dMode.getDebugMode()) Message.message(RoomActivity.this, date);
+		            	   
+		                   RoomActivity.this.finish();
 		               }
 		           })
 		           .setNegativeButton("No", new DialogInterface.OnClickListener() {
