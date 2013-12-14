@@ -25,25 +25,25 @@ public class DatabaseAdapter
 	{
 		SQLiteDatabase db = databaseHandler.getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
-		contentValues.put(databaseHandler.NAME, name);
-		contentValues.put(databaseHandler.PASSWORD, password);
-		long id = db.insert(databaseHandler.SAVEGAME_TABLE, null, contentValues);
+		contentValues.put(DatabaseHandler.NAME, name);
+		contentValues.put(DatabaseHandler.PASSWORD, password);
+		long id = db.insert(DatabaseHandler.SAVEGAME_TABLE, null, contentValues);
 		return id;
 	}
 	
 	public String getAllData()
 	{
 		SQLiteDatabase db = databaseHandler.getWritableDatabase();
-		String[] columns = {databaseHandler.SAVEGAME_ID, databaseHandler.NAME, databaseHandler.PASSWORD};
-		Cursor cursor = db.query(databaseHandler.SAVEGAME_TABLE, columns, null, null, null, null, null);
+		String[] columns = {DatabaseHandler.SAVEGAME_ID, DatabaseHandler.NAME, DatabaseHandler.PASSWORD};
+		Cursor cursor = db.query(DatabaseHandler.SAVEGAME_TABLE, columns, null, null, null, null, null);
 		StringBuffer buffer = new StringBuffer();
 		while(cursor.moveToNext())
 		{
-			int index1 = cursor.getColumnIndex(databaseHandler.SAVEGAME_ID);
+			int index1 = cursor.getColumnIndex(DatabaseHandler.SAVEGAME_ID);
 			int cid = cursor.getInt(index1);
-			int index2 = cursor.getColumnIndex(databaseHandler.NAME);
+			int index2 = cursor.getColumnIndex(DatabaseHandler.NAME);
 			String name = cursor.getString(index2);
-			int index3 = cursor.getColumnIndex(databaseHandler.PASSWORD);
+			int index3 = cursor.getColumnIndex(DatabaseHandler.PASSWORD);
 			String password = cursor.getString(index3);
 			buffer.append(cid+" "+name+" "+password+"\n");
 		}
@@ -53,12 +53,12 @@ public class DatabaseAdapter
 	public String getNames()
 	{
 		SQLiteDatabase db = databaseHandler.getWritableDatabase();
-		String[] columns = {databaseHandler.SAVEGAME_ID, databaseHandler.NAME, databaseHandler.PASSWORD};
-		Cursor cursor = db.query(databaseHandler.SAVEGAME_TABLE, columns, null, null, null, null, null);
+		String[] columns = {DatabaseHandler.SAVEGAME_ID, DatabaseHandler.NAME, DatabaseHandler.PASSWORD};
+		Cursor cursor = db.query(DatabaseHandler.SAVEGAME_TABLE, columns, null, null, null, null, null);
 		StringBuffer buffer = new StringBuffer();
 		while(cursor.moveToNext())
 		{
-			int index1 = cursor.getColumnIndex(databaseHandler.NAME);
+			int index1 = cursor.getColumnIndex(DatabaseHandler.NAME);
 			String name = cursor.getString(index1);
 			buffer.append(name+" ");
 		}
@@ -68,15 +68,15 @@ public class DatabaseAdapter
 	public String getData(String name, String password)
 	{
 		SQLiteDatabase db = databaseHandler.getWritableDatabase();
-		String[] columns = {databaseHandler.SAVEGAME_ID};
+		String[] columns = {DatabaseHandler.SAVEGAME_ID};
 		String[] selectionArgs = {name, password};
-		Cursor cursor = db.query(databaseHandler.SAVEGAME_TABLE, columns, 
-				databaseHandler.NAME + " =? AND " + databaseHandler.PASSWORD + " =? ", 
+		Cursor cursor = db.query(DatabaseHandler.SAVEGAME_TABLE, columns, 
+				DatabaseHandler.NAME + " =? AND " + DatabaseHandler.PASSWORD + " =? ", 
 				selectionArgs, null, null, null);
 		StringBuffer buffer = new StringBuffer();
 		while(cursor.moveToNext())
 		{
-			int index1 = cursor.getColumnIndex(databaseHandler.SAVEGAME_ID);
+			int index1 = cursor.getColumnIndex(DatabaseHandler.SAVEGAME_ID);
 			int cid = cursor.getInt(index1);
 			buffer.append(cid+"\n");
 		}
