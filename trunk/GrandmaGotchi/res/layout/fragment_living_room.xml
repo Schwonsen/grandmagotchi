@@ -15,4 +15,13 @@
         android:text="@string/fragment_living_room"
         android:layout_gravity="center" />
 
+    <ImageButton
+        android:id="@+id/btn_television"
+        android:onClick="btnOnClickTelevision"
+		android:layout_width="71dp"
+        android:layout_height="60dp"
+   		android:layout_gravity="bottom|center"
+        android:src="@drawable/ic_action_television" />
+    	<!-- android:background="@android:color/transparent" -->
+
 </FrameLayout>
