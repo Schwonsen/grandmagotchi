@@ -1,9 +1,7 @@
 package com.uniks.grandmagotchi;
 
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import com.uniks.grandmagotchi.rooms.FragmentBedroom;
 import com.uniks.grandmagotchi.rooms.FragmentDressingRoom;
