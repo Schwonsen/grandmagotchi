@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
     	if(!name.equals("") && !password.equals(""))
 		{
     		String id = databaseHandler.getData(name, password);
-
+    		
     		if(!id.equals(""))
     		{
     			if(dMode.getDebugMode()) Message.message(this, id);

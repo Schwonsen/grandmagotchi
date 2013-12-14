@@ -50,6 +50,21 @@ public class DatabaseAdapter
 		return buffer.toString();
 	}
 	
+	public String getNames()
+	{
+		SQLiteDatabase db = databaseHandler.getWritableDatabase();
+		String[] columns = {databaseHandler.SAVEGAME_ID, databaseHandler.NAME, databaseHandler.PASSWORD};
+		Cursor cursor = db.query(databaseHandler.SAVEGAME_TABLE, columns, null, null, null, null, null);
+		StringBuffer buffer = new StringBuffer();
+		while(cursor.moveToNext())
+		{
+			int index1 = cursor.getColumnIndex(databaseHandler.NAME);
+			String name = cursor.getString(index1);
+			buffer.append(name+" ");
+		}
+		return buffer.toString().trim();
+	}
+	
 	public String getData(String name, String password)
 	{
 		SQLiteDatabase db = databaseHandler.getWritableDatabase();
