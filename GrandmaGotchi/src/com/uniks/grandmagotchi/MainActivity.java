@@ -1,4 +1,3 @@
-
 package com.uniks.grandmagotchi;
 
 import com.uniks.grandmagotchi.data.DatabaseAdapter;
@@ -9,6 +8,7 @@ import com.uniks.grandmagotchi.util.Message;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +23,8 @@ public class MainActivity extends Activity {
 	DatabaseAdapter databaseHandler;
 	DebugClass dMode;
 	Attributes attributes;
+	private SharedPreferences prefs;
+	private String PREF_USER_NAME = "LastUser";
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +37,20 @@ public class MainActivity extends Activity {
         
         fieldName = (EditText) findViewById(R.id.userNameValue);
     	fieldPassword = (EditText) findViewById(R.id.passwordValue);
-        
+    	
+		prefs = getSharedPreferences(PREF_USER_NAME, MODE_PRIVATE );
+		String userName = prefs.getString("userName","");
+		fieldName.setText(userName);
     }
+    
+    //Speichert UserNamen des letzten Loggins
+	@Override
+	public void onPause(){    
+	  super.onPause();
+	  SharedPreferences.Editor editor = prefs.edit();
+	  editor.putString("userName", fieldName.getText().toString());
+	    editor.commit();
+	}
 
 
     @Override
