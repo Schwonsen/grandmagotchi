@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C90E39"
+    android:background="@drawable/washing_room_gradient"
     tools:context=".FragmentWashingRoom" >
 
     <!-- TODO: Update blank fragment layout -->
@@ -13,7 +13,18 @@
         android:layout_width="71dp"
         android:layout_height="60dp"
         android:layout_gravity="bottom|left"
+        android:contentDescription="@string/btn_description_soap"
         android:src="@drawable/ic_action_soap" />
+        <!-- android:background="@android:color/transparent"-->
+        
+    <ImageButton
+        android:id="@+id/btn_brush"
+        android:onClick="btnOnClickBrush"
+        android:layout_width="71dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|center"
+        android:contentDescription="@string/btn_description_broom"
+        android:src="@drawable/ic_action_brush" />
         <!-- android:background="@android:color/transparent"-->
 
 	<TextView

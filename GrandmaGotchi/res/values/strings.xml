@@ -21,5 +21,12 @@
     <string name="btn_create_new_game">Create New Game</string>
     <string name="title_activity_create_new_game">CreateNewGameActivity</string>
     <string name="btn_start_game">Start Game</string>
+    <string name="btn_description_drugs">Drugs</string>
+    <string name="btn_description_soap">Soap</string>
+    <string name="btn_description_tv">TV</string>
+    <string name="btn_description_broom">Broom</string>
+    <string name="btn_description_food">Eat</string>
+    <string name="btn_description_drink">Drink</string>
+    
 
 </resources>

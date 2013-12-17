@@ -28,7 +28,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class RoomActivity extends FragmentActivity implements TabListener
@@ -248,15 +247,35 @@ public class RoomActivity extends FragmentActivity implements TabListener
 		
 	}
 	
-	public void btnOnClickTelevision(View view) {
-		 Toast.makeText(getApplicationContext(),"Now you are watching TV!",Toast.LENGTH_SHORT).show();
+	public void btnOnClickTelevision(View view) 
+	{
+		Message.message(this, "Now you are watching TV!");
 	}
 	
 	public void btnOnClickSoap(View view) 
 	{
-		 Toast.makeText(getApplicationContext(),"The Grandma is clean again!",Toast.LENGTH_SHORT).show();
+		 Message.message(this, "The Grandma is clean again!");
 	}
 	
+	public void btnOnClickDrugs(View view)
+	{
+		Message.message(this, "Grandma is fit again!");
+	}
+	
+	public void btnOnClickBrush(View view)
+	{
+		Message.message(this,"The house is clean again");
+	}
+	
+	public void btnOnClickEat(View view)
+	{
+		Message.message(this,"Grandma is no more hungry");
+	}
+	
+	public void btnOnClickDrink(View view)
+	{
+		Message.message(this,"Grandma is no more thirsty");
+	}
 	
 }
 

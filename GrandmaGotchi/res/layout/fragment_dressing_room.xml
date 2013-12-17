@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D27A14"
+    android:background="@drawable/dressing_room_gradient"
     tools:context=".FragmentDressingRoom" >
 
     <!-- TODO: Update blank fragment layout -->
