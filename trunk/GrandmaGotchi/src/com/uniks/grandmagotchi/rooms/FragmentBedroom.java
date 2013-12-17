@@ -25,7 +25,7 @@ public class FragmentBedroom extends Fragment
 			Bundle savedInstanceState)
 	{
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_fragment_bedroom, container,
+		return inflater.inflate(R.layout.fragment_bedroom, container,
 				false);
 	}
 

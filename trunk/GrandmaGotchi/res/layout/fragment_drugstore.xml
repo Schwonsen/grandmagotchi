@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#4E8C4B"
+    android:background="@drawable/drugstore_gradient"
     tools:context=".FragmentDrugstore" >
 
     <!-- TODO: Update blank fragment layout -->
@@ -15,4 +15,14 @@
         android:text="@string/fragment_drugstore"
         android:layout_gravity="center" />
 
+    <ImageButton
+        android:id="@+id/btn_drugs"
+        android:onClick="btnOnClickDrugs"
+        android:layout_width="71dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|center"
+        android:contentDescription="@string/btn_description_drugs"
+        android:src="@drawable/ic_action_medication" />
+        <!-- android:background="@android:color/transparent" -->
+    
 </FrameLayout>

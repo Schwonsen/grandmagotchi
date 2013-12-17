@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFF00"
-    tools:context=".FragmentKitchen" >
+    android:background="@drawable/bedroom_gradient"
+    tools:context=".FragmentBedroom" >
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/textView"
-        android:text="@string/fragment_kitchen"
+        android:text="@string/fragment_bedroom"
         android:layout_gravity="center" />
 
 </FrameLayout>

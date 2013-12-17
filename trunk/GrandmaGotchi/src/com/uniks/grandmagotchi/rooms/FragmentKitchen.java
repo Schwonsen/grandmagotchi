@@ -25,7 +25,7 @@ public class FragmentKitchen extends Fragment
 			Bundle savedInstanceState)
 	{
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_fragment_kitchen, container,
+		return inflater.inflate(R.layout.fragment_kitchen, container,
 				false);
 	}
 
