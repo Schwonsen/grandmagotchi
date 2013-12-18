@@ -4,6 +4,7 @@ public class Attributes {
 	
 	private String name;
 	private String id;
+	private boolean isSleeping;
 	
 	public String getName() {
 		return name;
@@ -21,6 +22,16 @@ public class Attributes {
 	public void setId(String id)
 	{
 		this.id = id;
+	}
+
+	public boolean isSleeping()
+	{
+		return isSleeping;
+	}
+
+	public void setSleeping(boolean isSleeping)
+	{
+		this.isSleeping = isSleeping;
 	}
 	
 	

@@ -27,6 +27,8 @@
     <string name="btn_description_broom">Broom</string>
     <string name="btn_description_food">Eat</string>
     <string name="btn_description_drink">Drink</string>
+    <string name="btn_description_help_bedroom">Help</string>
+    <string name="btn_description_wake_up">Wake Up</string>
     
 
 </resources>

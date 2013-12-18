@@ -2,8 +2,8 @@ package com.uniks.grandmagotchi;
 
 import com.uniks.grandmagotchi.data.DatabaseAdapter;
 import com.uniks.grandmagotchi.data.Attributes;
-import com.uniks.grandmagotchi.util.DebugClass;
 import com.uniks.grandmagotchi.util.Message;
+import com.uniks.grandmagotchi.util.Root;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -21,8 +21,6 @@ public class MainActivity extends Activity {
 	Button btnStartGame;
 	EditText editName, fieldName, fieldPassword;
 	DatabaseAdapter databaseHandler;
-	DebugClass dMode;
-	Attributes attributes;
 	private SharedPreferences prefs;
 	private String PREF_USER_NAME = "LastUser";
 	
@@ -30,10 +28,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        dMode = new DebugClass();
+
         databaseHandler = new DatabaseAdapter(this);
-        attributes = new Attributes();
         
         fieldName = (EditText) findViewById(R.id.userNameValue);
     	fieldPassword = (EditText) findViewById(R.id.passwordValue);
@@ -73,9 +69,12 @@ public class MainActivity extends Activity {
     		
     		if(!id.equals(""))
     		{
-    			if(dMode.getDebugMode()) Message.message(this, id);
+    			if(Root.DEBUG) Message.message(this, id);
     		
-    			attributes.setId(id);
+    			Root.getAttributes().setName(name);
+    			Root.getAttributes().setId(id);
+    			Root.getAttributes().setSleeping(false);
+    			
     			startActivity(new Intent(MainActivity.this, RoomActivity.class));
     			MainActivity.this.finish();	
     		}
