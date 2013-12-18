@@ -17,7 +17,6 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.AlertDialog;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,9 +43,10 @@ public class RoomActivity extends FragmentActivity implements TabListener
 	
 	private static final int NUMBER_OF_ROOMS = 6;
 	
-	ViewPager viewPager;
-	ActionBar actionBar;
-	DebugClass dMode;
+	private ViewPager viewPager;
+	private ActionBar actionBar;
+	private DebugClass dMode;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -54,10 +54,13 @@ public class RoomActivity extends FragmentActivity implements TabListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_room);	
 		dMode = new DebugClass();
-		
+
+
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		//since we extends FragmentActivity we can call FragAdapter with the Support Fragment Manager
 		viewPager.setAdapter(new FragAdapter(getSupportFragmentManager()));
+		
+		
 		
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
 		{
@@ -69,14 +72,14 @@ public class RoomActivity extends FragmentActivity implements TabListener
 			// if you change the fragment by viewPager the actionBar calls the position and change its status	
 			// for the opposite site look at the onTabSelected Method down below
 				actionBar.setSelectedNavigationItem(position);
-				if(dMode.getDebugMode()) Log.d("VIVZ", "onPageSelected at position " + position);
+				if(dMode.getDebugMode()) Log.d("GrandmaGotchi", "onPageSelected at position " + position);
 				
 			}
 			
 			@Override
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
 			{
-				if(dMode.getDebugMode()) Log.d("VIVZ", "onPageScrolled at position " + position + " from position " + positionOffset +
+				if(dMode.getDebugMode()) Log.d("GrandmaGotchi", "onPageScrolled at position " + position + " from position " + positionOffset +
 						" with number of pixels = " + positionOffsetPixels);
 				
 			}
@@ -88,15 +91,15 @@ public class RoomActivity extends FragmentActivity implements TabListener
 				{
 					if(state == ViewPager.SCROLL_STATE_IDLE)
 					{
-						Log.d("VIVZ", "onPageScrollStateChanged IDLE");
+						Log.d("GrandmaGotchi", "onPageScrollStateChanged IDLE");
 					}
 					else if(state == ViewPager.SCROLL_STATE_DRAGGING)
 					{
-						Log.d("VIVZ", "onPageScrollStateChanged DRAGGING");
+						Log.d("GrandmaGotchi", "onPageScrollStateChanged DRAGGING");
 					}
 					else if(state == ViewPager.SCROLL_STATE_SETTLING)
 					{
-						Log.d("VIVZ", "onPageScrollStateChanged SETTLING");
+						Log.d("GrandmaGotchi", "onPageScrollStateChanged SETTLING");
 					}
 				}
 			}
@@ -168,29 +171,6 @@ public class RoomActivity extends FragmentActivity implements TabListener
 		    AlertDialog alert = builder.create();
 		    alert.show();
 	}
-
-	@Override
-	public void onTabReselected(Tab tab, FragmentTransaction ft)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onTabSelected(Tab tab, FragmentTransaction ft)
-	{
-		
-		viewPager.setCurrentItem(tab.getPosition());
-		
-	}
-
-	@Override
-	public void onTabUnselected(Tab tab, FragmentTransaction ft)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
 	
 	class FragAdapter extends FragmentPagerAdapter
 	{
@@ -275,6 +255,39 @@ public class RoomActivity extends FragmentActivity implements TabListener
 	public void btnOnClickDrink(View view)
 	{
 		Message.message(this,"Grandma is no more thirsty");
+	}
+	
+//	@Override
+//	public void onAttachFragment(Fragment fragment) {
+//	    super.onAttachFragment(fragment);
+//
+//	    if(fragment.equals(R.layout.fragment_bedroom))
+//	    {
+//	    	Message.message(this, "BEDROOM!!!!");
+//	    }
+//	    
+//	    Message.message(this, "Fragment " + fragment.getId());
+//	}
+	
+	@Override
+	public void onTabReselected(Tab tab, android.app.FragmentTransaction ft)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
