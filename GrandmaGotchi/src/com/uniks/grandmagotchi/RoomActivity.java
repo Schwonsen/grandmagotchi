@@ -48,6 +48,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	private static final int BEDROOM_POS = 4;
 	private static final int DRUGSTORE_POS = 5;
 	
+	// by adding or removing a room update the new number of rooms
 	private static final int NUMBER_OF_ROOMS = 6;
 
 	private ImageButton btnWakeUp;
@@ -67,10 +68,12 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	
 		Root.getAttributes().setCurrentFragmentPosition(LIVINGROOM_POS);
 		
+		// initialization and registration of the sensor
 		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		proxSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 		sensorManager.registerListener(this, proxSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
+		// initialization and registration of the viewpager for swiping the fragments
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		//since we extends FragmentActivity we can call FragAdapter with the Support Fragment Manager
 		viewPager.setAdapter(new FragAdapter(getSupportFragmentManager()));
@@ -194,7 +197,6 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		public FragAdapter(FragmentManager fm)
 		{
 			super(fm);
-			// TODO Auto-generated constructor stub
 		}
 
 		@Override
@@ -243,6 +245,63 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		
 	}
 	
+	@Override
+	public void onTabReselected(Tab tab, FragmentTransaction ft)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTabSelected(Tab tab, FragmentTransaction ft)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////PROXIMITY SENSOR METHODS///////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent event)
+	{
+		
+		// if grandma is awake, the sensor (light) changes and you are in the bedroom put her to sleep
+		if(event.values[0] == 0.0f && !Root.getAttributes().isSleeping() && 
+				Root.getAttributes().getCurrentFragmentPosition()  == BEDROOM_POS)
+		{
+			btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
+			Message.message(this, "You turned the light off, Grandma sleeps now");
+			btnWakeUp.setVisibility(View.VISIBLE);
+			Root.getAttributes().setSleeping(true);
+
+		}
+		
+	}
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////BUTTON CLICK METHODS/////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	public void btnOnClickTelevision(View view) 
 	{
 		Message.message(this, "Now you are watching TV!");
@@ -287,48 +346,5 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 
 		btnWakeUp.setVisibility(View.INVISIBLE);
 	}
-	
-	@Override
-	public void onTabReselected(Tab tab, FragmentTransaction ft)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onTabSelected(Tab tab, FragmentTransaction ft)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onTabUnselected(Tab tab, FragmentTransaction ft)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onAccuracyChanged(Sensor sensor, int accuracy)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onSensorChanged(SensorEvent event)
-	{
-		if(event.values[0] == 0.0f && !Root.getAttributes().isSleeping() && Root.getAttributes().getCurrentFragmentPosition()  == BEDROOM_POS)
-		{
-			btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
-			Message.message(this, "You turned the light off, Grandma sleeps now " + Root.getAttributes().getCurrentFragmentPosition());
-			btnWakeUp.setVisibility(View.VISIBLE);
-			Root.getAttributes().setSleeping(true);
-
-		}
-		
-	}
-	
 }
 
