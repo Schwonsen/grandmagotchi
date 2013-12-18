@@ -249,12 +249,12 @@ public class RoomActivity extends FragmentActivity implements TabListener
 	
 	public void btnOnClickEat(View view)
 	{
-		Message.message(this,"Grandma is no more hungry");
+		Message.message(this,"Grandma is not hungry anymore");
 	}
 	
 	public void btnOnClickDrink(View view)
 	{
-		Message.message(this,"Grandma is no more thirsty");
+		Message.message(this,"Grandma is not thirsty anymore");
 	}
 	
 	public void btnOnClickBedroomHelp(View view)
