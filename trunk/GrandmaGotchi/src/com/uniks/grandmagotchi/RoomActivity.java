@@ -18,7 +18,12 @@ import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,7 +36,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class RoomActivity extends FragmentActivity implements TabListener
+public class RoomActivity extends FragmentActivity implements TabListener, SensorEventListener
 {
 
 	// positions for different Rooms 
@@ -50,13 +55,21 @@ public class RoomActivity extends FragmentActivity implements TabListener
 	private ViewPager viewPager;
 	private ActionBar actionBar;
 	
+	private SensorManager sensorManager;
+	private Sensor proxSensor;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_room);	
-
+	
+		Root.getAttributes().setCurrentFragmentPosition(LIVINGROOM_POS);
+		
+		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		proxSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+		sensorManager.registerListener(this, proxSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		//since we extends FragmentActivity we can call FragAdapter with the Support Fragment Manager
@@ -71,6 +84,9 @@ public class RoomActivity extends FragmentActivity implements TabListener
 			// concatenates the actionBar and the viewPager to work together
 			// if you change the fragment by viewPager the actionBar calls the position and change its status	
 			// for the opposite site look at the onTabSelected Method down below
+				
+				Root.getAttributes().setCurrentFragmentPosition(position);
+				
 				actionBar.setSelectedNavigationItem(position);
 				if(Root.DEBUG) Log.d("GrandmaGotchi", "onPageSelected at position " + position);
 				
@@ -290,6 +306,27 @@ public class RoomActivity extends FragmentActivity implements TabListener
 	public void onTabUnselected(Tab tab, FragmentTransaction ft)
 	{
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent event)
+	{
+		if(event.values[0] == 0.0f && !Root.getAttributes().isSleeping() && Root.getAttributes().getCurrentFragmentPosition()  == BEDROOM_POS)
+		{
+			btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
+			Message.message(this, "You turned the light off, Grandma sleeps now " + Root.getAttributes().getCurrentFragmentPosition());
+			btnWakeUp.setVisibility(View.VISIBLE);
+			Root.getAttributes().setSleeping(true);
+
+		}
 		
 	}
 	
