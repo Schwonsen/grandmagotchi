@@ -6,6 +6,8 @@ public class Attributes {
 	private String id;
 	private boolean isSleeping;
 	
+	private int currentFragmentPosition;
+	
 	public String getName() {
 		return name;
 	}
@@ -32,6 +34,16 @@ public class Attributes {
 	public void setSleeping(boolean isSleeping)
 	{
 		this.isSleeping = isSleeping;
+	}
+
+	public int getCurrentFragmentPosition()
+	{
+		return currentFragmentPosition;
+	}
+
+	public void setCurrentFragmentPosition(int currentFragmentPosition)
+	{
+		this.currentFragmentPosition = currentFragmentPosition;
 	}
 	
 	
