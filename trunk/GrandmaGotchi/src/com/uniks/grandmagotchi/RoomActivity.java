@@ -9,14 +9,15 @@ import com.uniks.grandmagotchi.rooms.FragmentDrugstore;
 import com.uniks.grandmagotchi.rooms.FragmentKitchen;
 import com.uniks.grandmagotchi.rooms.FragmentLivingRoom;
 import com.uniks.grandmagotchi.rooms.FragmentWashingRoom;
-import com.uniks.grandmagotchi.util.DebugClass;
 import com.uniks.grandmagotchi.util.Message;
+import com.uniks.grandmagotchi.util.Root;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class RoomActivity extends FragmentActivity implements TabListener
@@ -42,10 +44,11 @@ public class RoomActivity extends FragmentActivity implements TabListener
 	private static final int DRUGSTORE_POS = 5;
 	
 	private static final int NUMBER_OF_ROOMS = 6;
+
+	private ImageButton btnWakeUp;
 	
 	private ViewPager viewPager;
 	private ActionBar actionBar;
-	private DebugClass dMode;
 	
 	
 	@Override
@@ -53,14 +56,11 @@ public class RoomActivity extends FragmentActivity implements TabListener
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_room);	
-		dMode = new DebugClass();
 
 
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		//since we extends FragmentActivity we can call FragAdapter with the Support Fragment Manager
 		viewPager.setAdapter(new FragAdapter(getSupportFragmentManager()));
-		
-		
 		
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
 		{
@@ -72,14 +72,14 @@ public class RoomActivity extends FragmentActivity implements TabListener
 			// if you change the fragment by viewPager the actionBar calls the position and change its status	
 			// for the opposite site look at the onTabSelected Method down below
 				actionBar.setSelectedNavigationItem(position);
-				if(dMode.getDebugMode()) Log.d("GrandmaGotchi", "onPageSelected at position " + position);
+				if(Root.DEBUG) Log.d("GrandmaGotchi", "onPageSelected at position " + position);
 				
 			}
 			
 			@Override
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
 			{
-				if(dMode.getDebugMode()) Log.d("GrandmaGotchi", "onPageScrolled at position " + position + " from position " + positionOffset +
+				if(Root.DEBUG) Log.d("GrandmaGotchi", "onPageScrolled at position " + position + " from position " + positionOffset +
 						" with number of pixels = " + positionOffsetPixels);
 				
 			}
@@ -87,7 +87,7 @@ public class RoomActivity extends FragmentActivity implements TabListener
 			@Override
 			public void onPageScrollStateChanged(int state)
 			{
-				if(dMode.getDebugMode()) 
+				if(Root.DEBUG) 
 				{
 					if(state == ViewPager.SCROLL_STATE_IDLE)
 					{
@@ -158,7 +158,7 @@ public class RoomActivity extends FragmentActivity implements TabListener
 		            	   
 		            	   String date = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
 		            	   
-		            	   if(dMode.getDebugMode()) Message.message(RoomActivity.this, date);
+		            	   if(Root.DEBUG) Message.message(RoomActivity.this, date);
 		            	   
 		                   RoomActivity.this.finish();
 		               }
@@ -257,34 +257,37 @@ public class RoomActivity extends FragmentActivity implements TabListener
 		Message.message(this,"Grandma is no more thirsty");
 	}
 	
-//	@Override
-//	public void onAttachFragment(Fragment fragment) {
-//	    super.onAttachFragment(fragment);
-//
-//	    if(fragment.equals(R.layout.fragment_bedroom))
-//	    {
-//	    	Message.message(this, "BEDROOM!!!!");
-//	    }
-//	    
-//	    Message.message(this, "Fragment " + fragment.getId());
-//	}
+	public void btnOnClickBedroomHelp(View view)
+	{
+		Message.message(this,"Put Grandma to sleep by putting your hand over light Sensor");
+	}
+
+	public void btnOnClickWakeUp(View view)
+	{
+		Message.message(this, "Grandma is awake");
+		Root.getAttributes().setSleeping(false);
+		
+		btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
+
+		btnWakeUp.setVisibility(View.INVISIBLE);
+	}
 	
 	@Override
-	public void onTabReselected(Tab tab, android.app.FragmentTransaction ft)
+	public void onTabReselected(Tab tab, FragmentTransaction ft)
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft)
+	public void onTabSelected(Tab tab, FragmentTransaction ft)
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft)
+	public void onTabUnselected(Tab tab, FragmentTransaction ft)
 	{
 		// TODO Auto-generated method stub
 		

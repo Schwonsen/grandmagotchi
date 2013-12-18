@@ -1,8 +1,8 @@
 package com.uniks.grandmagotchi;
 
 import com.uniks.grandmagotchi.data.DatabaseAdapter;
-import com.uniks.grandmagotchi.util.DebugClass;
 import com.uniks.grandmagotchi.util.Message;
+import com.uniks.grandmagotchi.util.Root;
 
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +14,6 @@ public class CreateNewGameActivity extends Activity
 {
 	
 	DatabaseAdapter databaseHandler;
-	DebugClass dMode;
 	EditText userName, userPassword;
 
 	@Override
@@ -23,8 +22,7 @@ public class CreateNewGameActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_new_game);
 		
-		databaseHandler = new DatabaseAdapter(this);
-		dMode = new DebugClass();
+		databaseHandler = new DatabaseAdapter(this);;
 		
 		userName = (EditText) findViewById(R.id.createNewGameUserName);
 		userPassword = (EditText) findViewById(R.id.createNewGamePassword);
@@ -47,11 +45,11 @@ public class CreateNewGameActivity extends Activity
 				
 				if(id < 0)
 				{
-					if(dMode.getDebugMode()) Message.message(CreateNewGameActivity.this, "Unsuccessful written in Database");
+					if(Root.DEBUG) Message.message(CreateNewGameActivity.this, "Unsuccessful written in Database");
 				}
 				else
 				{
-					if(dMode.getDebugMode()) Message.message(CreateNewGameActivity.this, "Successfully written in Database");
+					if(Root.DEBUG) Message.message(CreateNewGameActivity.this, "Successfully written in Database");
 				}
 				startActivity(new Intent(CreateNewGameActivity.this, RoomActivity.class));
 				CreateNewGameActivity.this.finish();

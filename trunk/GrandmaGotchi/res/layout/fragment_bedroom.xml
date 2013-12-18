@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bedroom_gradient"
+    android:id="@+id/fragment_bedroom_id"
     tools:context=".FragmentBedroom" >
 
     <!-- TODO: Update blank fragment layout -->
@@ -15,4 +16,27 @@
         android:text="@string/fragment_bedroom"
         android:layout_gravity="center" />
 
+    <ImageButton
+        android:id="@+id/btn_bedroom_help"
+        android:onClick="btnOnClickBedroomHelp"
+        android:layout_width="71dp"
+        android:layout_height="60dp"
+        android:layout_gravity="top|right"
+        android:contentDescription="@string/btn_description_help_bedroom"
+        android:src="@drawable/ic_action_help_bedroom" />
+        <!-- android:background="@android:color/transparent" -->
+    
+    <ImageButton
+        android:id="@+id/btn_bedroom_wake_up"
+        android:onClick="btnOnClickWakeUp"
+        android:layout_width="71dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|center"
+        android:visibility="invisible"       
+        android:contentDescription="@string/btn_description_wake_up"
+        android:src="@drawable/ic_action_wake_up" />
+        <!-- android:background="@android:color/transparent" -->
+    
+    
+    
 </FrameLayout>

@@ -1,7 +1,7 @@
 package com.uniks.grandmagotchi.data;
 
-import com.uniks.grandmagotchi.util.DebugClass;
 import com.uniks.grandmagotchi.util.Message;
+import com.uniks.grandmagotchi.util.Root;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -100,14 +100,11 @@ public class DatabaseAdapter
 		private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + SAVEGAME_TABLE;
 		
 		private Context context;
-		DebugClass dMode;
-		
 
 		public DatabaseHandler(Context context)
 		{
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
 			this.context = context;
-			dMode = new DebugClass();
 		}
 
 		@Override
@@ -117,7 +114,7 @@ public class DatabaseAdapter
 			try
 			{
 				db.execSQL(QUERY);
-				if(dMode.getDebugMode()) Message.message(context, "onCreate called");
+				if(Root.DEBUG) Message.message(context, "onCreate called");
 			}
 			catch(SQLException e)
 			{
@@ -131,7 +128,7 @@ public class DatabaseAdapter
 		{
 			try
 			{
-				if(dMode.getDebugMode()) Message.message(context, "onUpgrade called");
+				if(Root.DEBUG) Message.message(context, "onUpgrade called");
 				db.execSQL(DROP_TABLE);
 				onCreate(db);
 			}
