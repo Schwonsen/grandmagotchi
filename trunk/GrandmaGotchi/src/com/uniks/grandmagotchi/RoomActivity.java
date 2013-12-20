@@ -65,6 +65,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_room);	
+		
+		Root.getUniqueRootInstance();
 	
 		Root.getAttributes().setCurrentFragmentPosition(LIVINGROOM_POS);
 		
@@ -304,7 +306,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	
 	
 	public void btnOnClickTelevision(View view) 
-	{
+	{	
 		Message.message(this, "Now you are watching TV!");
 	}
 	

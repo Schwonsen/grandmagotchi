@@ -29,6 +29,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Root.getUniqueRootInstance();
+        
         databaseHandler = new DatabaseAdapter(this);
         
         fieldName = (EditText) findViewById(R.id.userNameValue);
@@ -70,7 +72,7 @@ public class MainActivity extends Activity {
     		if(!id.equals(""))
     		{
     			if(Root.DEBUG) Message.message(this, id);
-    		
+
     			Root.getAttributes().setName(name);
     			Root.getAttributes().setId(id);
     			Root.getAttributes().setSleeping(false);
