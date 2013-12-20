@@ -90,7 +90,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 				
 				Root.getAttributes().setCurrentFragmentPosition(position);
 				
-				actionBar.setSelectedNavigationItem(position);
+				actionBar.setSelectedNavigationItem(Root.getAttributes().getCurrentFragmentPosition());
 				if(Root.DEBUG) Log.d("GrandmaGotchi", "onPageSelected at position " + position);
 				
 			}
@@ -180,6 +180,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		            	   if(Root.DEBUG) Message.message(RoomActivity.this, date);
 		            	   
 		                   RoomActivity.this.finish();
+		                   
 		               }
 		           })
 		           .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -255,8 +256,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft)
 	{
-		// TODO Auto-generated method stub
-		
+		viewPager.setCurrentItem(tab.getPosition());
 	}
 
 	@Override
@@ -284,6 +284,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	{
 		
 		// if grandma is awake, the sensor (light) changes and you are in the bedroom put her to sleep
+
 		if(event.values[0] == 0.0f && !Root.getAttributes().isSleeping() && 
 				Root.getAttributes().getCurrentFragmentPosition()  == BEDROOM_POS)
 		{
