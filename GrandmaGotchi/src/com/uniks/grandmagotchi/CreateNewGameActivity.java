@@ -22,6 +22,8 @@ public class CreateNewGameActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_new_game);
 		
+		Root.getUniqueRootInstance();
+		
 		databaseHandler = new DatabaseAdapter(this);;
 		
 		userName = (EditText) findViewById(R.id.createNewGameUserName);
@@ -49,6 +51,9 @@ public class CreateNewGameActivity extends Activity
 				}
 				else
 				{
+					String databaseId = databaseHandler.getData(name, password);
+					Root.getAttributes().setName(name);
+					Root.getAttributes().setId(databaseId);
 					if(Root.DEBUG) Message.message(CreateNewGameActivity.this, "Successfully written in Database");
 				}
 				startActivity(new Intent(CreateNewGameActivity.this, RoomActivity.class));
