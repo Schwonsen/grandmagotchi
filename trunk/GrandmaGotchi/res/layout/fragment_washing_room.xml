@@ -6,6 +6,16 @@
     tools:context=".FragmentWashingRoom" >
 
     <!-- TODO: Update blank fragment layout -->
+    
+    <ImageButton
+        android:id="@+id/btn_washingroom_help"
+        android:onClick="btnOnClickWashingroomHelp"
+        android:layout_width="71dp"
+        android:layout_height="60dp"
+        android:layout_gravity="top|right"
+        android:contentDescription="@string/btn_description_help_bedroom"
+        android:src="@drawable/ic_action_help_washingroom" />
+        <!-- android:background="@android:color/transparent" -->
 
     <ImageButton
         android:id="@+id/btn_soap"
