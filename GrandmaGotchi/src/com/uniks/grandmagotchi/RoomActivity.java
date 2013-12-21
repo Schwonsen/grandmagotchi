@@ -50,11 +50,18 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	
 	// by adding or removing a room update the new number of rooms
 	private static final int NUMBER_OF_ROOMS = 6;
-
-	private ImageButton btnWakeUp;
+	
+	private Fragment livingRoomFragment;
+	private Fragment kitchenFragment;
+	private Fragment dressingRoomFragment;
+	private Fragment washingRoomFragment;
+	private Fragment bedRoomFragment;
+	private Fragment drugstoreFragment;
 	
 	private ViewPager viewPager;
 	private ActionBar actionBar;
+	
+	private ImageButton btnWakeUp;
 	
 	private SensorManager sensorManager;
 	private Sensor proxSensor;
@@ -74,6 +81,20 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		proxSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 		sensorManager.registerListener(this, proxSensor, SensorManager.SENSOR_DELAY_NORMAL);
+		
+		// adding rooms to a static list to reuse them
+		livingRoomFragment = new FragmentLivingRoom();
+		Root.getRoomList().add(livingRoomFragment);
+		kitchenFragment = new FragmentKitchen();
+		Root.getRoomList().add(kitchenFragment);
+		dressingRoomFragment = new FragmentDressingRoom();
+		Root.getRoomList().add(dressingRoomFragment);
+		washingRoomFragment = new FragmentWashingRoom();
+		Root.getRoomList().add(washingRoomFragment);
+		bedRoomFragment = new FragmentBedroom();
+		Root.getRoomList().add(bedRoomFragment);
+		drugstoreFragment = new FragmentDrugstore();
+		Root.getRoomList().add(drugstoreFragment);
 
 		// initialization and registration of the viewpager for swiping the fragments
 		viewPager = (ViewPager) findViewById(R.id.pager);
@@ -161,7 +182,6 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		actionBar.addTab(tabWashingRoom);
 		actionBar.addTab(tabBedroom);
 		actionBar.addTab(tabDrugstore);
-		
 
 	}
 
@@ -174,9 +194,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int id) {
 		            	   
-//		            	   SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy_HHmmss");
-//		            	   String currentDateandTime = sdf.format(new Date());
-		            	   
+		            	   // gets the current time and date
 		            	   String date = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
 		            	   
 		            	   if(Root.DEBUG) Message.message(RoomActivity.this, date);
@@ -212,27 +230,27 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			
 			if(position == LIVINGROOM_POS)
 			{
-				fragment = new FragmentLivingRoom();
+				fragment = Root.getRoomList().get(LIVINGROOM_POS);
 			}
 			else if(position == KITCHEN_POS)
 			{
-				fragment = new FragmentKitchen();
+				fragment = Root.getRoomList().get(KITCHEN_POS);
 			}
 			else if(position == DRESSINGROOM_POS)
 			{
-				fragment = new FragmentDressingRoom();
+				fragment = Root.getRoomList().get(DRESSINGROOM_POS);
 			}
 			else if(position == WASHINGROOM_POS)
 			{
-				fragment = new FragmentWashingRoom();
+				fragment = Root.getRoomList().get(WASHINGROOM_POS);
 			}
 			else if(position == BEDROOM_POS)
 			{
-				fragment = new FragmentBedroom();
+				fragment = Root.getRoomList().get(BEDROOM_POS);
 			}
 			else if(position == DRUGSTORE_POS)
 			{
-				fragment = new FragmentDrugstore();
+				fragment = Root.getRoomList().get(DRUGSTORE_POS);
 			}
 			
 			
@@ -251,8 +269,6 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft)
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -264,8 +280,6 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft)
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	
@@ -277,15 +291,12 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy)
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onSensorChanged(SensorEvent event)
 	{
-		
-		// if grandma is awake, the sensor (light) changes and you are in the bedroom put her to sleep
+		// if grandma is awake, the sensor (light/proximity) changes and you are in the bedroom put her to sleep
 
 		if(event.values[0] == 0.0f && !Root.getAttributes().isSleeping() && 
 				Root.getAttributes().getCurrentFragmentPosition()  == BEDROOM_POS)
@@ -293,8 +304,6 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
 			Message.message(this, "You turned the light off, Grandma sleeps now");
 			btnWakeUp.setVisibility(View.VISIBLE);
-			Root.getAttributes().setSleeping(true);
-
 		}
 		
 	}
@@ -346,7 +355,6 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		Root.getAttributes().setSleeping(false);
 		
 		btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
-
 		btnWakeUp.setVisibility(View.INVISIBLE);
 	}
 }
