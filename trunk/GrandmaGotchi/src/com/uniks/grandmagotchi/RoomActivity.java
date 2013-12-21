@@ -87,6 +87,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		
 		Root.getUniqueRootInstance();
 	
+		this.setTitle(Root.getAttributes().getName());
+		
 		Root.getAttributes().setCurrentFragmentPosition(LIVINGROOM_POS);
 		
 		// initialization and registration of the sensor
