@@ -51,6 +51,9 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	// by adding or removing a room update the new number of rooms
 	private static final int NUMBER_OF_ROOMS = 6;
 	
+	// the threshold for how hard you've to shake the device to react
+	private static final int SHAKE_THRESHOLD = 6;
+	
 	private Fragment livingRoomFragment;
 	private Fragment kitchenFragment;
 	private Fragment dressingRoomFragment;
@@ -63,8 +66,17 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	
 	private ImageButton btnWakeUp;
 	
+	// values for shake gesture
+	// acceleration apart from gravity
+	private float mAccel;
+	// current acceleration including gravity
+	private float mAccelCurrent;
+	// last acceleration including gravity
+	private float mAccelLast;
+	
 	private SensorManager sensorManager;
 	private Sensor proxSensor;
+	private Sensor accelSensor;
 	
 	
 	@Override
@@ -79,8 +91,16 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		
 		// initialization and registration of the sensor
 		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		
 		proxSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 		sensorManager.registerListener(this, proxSensor, SensorManager.SENSOR_DELAY_NORMAL);
+		
+		accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		sensorManager.registerListener(this, accelSensor, SensorManager.SENSOR_DELAY_NORMAL);
+		
+		mAccel = 0.00f;
+	    mAccelCurrent = SensorManager.GRAVITY_EARTH;
+	    mAccelLast = SensorManager.GRAVITY_EARTH;
 		
 		// adding rooms to a static list to reuse them
 		livingRoomFragment = new FragmentLivingRoom();
@@ -298,14 +318,36 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	{
 		// if grandma is awake, the sensor (light/proximity) changes and you are in the bedroom put her to sleep
 
-		if(event.values[0] == 0.0f && !Root.getAttributes().isSleeping() && 
-				Root.getAttributes().getCurrentFragmentPosition()  == BEDROOM_POS)
+		if(Root.getAttributes().getCurrentFragmentPosition() == BEDROOM_POS)
 		{
-			btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
-			Message.message(this, "You turned the light off, Grandma sleeps now");
-			btnWakeUp.setVisibility(View.VISIBLE);
+			if(event.sensor.getType() == Sensor.TYPE_PROXIMITY && event.values[0] == 0.0f && 
+					!Root.getAttributes().isSleeping())
+			{
+				btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
+				Message.message(this, "You turned the light off, Grandma sleeps now");
+				btnWakeUp.setVisibility(View.VISIBLE);
+			}
 		}
+		if(Root.getAttributes().getCurrentFragmentPosition() == WASHINGROOM_POS)
+		{
+			if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+			{
+				 float x = event.values[0];
+			     float y = event.values[1];
+			     float z = event.values[2];
+			     mAccelLast = mAccelCurrent;
+			     mAccelCurrent = (float) Math.sqrt((double) (x*x + y*y + z*z));
+			     float delta = mAccelCurrent - mAccelLast;
+			     mAccel = mAccel * 0.9f + delta; // perform low-cut filter
+			     
+			     if(mAccel > SHAKE_THRESHOLD)
+			     {
+			    	 Message.message(this, "Grandma washed cloth " + mAccel);
+			     }
+			     
 		
+			}
+		}	
 	}
 	
 	
@@ -346,7 +388,12 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	
 	public void btnOnClickBedroomHelp(View view)
 	{
-		Message.message(this,"Put Grandma to sleep by putting your hand over light Sensor");
+		Message.message(this,"Put Grandma to sleep by putting your hand over proximity Sensor");
+	}
+	
+	public void btnOnClickWashingroomHelp(View view)
+	{
+		Message.message(this,"Shake Device to clean laundry");
 	}
 
 	public void btnOnClickWakeUp(View view)
