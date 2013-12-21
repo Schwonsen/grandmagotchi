@@ -126,14 +126,14 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			
 			@Override
 			public void onPageSelected(int position)
-			{
-			// concatenates the actionBar and the viewPager to work together
-			// if you change the fragment by viewPager the actionBar calls the position and change its status	
-			// for the opposite site look at the onTabSelected Method down below
-				
+			{	
 				Root.getAttributes().setCurrentFragmentPosition(position);
 				
+				// concatenates the actionBar and the viewPager to work together
+				// if you change the fragment by viewPager the actionBar calls the position and change its status	
+				// for the opposite site look at the onTabSelected Method down below
 				actionBar.setSelectedNavigationItem(Root.getAttributes().getCurrentFragmentPosition());
+				
 				if(Root.DEBUG) Log.d("GrandmaGotchi", "onPageSelected at position " + position);
 				
 			}
@@ -208,6 +208,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	@Override
 	public void onBackPressed()
 	{
+		
 		   AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		    builder.setMessage("Are you sure you want to exit?")
 		           .setCancelable(false)
@@ -286,6 +287,10 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		
 	}
 	
+	///////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////// ACTIONBAR-TABS METHODS ////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////
+	
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft)
 	{
@@ -294,6 +299,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft)
 	{
+		// slides to the fragment (room) you selected on the actionbar tabs
 		viewPager.setCurrentItem(tab.getPosition());
 	}
 
@@ -305,7 +311,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	
 	
 	///////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////PROXIMITY SENSOR METHODS///////////////////////////////////
+	/////////////////////////////////// SENSOR METHODS ////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Override
