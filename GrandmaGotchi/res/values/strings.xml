@@ -30,5 +30,12 @@
     <string name="btn_description_help_bedroom">Help</string>
     <string name="btn_description_wake_up">Wake Up</string>
     
+    <string name="difficulty_levels">Difficulty Levels</string>
+    <string-array name="difficulty_levels_array">
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+    </string-array>
+    
 
 </resources>

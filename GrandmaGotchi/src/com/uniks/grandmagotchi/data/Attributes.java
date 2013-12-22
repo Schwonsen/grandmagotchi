@@ -4,6 +4,7 @@ public class Attributes {
 	
 	private String name;
 	private String id;
+	private String difficultyLevel;
 	private boolean isSleeping;
 	
 	private int currentFragmentPosition;
@@ -44,6 +45,16 @@ public class Attributes {
 	public void setCurrentFragmentPosition(int currentFragmentPosition)
 	{
 		this.currentFragmentPosition = currentFragmentPosition;
+	}
+
+	public String getDifficultyLevel()
+	{
+		return difficultyLevel;
+	}
+
+	public void setDifficultyLevel(String difficultyLevel)
+	{
+		this.difficultyLevel = difficultyLevel;
 	}
 	
 	
