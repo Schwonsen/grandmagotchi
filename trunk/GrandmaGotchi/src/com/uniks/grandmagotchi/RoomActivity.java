@@ -87,7 +87,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		
 		Root.getUniqueRootInstance();
 	
-		this.setTitle(Root.getAttributes().getName());
+		this.setTitle(Root.getAttributes().getName() + " - Difficulty: " + Root.getAttributes().getDifficultyLevel());
 		
 		Root.getAttributes().setCurrentFragmentPosition(LIVINGROOM_POS);
 		

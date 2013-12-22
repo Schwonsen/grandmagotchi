@@ -8,21 +8,21 @@ import com.uniks.grandmagotchi.util.Root;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 public class MainActivity extends Activity {
 	
 	public Attributes grannyAttributes = new Attributes();
 
-	Button btnStartGame;
-	EditText editName, fieldName, fieldPassword;
-	DatabaseAdapter databaseHandler;
-	private SharedPreferences prefs;
-	private String PREF_USER_NAME = "LastUser";
+	private EditText fieldPassword;
+	private Spinner fieldName;
+	private DatabaseAdapter databaseHandler;
+	private String[] names;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,21 +33,47 @@ public class MainActivity extends Activity {
         
         databaseHandler = new DatabaseAdapter(this);
         
-        fieldName = (EditText) findViewById(R.id.userNameValue);
+        names = databaseHandler.getNamesArray();
+        
+        for(int i = 0; i < names.length; i++)
+        {
+        	Message.message(this, i+":"+ names[i]);
+        }
+        
+        fieldName = (Spinner) findViewById(R.id.spinnerNames);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, names);
+        fieldName.setAdapter(adapter);
+        fieldName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+		{
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id)
+			{
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0)
+			{
+			}
+			
+		});
+        
     	fieldPassword = (EditText) findViewById(R.id.passwordValue);
     	
-		prefs = getSharedPreferences(PREF_USER_NAME, MODE_PRIVATE );
-		String userName = prefs.getString("userName","");
-		fieldName.setText(userName);
+//		prefs = getSharedPreferences(PREF_USER_NAME, MODE_PRIVATE );
+//		String userName = prefs.getString("userName","");
+//		fieldName.setText(userName);
     }
     
     //Speichert UserNamen des letzten Loggins
 	@Override
 	public void onPause(){    
 	  super.onPause();
-	  SharedPreferences.Editor editor = prefs.edit();
-	  editor.putString("userName", fieldName.getText().toString());
-	    editor.commit();
+//	  SharedPreferences.Editor editor = prefs.edit();
+//	  editor.putString("userName", fieldName.getText().toString());
+//	    editor.commit();
 	}
 
 
@@ -62,19 +88,25 @@ public class MainActivity extends Activity {
     public void btnOnClickLogin(View view)
     {
     	
-    	String name = fieldName.getText().toString().trim();
+//    	String name = fieldName.getText().toString().trim();
     	String password = fieldPassword.getText().toString().trim();
-
-    	if(!name.equals("") && !password.equals(""))
-		{
-    		String id = databaseHandler.getData(name, password);
+    	
+    	fieldName = (Spinner) findViewById(R.id.spinnerNames);
+    	if(names.length > 0 && !password.equals(""))
+    	{
+    		String name = fieldName.getSelectedItem().toString();
+    		String id = databaseHandler.getID(name, password);
     		
     		if(!id.equals(""))
     		{
     			if(Root.DEBUG) Message.message(this, id);
 
-    			Root.getAttributes().setName(name);
-    			Root.getAttributes().setId(id);
+    			id = id.trim();
+    			String[] data = databaseHandler.getDataByID(id);
+    			
+    			Root.getAttributes().setId(data[0]);
+    			Root.getAttributes().setName(data[1]);
+    			Root.getAttributes().setDifficultyLevel(data[2]);
     			Root.getAttributes().setSleeping(false);
     			
     			startActivity(new Intent(MainActivity.this, RoomActivity.class));
@@ -84,8 +116,8 @@ public class MainActivity extends Activity {
     		{
     			Message.message(this, "Wrong name or password");
     		}
-		}
-		else
+    	}
+    	else
 		{
 			Message.message(this, "name and password field must not be empty");
 		}

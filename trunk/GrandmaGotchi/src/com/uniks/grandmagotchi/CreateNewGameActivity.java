@@ -6,15 +6,18 @@ import com.uniks.grandmagotchi.util.Root;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.app.Activity;
 import android.content.Intent;
 
 public class CreateNewGameActivity extends Activity
 {
 	
-	DatabaseAdapter databaseHandler;
-	EditText userName, userPassword;
+	private DatabaseAdapter databaseHandler;
+	private EditText userName, userPassword;
+	private Spinner difficultyLevels;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -23,6 +26,23 @@ public class CreateNewGameActivity extends Activity
 		setContentView(R.layout.activity_create_new_game);
 		
 		Root.getUniqueRootInstance();
+		
+		difficultyLevels = (Spinner) findViewById(R.id.spinnerDifficultyLevels);
+		difficultyLevels.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+		{
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id)
+			{
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0)
+			{
+			}
+			
+		});
 		
 		databaseHandler = new DatabaseAdapter(this);;
 		
@@ -43,7 +63,8 @@ public class CreateNewGameActivity extends Activity
 		{
 			if(!name.equals("") && !password.equals(""))
 			{
-				long id = databaseHandler.insertData(name, password);
+				difficultyLevels = (Spinner) findViewById(R.id.spinnerDifficultyLevels);
+				long id = databaseHandler.insertData(name, password, difficultyLevels.getSelectedItem().toString());
 				
 				if(id < 0)
 				{
@@ -51,7 +72,8 @@ public class CreateNewGameActivity extends Activity
 				}
 				else
 				{
-					String databaseId = databaseHandler.getData(name, password);
+					String databaseId = databaseHandler.getID(name, password);
+					Root.getAttributes().setDifficultyLevel(difficultyLevels.getSelectedItem().toString());
 					Root.getAttributes().setName(name);
 					Root.getAttributes().setId(databaseId);
 					if(Root.DEBUG) Message.message(CreateNewGameActivity.this, "Successfully written in Database");
