@@ -34,12 +34,6 @@ public class MainActivity extends Activity {
         databaseHandler = new DatabaseAdapter(this);
         
         names = databaseHandler.getNamesArray();
-        
-        for(int i = 0; i < names.length; i++)
-        {
-        	Message.message(this, i+":"+ names[i]);
-        }
-        
         fieldName = (Spinner) findViewById(R.id.spinnerNames);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, names);
