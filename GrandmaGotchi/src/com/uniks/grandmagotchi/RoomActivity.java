@@ -3,6 +3,10 @@ package com.uniks.grandmagotchi;
 
 import java.util.Calendar;
 
+import android.content.IntentFilter;
+import android.net.Uri;
+import android.provider.SyncStateContract;
+import android.support.v4.content.LocalBroadcastManager;
 import com.uniks.grandmagotchi.rooms.FragmentBedroom;
 import com.uniks.grandmagotchi.rooms.FragmentDressingRoom;
 import com.uniks.grandmagotchi.rooms.FragmentDrugstore;
@@ -38,6 +42,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import com.uniks.grandmagotchi.util.TimerReceiver;
+import com.uniks.grandmagotchi.util.TimerService;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class RoomActivity extends FragmentActivity implements TabListener, SensorEventListener
@@ -45,12 +51,12 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 
 	// positions for different Rooms 
 	// (always write a constant for a new Room for better legibility of code)
-	private static final int LIVINGROOM_POS = 0;
-	private static final int KITCHEN_POS = 1;
-	private static final int DRESSINGROOM_POS = 2;
-	private static final int WASHINGROOM_POS = 3;
-	private static final int BEDROOM_POS = 4;
-	private static final int DRUGSTORE_POS = 5;
+	public static final int LIVINGROOM_POS = 0;
+    public static final int KITCHEN_POS = 1;
+    public static final int DRESSINGROOM_POS = 2;
+    public static final int WASHINGROOM_POS = 3;
+    public static final int BEDROOM_POS = 4;
+    public static final int DRUGSTORE_POS = 5;
 	
 	// by adding or removing a room update the new number of rooms
 	private static final int NUMBER_OF_ROOMS = 6;
@@ -81,6 +87,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	private SensorManager sensorManager;
 	private Sensor proxSensor;
 	private Sensor accelSensor;
+    private TimerReceiver mTimerReceiver;
 	
 	
 	@Override
@@ -208,6 +215,12 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		actionBar.addTab(tabWashingRoom);
 		actionBar.addTab(tabBedroom);
 		actionBar.addTab(tabDrugstore);
+
+        //Timer Listener
+        IntentFilter mStatusIntentFilter = new IntentFilter(TimerReceiver.BROADCAST_ACTION);
+        mTimerReceiver =  new TimerReceiver();
+        registerReceiver(mTimerReceiver, mStatusIntentFilter);
+
 
 	}
 
@@ -392,26 +405,35 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickTelevision(View view) 
 	{	
 		Message.message(this, "Now you are watching TV!");
-	}
+        createTimer(5000, LIVINGROOM_POS);
+
+    }
 	
 	public void btnOnClickSoap(View view) 
 	{
 		 Message.message(this, "The Grandma is clean again!");
-	}
+        createTimer(5000, WASHINGROOM_POS);
+
+    }
 	
 	public void btnOnClickDrugs(View view)
 	{
 		Message.message(this, "Grandma is fit again!");
-	}
+        createTimer(5000, DRUGSTORE_POS);
+
+    }
 	
 	public void btnOnClickBrush(View view)
 	{
 		Message.message(this,"The house is clean again");
-	}
+        createTimer(5000, WASHINGROOM_POS);
+
+    }
 	
 	public void btnOnClickEat(View view)
 	{
-		Message.message(this,"Grandma is not hungry anymore");
+		Message.message(this, "Grandma is not hungry anymore");
+        createTimer(5000, KITCHEN_POS);
 	}
 	
 	public void btnOnClickDrink(View view)
@@ -436,6 +458,13 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		
 		btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
 		btnWakeUp.setVisibility(View.INVISIBLE);
-	}
+	} 
+    private void createTimer(int countdown, int type){
+        Intent mServiceIntent = new Intent(getApplicationContext(), TimerService.class);
+        mServiceIntent.putExtra("countdown", countdown);
+        mServiceIntent.putExtra("type", type);
+        startService(mServiceIntent);
+    }
+
 }
 
