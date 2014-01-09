@@ -30,6 +30,9 @@
             android:name="com.uniks.grandmagotchi.CreateNewGameActivity"
             android:label="@string/title_activity_create_new_game" >
         </activity>
+        <service
+                android:name=".util.TimerService"
+                android:exported="false"/>
     </application>
 
 </manifest>
