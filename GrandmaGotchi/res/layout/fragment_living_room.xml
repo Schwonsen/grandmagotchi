@@ -8,21 +8,31 @@
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textView"
+        android:layout_gravity="center"
         android:text="@string/fragment_living_room"
-        android:layout_gravity="center" />
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageButton
         android:id="@+id/btn_television"
-        android:onClick="btnOnClickTelevision"
-		android:layout_width="71dp"
+        android:layout_width="71dp"
         android:layout_height="60dp"
-   		android:layout_gravity="bottom|center"
-   		android:contentDescription="@string/btn_description_tv"
+        android:layout_gravity="bottom|center"
+        android:contentDescription="@string/btn_description_tv"
+        android:onClick="btnOnClickTelevision"
         android:src="@drawable/ic_action_television" />
-    	<!-- android:background="@android:color/transparent" -->
+    <!-- android:background="@android:color/transparent" -->
+
+    <ImageButton
+        android:id="@+id/btn_game"
+        android:layout_width="71dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|left"
+        android:contentDescription="@string/btn_description_tv"
+        android:onClick="btnOnClickGame"
+        android:src="@drawable/ic_tictactoe" />
+    <!-- android:background="@android:color/transparent" -->
 
 </FrameLayout>

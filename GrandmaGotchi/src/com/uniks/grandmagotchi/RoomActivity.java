@@ -409,6 +409,12 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 
     }
 	
+	public void btnOnClickGame(View view)
+	{
+		startActivity(new Intent(RoomActivity.this, TicTacToeGameActivity.class));
+//		RoomActivity.this.finish();
+	}
+	
 	public void btnOnClickSoap(View view) 
 	{
 		 Message.message(this, "The Grandma is clean again!");

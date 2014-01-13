@@ -30,9 +30,15 @@
             android:name="com.uniks.grandmagotchi.CreateNewGameActivity"
             android:label="@string/title_activity_create_new_game" >
         </activity>
+
         <service
-                android:name=".util.TimerService"
-                android:exported="false"/>
+            android:name="com.uniks.grandmagotchi.util.TimerService"
+            android:exported="false" />
+
+        <activity
+            android:name="com.uniks.grandmagotchi.TicTacToeGameActivity"
+            android:label="@string/title_activity_tic_tac_toe_game" >
+        </activity>
     </application>
 
 </manifest>

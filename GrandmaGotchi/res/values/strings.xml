@@ -29,15 +29,23 @@
     <string name="btn_description_drink">Drink</string>
     <string name="btn_description_help_bedroom">Help</string>
     <string name="btn_description_wake_up">Wake Up</string>
-    
     <string name="settings_roomactivity_change_account">Change Account</string>
-    
     <string name="difficulty_levels">Difficulty Levels</string>
+
     <string-array name="difficulty_levels_array">
         <item>Easy</item>
         <item>Medium</item>
         <item>Hard</item>
     </string-array>
-    
+
+    <string name="title_activity_tic_tac_toe_game">Game Time!</string>
+    <string name="empty_Field"></string>
+    <string name="player_Field">X</string>
+    <string name="cpu_Field">O</string>
+    <string name="tv_click_button">Press a field!</string>
+    <string name="player_wins">You Win!</string>
+    <string name="cpu_wins">Grandma wins!</string>
+    <string name="play_draw">Draw!</string>
+    <string name="new_game">New Game</string>
 
 </resources>
