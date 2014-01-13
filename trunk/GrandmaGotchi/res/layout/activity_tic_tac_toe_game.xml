@@ -1,0 +1,120 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".TicTacToeGameActivity" >
+
+    <Button
+        android:id="@+id/one"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="5dp"
+        android:text="@string/empty_Field"
+        android:textSize="70sp" />
+
+    <Button
+        android:id="@+id/two"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignTop="@id/one"
+        android:layout_toLeftOf="@id/one"
+        android:text="@string/empty_Field"
+        android:textSize="70sp" />
+
+    <Button
+        android:id="@+id/three"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignRight="@+id/six"
+        android:layout_alignTop="@id/two"
+        android:layout_marginLeft="5dp"
+        android:padding="0dp"
+        android:text="@string/empty_Field"
+        android:textSize="70sp" />
+
+    <Button
+        android:id="@+id/four"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/one"
+        android:layout_marginLeft="5dp"
+        android:text="@string/empty_Field"
+        android:textSize="70sp" />
+
+    <Button
+        android:id="@+id/five"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignTop="@id/four"
+        android:layout_marginLeft="5dp"
+        android:layout_toLeftOf="@id/four"
+        android:text="@string/empty_Field"
+        android:textSize="70sp" />
+
+    <Button
+        android:id="@+id/six"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignTop="@id/five"
+        android:layout_marginLeft="5dp"
+        android:layout_toLeftOf="@id/five"
+        android:text="@string/empty_Field"
+        android:textSize="70sp" />
+
+    <Button
+        android:id="@+id/seven"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/four"
+        android:layout_marginLeft="5dp"
+        android:text="@string/empty_Field"
+        android:textSize="70sp" />
+
+    <Button
+        android:id="@+id/eight"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignTop="@id/seven"
+        android:layout_marginLeft="5dp"
+        android:layout_toLeftOf="@id/seven"
+        android:text="@string/empty_Field"
+        android:textSize="70sp" />
+
+    <Button
+        android:id="@+id/nine"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignTop="@id/eight"
+        android:layout_marginLeft="5dp"
+        android:layout_toLeftOf="@id/eight"
+        android:text="@string/empty_Field"
+        android:textSize="70sp" />
+
+    <TextView
+        android:id="@+id/tv_game_dialogue"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nine"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:text="@string/tv_click_button"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/new_game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_game_dialogue"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:onClick="btnOnClickGame"
+        android:text="@string/new_game" />
+
+</RelativeLayout>
