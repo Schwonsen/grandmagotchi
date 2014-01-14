@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+
 public class TicTacToeGameActivity extends Activity {
 
 	// this array holds the status of each button whether
@@ -130,6 +131,10 @@ public class TicTacToeGameActivity extends Activity {
 			if (isEmpty) {
 				gameOver = true;
 				textView.setText(R.string.play_draw);
+			}
+			//Test
+			if(gameOver && !isEmpty) {
+				buttons[i][j].setClickable(false);
 			}
 		}
 		return gameOver;

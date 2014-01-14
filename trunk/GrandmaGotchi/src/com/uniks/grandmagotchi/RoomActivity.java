@@ -5,8 +5,6 @@ import java.util.Calendar;
 
 import android.content.IntentFilter;
 import android.net.Uri;
-import android.provider.SyncStateContract;
-import android.support.v4.content.LocalBroadcastManager;
 import com.uniks.grandmagotchi.rooms.FragmentBedroom;
 import com.uniks.grandmagotchi.rooms.FragmentDressingRoom;
 import com.uniks.grandmagotchi.rooms.FragmentDrugstore;
@@ -15,7 +13,6 @@ import com.uniks.grandmagotchi.rooms.FragmentLivingRoom;
 import com.uniks.grandmagotchi.rooms.FragmentWashingRoom;
 import com.uniks.grandmagotchi.util.Message;
 import com.uniks.grandmagotchi.util.Root;
-
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -413,6 +410,14 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	{
 		startActivity(new Intent(RoomActivity.this, TicTacToeGameActivity.class));
 //		RoomActivity.this.finish();
+	}
+	
+	public void btnOnClickMusic(View view)
+	{
+		String videoID = "raluLqdSrJ4";
+		// TODO: Sanitize input to prevent code injection
+		startActivity(new Intent(Intent.ACTION_VIEW,
+				Uri.parse("http://m.youtube.com/watch?v=" + videoID)));
 	}
 	
 	public void btnOnClickSoap(View view) 
