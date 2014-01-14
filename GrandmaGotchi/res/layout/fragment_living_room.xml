@@ -32,7 +32,17 @@
         android:layout_gravity="bottom|left"
         android:contentDescription="@string/btn_description_tv"
         android:onClick="btnOnClickGame"
-        android:src="@drawable/ic_tictactoe" />
+        android:src="@drawable/ic_tictac" />
+    <!-- android:background="@android:color/transparent" -->
+    
+    <ImageButton
+        android:id="@+id/btn_music"
+        android:layout_width="71dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|right"
+        android:contentDescription="@string/btn_description_music"
+        android:onClick="btnOnClickMusic"
+        android:src="@drawable/ic_music" />
     <!-- android:background="@android:color/transparent" -->
 
 </FrameLayout>
