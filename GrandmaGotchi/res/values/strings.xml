@@ -48,5 +48,8 @@
     <string name="cpu_wins">Grandma wins!</string>
     <string name="play_draw">Draw!</string>
     <string name="new_game">New Game</string>
+    
+    <string name="strMeal"></string>
+    <string name="strInfo"></string>
 
 </resources>
