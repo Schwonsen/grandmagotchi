@@ -443,7 +443,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	
 	public void btnOnClickEat(View view)
 	{
-		Message.message(this, "Grandma is not hungry anymore");
+		startActivity(new Intent(RoomActivity.this, MealActivity.class));
+//		Message.message(this, "Grandma is not hungry anymore");
         createTimer(5000, KITCHEN_POS);
 	}
 	

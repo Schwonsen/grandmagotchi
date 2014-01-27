@@ -43,6 +43,10 @@
             android:label="@string/title_activity_tic_tac_toe_game" 
             android:screenOrientation="portrait" >
         </activity>
+        <activity 
+            android:name="com.uniks.grandmagotchi.MealActivity"
+            android:theme="@android:style/Theme.Dialog">
+        </activity>
     </application>
 
 </manifest>
