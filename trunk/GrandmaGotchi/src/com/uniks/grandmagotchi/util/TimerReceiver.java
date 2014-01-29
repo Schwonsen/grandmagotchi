@@ -33,18 +33,19 @@ public class TimerReceiver extends BroadcastReceiver
     private void createNotification(Context context, int type){
         String title = "";
         String text = "";
+        String currentRoom = "";
         switch (type){
-            case RoomActivity.LIVINGROOM_POS : title = "Grandma is boring"; text = "Let her watch T.V.!"; break;
-            case RoomActivity.KITCHEN_POS : title = "Grandma is hungry"; text = "Give her something to eat."; break;
+            case RoomActivity.LIVINGROOM_POS : title = "Grandma is boring"; currentRoom = "LR"; text = "Let her watch T.V.!"; break;
+            case RoomActivity.KITCHEN_POS : title = "Grandma is hungry"; currentRoom = "K"; text = "Give her something to eat."; break;
            // case RoomActivity.DRESSINGROOM_POS : title = "Grandma is dirty"; text = ">ou need to clean her."; break;
-            case RoomActivity.WASHINGROOM_POS : title = "Grandma is dirty"; text = "You need to clean her."; break;
-            case RoomActivity.BEDROOM_POS : title = "Grandma is tired"; text = "Put her to sleep."; break;
-            case RoomActivity.DRUGSTORE_POS : title = "Grandma is ill"; text = "Give her medicine (or someting else wooohoo!)."; break;
+            case RoomActivity.WASHINGROOM_POS : title = "Grandma is dirty"; currentRoom = "WR"; text = "You need to clean her."; break;
+            case RoomActivity.BEDROOM_POS : title = "Grandma is tired"; currentRoom = "BR"; text = "Put her to sleep."; break;
+            case RoomActivity.DRUGSTORE_POS : title = "Grandma is ill"; currentRoom = "DS"; text = "Give her medicine (or someting else wooohoo!)."; break;
             default: title = "Grandma wants something"; text = "Give her a look!"; break;
         }
         //TODO: Change class depending on case
         Message.message(context, title);
-        Message.notification(context, title, text, MainActivity.class);
+        Message.notification(context, title, text, RoomActivity.class);
     }
 
 }

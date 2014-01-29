@@ -5,14 +5,18 @@ import java.util.Calendar;
 
 import android.content.IntentFilter;
 import android.net.Uri;
+
 import com.uniks.grandmagotchi.rooms.FragmentBedroom;
 import com.uniks.grandmagotchi.rooms.FragmentDressingRoom;
 import com.uniks.grandmagotchi.rooms.FragmentDrugstore;
 import com.uniks.grandmagotchi.rooms.FragmentKitchen;
 import com.uniks.grandmagotchi.rooms.FragmentLivingRoom;
+import com.uniks.grandmagotchi.rooms.FragmentOutside;
+import com.uniks.grandmagotchi.rooms.FragmentSupermarket;
 import com.uniks.grandmagotchi.rooms.FragmentWashingRoom;
 import com.uniks.grandmagotchi.util.Message;
 import com.uniks.grandmagotchi.util.Root;
+
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -39,6 +43,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+
 import com.uniks.grandmagotchi.util.TimerReceiver;
 import com.uniks.grandmagotchi.util.TimerService;
 
@@ -54,9 +59,11 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
     public static final int WASHINGROOM_POS = 3;
     public static final int BEDROOM_POS = 4;
     public static final int DRUGSTORE_POS = 5;
+    public static final int SUPERMARKET_POS = 6;
+    public static final int OUTSIDE_POS = 7;
 	
 	// by adding or removing a room update the new number of rooms
-	private static final int NUMBER_OF_ROOMS = 6;
+	private static final int NUMBER_OF_ROOMS = 8;
 	
 	// the threshold for how hard you've to shake the device to react
 	private static final int SHAKE_THRESHOLD = 6;
@@ -67,6 +74,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	private Fragment washingRoomFragment;
 	private Fragment bedRoomFragment;
 	private Fragment drugstoreFragment;
+	private Fragment supermarketFragment;
+	private Fragment outsideFragment;
 	
 	private ViewPager viewPager;
 	private ActionBar actionBar;
@@ -125,6 +134,10 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		Root.getRoomList().add(bedRoomFragment);
 		drugstoreFragment = new FragmentDrugstore();
 		Root.getRoomList().add(drugstoreFragment);
+		supermarketFragment = new FragmentSupermarket();
+		Root.getRoomList().add(supermarketFragment);
+		outsideFragment = new FragmentOutside();
+		Root.getRoomList().add(outsideFragment);
 
 		// initialization and registration of the viewpager for swiping the fragments
 		viewPager = (ViewPager) findViewById(R.id.pager);
@@ -206,12 +219,22 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		tabDrugstore.setText("Drugstore");
 		tabDrugstore.setTabListener(this);
 		
+		ActionBar.Tab tabSupermarket = actionBar.newTab();
+		tabSupermarket.setText("Supermarket");
+		tabSupermarket.setTabListener(this);
+		
+		ActionBar.Tab tabOutside = actionBar.newTab();
+		tabOutside.setText("Outside");
+		tabOutside.setTabListener(this);
+		
 		actionBar.addTab(tabLivingRoom);
 		actionBar.addTab(tabKitchen);
 		actionBar.addTab(tabDressingRoom);
 		actionBar.addTab(tabWashingRoom);
 		actionBar.addTab(tabBedroom);
 		actionBar.addTab(tabDrugstore);
+		actionBar.addTab(tabSupermarket);
+		actionBar.addTab(tabOutside);
 
         //Timer Listener
         IntentFilter mStatusIntentFilter = new IntentFilter(TimerReceiver.BROADCAST_ACTION);
@@ -309,6 +332,14 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			else if(position == DRUGSTORE_POS)
 			{
 				fragment = Root.getRoomList().get(DRUGSTORE_POS);
+			}
+			else if(position == SUPERMARKET_POS)
+			{
+				fragment = Root.getRoomList().get(SUPERMARKET_POS);
+			}
+			else if(position == OUTSIDE_POS)
+			{
+				fragment = Root.getRoomList().get(OUTSIDE_POS);
 			}
 			
 			
