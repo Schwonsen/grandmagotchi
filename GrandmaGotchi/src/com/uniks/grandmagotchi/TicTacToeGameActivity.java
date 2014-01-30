@@ -70,7 +70,7 @@ public class TicTacToeGameActivity extends Activity {
 
 		// handle the click event
 		public void onClick(View view) {
-			if (buttons[x][y].isEnabled()) {
+			if (buttons[x][y].isEnabled() && !checkBoard()) {
 				buttons[x][y].setEnabled(false);
 				buttons[x][y].setText(R.string.player_Field);
 				buttons[x][y].setTextColor(Color.rgb(200, 0, 0));
@@ -127,14 +127,9 @@ public class TicTacToeGameActivity extends Activity {
 					}
 				}
 			}
-
 			if (isEmpty) {
 				gameOver = true;
 				textView.setText(R.string.play_draw);
-			}
-			//Test
-			if(gameOver && !isEmpty) {
-				buttons[i][j].setClickable(false);
 			}
 		}
 		return gameOver;
