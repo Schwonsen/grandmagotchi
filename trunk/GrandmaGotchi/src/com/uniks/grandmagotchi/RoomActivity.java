@@ -465,6 +465,11 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 
     }
 	
+	public void btnOnClickWash(View view)
+	{
+		Message.message(this,"All clothes are clean again!");
+	}
+	
 	public void btnOnClickBrush(View view)
 	{
 		Message.message(this,"The house is clean again");
