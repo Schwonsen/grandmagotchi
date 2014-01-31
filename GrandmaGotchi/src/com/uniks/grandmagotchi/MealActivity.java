@@ -13,6 +13,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.uniks.grandmagotchi.data.MealAdapter;
+import com.uniks.grandmagotchi.util.Message;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -46,7 +47,7 @@ public class MealActivity extends Activity {
 			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 			Document doc = docBuilder.parse(getAssets().open("mealdata.xml"));
 
-			ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
+			final ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
 
 			doc.getDocumentElement().normalize(); // getting DOM element
 
@@ -91,7 +92,7 @@ public class MealActivity extends Activity {
 			}
 
 			// Getting adapter by passing xml data ArrayList
-			MealAdapter adapter = new MealAdapter(this, data);
+			final MealAdapter adapter = new MealAdapter(this, data);
 			list = (ListView) findViewById(R.id.list);
 
 			Log.i("BEFORE", "<<------------- Before SetAdapter-------------->>");
@@ -106,8 +107,63 @@ public class MealActivity extends Activity {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
+					
 					//TODO Hier Reaktionen auf klicken der items ( Oma nicht mehr hungrieg etc.)
-					finish();
+					Message.message(getBaseContext(), "The granny is no longer hungry.");
+					data.remove(position);
+		            adapter.notifyDataSetChanged();
+		            
+//					switch (position) {
+//					case 0:
+//						
+//						break;
+//					}
+//					switch (position) {
+//					case 1:
+//						
+//						break;
+//					}
+//					switch (position) {
+//					case 2:
+//						
+//						break;
+//					}
+//					switch (position) {
+//					case 3:
+//						
+//						break;
+//					}
+//					switch (position) {
+//					case 4:
+//						
+//						break;
+//					}
+//					switch (position) {
+//					case 5:
+//						
+//						break;
+//					}
+//					switch (position) {
+//					case 6:
+//						
+//						break;
+//					}
+//					switch (position) {
+//					case 7:
+//						
+//						break;
+//					}
+//					switch (position) {
+//					case 8:
+//						
+//						break;
+//					}
+//					switch (position) {
+//					case 9:
+//						
+//						break;
+//					}
+//					finish();
 
 
 				}

@@ -43,6 +43,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.uniks.grandmagotchi.util.TimerReceiver;
 import com.uniks.grandmagotchi.util.TimerService;
@@ -399,6 +400,10 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			{
 				btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
 				Message.message(this, "You turned the light off, Grandma sleeps now");
+				
+				ImageView grannyBedroom = (ImageView) findViewById(R.id.imageGrandma);
+				grannyBedroom.setImageResource(R.drawable.image_sleeping_grandma);
+				
 				btnWakeUp.setVisibility(View.VISIBLE);
 			}
 		}
@@ -503,6 +508,9 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	{
 		Message.message(this, "Grandma is awake");
 		Root.getAttributes().setSleeping(false);
+		
+		ImageView grannyBedroom = (ImageView) findViewById(R.id.imageGrandma);
+		grannyBedroom.setImageResource(R.drawable.image_grandma_confused);
 		
 		btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
 		btnWakeUp.setVisibility(View.INVISIBLE);
