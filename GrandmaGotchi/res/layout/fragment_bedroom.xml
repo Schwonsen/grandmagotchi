@@ -36,7 +36,13 @@
         android:contentDescription="@string/btn_description_wake_up"
         android:src="@drawable/ic_action_wake_up" />
         <!-- android:background="@android:color/transparent" -->
-    
-    
+
+    <ImageView
+        android:id="@+id/imageGrandma"
+        android:layout_width="214dp"
+        android:layout_height="306dp"
+        android:src="@drawable/image_grandma_confused"
+        android:layout_gravity="center" 
+        android:contentDescription="TODO"/>
     
 </FrameLayout>
