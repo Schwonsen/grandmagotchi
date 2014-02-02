@@ -18,11 +18,15 @@ public class Message
 	}
 
     public static void notification(Context context, String title, String text, Class target){
+
+
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_grandma)
                         .setContentTitle(title)
                         .setContentText(text);
+        mBuilder.setAutoCancel(true);
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(context, target);
 

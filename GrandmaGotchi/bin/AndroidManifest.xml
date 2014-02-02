@@ -35,7 +35,7 @@
         </activity>
 
         <service
-            android:name="com.uniks.grandmagotchi.util.TimerService"
+            android:name=".util.timer.services.FoodTimer"
             android:exported="false" />
 
         <activity

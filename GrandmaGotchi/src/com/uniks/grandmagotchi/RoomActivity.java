@@ -14,8 +14,7 @@ import com.uniks.grandmagotchi.rooms.FragmentLivingRoom;
 import com.uniks.grandmagotchi.rooms.FragmentOutside;
 import com.uniks.grandmagotchi.rooms.FragmentSupermarket;
 import com.uniks.grandmagotchi.rooms.FragmentWashingRoom;
-import com.uniks.grandmagotchi.util.Message;
-import com.uniks.grandmagotchi.util.Root;
+import com.uniks.grandmagotchi.util.*;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
@@ -43,10 +42,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import com.uniks.grandmagotchi.util.timer.receiver.DrinkReceiver;
+import com.uniks.grandmagotchi.util.timer.receiver.FoodReceiver;
+import com.uniks.grandmagotchi.util.timer.services.DrinkTimer;
+import com.uniks.grandmagotchi.util.timer.services.FoodTimer;
 import android.widget.ImageView;
-
-import com.uniks.grandmagotchi.util.TimerReceiver;
-import com.uniks.grandmagotchi.util.TimerService;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class RoomActivity extends FragmentActivity implements TabListener, SensorEventListener
@@ -94,8 +94,9 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	private SensorManager sensorManager;
 	private Sensor proxSensor;
 	private Sensor accelSensor;
-    private TimerReceiver mTimerReceiver;
-	
+    private FoodReceiver mFoodReceiver;
+    private DrinkReceiver mDrinkReceiver;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -238,10 +239,12 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		actionBar.addTab(tabOutside);
 
         //Timer Listener
-        IntentFilter mStatusIntentFilter = new IntentFilter(TimerReceiver.BROADCAST_ACTION);
-        mTimerReceiver =  new TimerReceiver();
-        registerReceiver(mTimerReceiver, mStatusIntentFilter);
-
+        IntentFilter mStatusIntentFilter = new IntentFilter(FoodReceiver.BROADCAST_ACTION);
+        mFoodReceiver =  new FoodReceiver();
+        registerReceiver(mFoodReceiver, mStatusIntentFilter);
+        IntentFilter drinkStatusIntentFilter = new IntentFilter(DrinkReceiver.BROADCAST_ACTION);
+        mDrinkReceiver =  new DrinkReceiver();
+        registerReceiver(mDrinkReceiver, mStatusIntentFilter);
 
 	}
 
@@ -438,7 +441,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickTelevision(View view) 
 	{	
 		Message.message(this, "Now you are watching TV!");
-        createTimer(5000, LIVINGROOM_POS);
+        createTimer(5000, LIVINGROOM_POS, FoodTimer.class);
 
     }
 	
@@ -459,14 +462,14 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickSoap(View view) 
 	{
 		 Message.message(this, "The Grandma is clean again!");
-        createTimer(5000, WASHINGROOM_POS);
+        createTimer(5000, WASHINGROOM_POS, FoodTimer.class);
 
     }
 	
 	public void btnOnClickDrugs(View view)
 	{
 		Message.message(this, "Grandma is fit again!");
-        createTimer(5000, DRUGSTORE_POS);
+        createTimer(5000, DRUGSTORE_POS, FoodTimer.class);
 
     }
 	
@@ -478,7 +481,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickBrush(View view)
 	{
 		Message.message(this,"The house is clean again");
-        createTimer(5000, WASHINGROOM_POS);
+        createTimer(5000, WASHINGROOM_POS, FoodTimer.class);
 
     }
 	
@@ -486,7 +489,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	{
 		startActivity(new Intent(RoomActivity.this, MealActivity.class));
 //		Message.message(this, "Grandma is not hungry anymore");
-        createTimer(5000, KITCHEN_POS);
+        createTimer(5000, KITCHEN_POS, FoodTimer.class);
 	}
 	
 	public void btnOnClickShopcart(View view)
@@ -497,6 +500,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickDrink(View view)
 	{
 		Message.message(this,"Grandma is not thirsty anymore");
+        //every 8 hours
+        createTimer(5000, KITCHEN_POS, DrinkTimer.class);
 	}
 	
 	public void btnOnClickBedroomHelp(View view)
@@ -520,10 +525,9 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
 		btnWakeUp.setVisibility(View.INVISIBLE);
 	} 
-    private void createTimer(int countdown, int type){
-        Intent mServiceIntent = new Intent(getApplicationContext(), TimerService.class);
+    private void createTimer(int countdown, int type, Class target){
+        Intent mServiceIntent = new Intent(getApplicationContext(), target);
         mServiceIntent.putExtra("countdown", countdown);
-        mServiceIntent.putExtra("type", type);
         startService(mServiceIntent);
     }
 
