@@ -35,8 +35,11 @@
         </activity>
 
         <service
-            android:name="com.uniks.grandmagotchi.util.TimerService"
+            android:name=".util.timer.services.FoodTimer"
             android:exported="false" />
+        <service
+                android:name=".util.timer.services.DrinkTimer"
+                android:exported="false" />
 
         <activity
             android:name="com.uniks.grandmagotchi.TicTacToeGameActivity"
