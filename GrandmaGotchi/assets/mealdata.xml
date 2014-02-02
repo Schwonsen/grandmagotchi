@@ -54,4 +54,78 @@
         <time>dinner</time>
         <icon>ic_meal_sandwich</icon>
     </mealdata>
+    
+    <shopdata>
+        <id>1</id>
+        <meal>Water bottle</meal>
+        <time>daily 3 times</time>
+        <icon>ic_water_bottle</icon>
+    </shopdata>
+    <shopdata>
+        <id>2</id>
+        <meal>Yogurt</meal>
+        <time>breakfast</time>
+        <icon>ic_meal_joghurt</icon>
+    </shopdata>
+    <shopdata>
+        <id>3</id>
+        <meal>Flakes</meal>
+        <time>breakfast</time>
+        <icon>ic_meal_flakes</icon>
+    </shopdata>
+    <shopdata>
+        <id>4</id>
+        <meal>Eggs</meal>
+        <time>breakfast</time>
+        <icon>ic_meal_egg</icon>
+    </shopdata>
+    <shopdata>
+        <id>5</id>
+        <meal>Fish</meal>
+        <time>lunch</time>
+        <icon>ic_meal_fish</icon>
+    </shopdata>
+    <shopdata>
+        <id>6</id>
+        <meal>Pizza</meal>
+        <time>lunch</time>
+        <icon>ic_meal_pizza</icon>
+    </shopdata>
+    <shopdata>
+        <id>7</id>
+        <meal>Salat</meal>
+        <time>lunch</time>
+        <icon>ic_meal_salat</icon>
+    </shopdata>
+    <shopdata>
+        <id>8</id>
+        <meal>Pasta</meal>
+        <time>dinner</time>
+        <icon>ic_meal_pasta</icon>
+    </shopdata>
+    <shopdata>
+        <id>9</id>
+        <meal>Potatos</meal>
+        <time>dinner</time>
+        <icon>ic_meal_potatos</icon>
+    </shopdata>
+    <shopdata>
+        <id>10</id>
+        <meal>Sandwich</meal>
+        <time>dinner</time>
+        <icon>ic_meal_sandwich</icon>
+    </shopdata>
+    
+    <clothedata>
+        <id>1</id>
+        <clothes>Underwear</clothes>
+        <time>7x</time>
+        <icon>ic_clothes_underwear</icon>
+    </clothedata>
+     <clothedata>
+        <id>2</id>
+        <clothes>Robe</clothes>
+        <time>3x</time>
+        <icon>ic_clothes_underwear</icon>
+    </clothedata>
 </Meal>

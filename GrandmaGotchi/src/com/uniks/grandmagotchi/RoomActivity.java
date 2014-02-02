@@ -489,6 +489,11 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
         createTimer(5000, KITCHEN_POS);
 	}
 	
+	public void btnOnClickShopcart(View view)
+	{
+		startActivity(new Intent(RoomActivity.this, ShopActivity.class));
+	}
+	
 	public void btnOnClickDrink(View view)
 	{
 		Message.message(this,"Grandma is not thirsty anymore");
