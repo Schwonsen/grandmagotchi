@@ -10,5 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/hello_blank_fragment" />
+    
+    <ImageButton
+        android:id="@+id/btn_shopcart"
+        android:onClick="btnOnClickShopcart"
+        android:layout_width="71dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|center"
+        android:contentDescription="@string/btn_description_shopcart"
+        android:src="@drawable/ic_action_shopcart" />
+        <!-- android:background="@android:color/transparent" -->
 
 </FrameLayout>
