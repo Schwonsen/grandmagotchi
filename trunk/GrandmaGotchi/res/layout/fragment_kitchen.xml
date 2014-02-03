@@ -8,31 +8,41 @@
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textView"
+        android:layout_gravity="center"
         android:text="@string/fragment_kitchen"
-        android:layout_gravity="center" />
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageButton
         android:id="@+id/btn_food"
-        android:onClick="btnOnClickEat"
         android:layout_width="71dp"
         android:layout_height="60dp"
         android:layout_gravity="bottom|center"
         android:contentDescription="@string/btn_description_food"
+        android:onClick="btnOnClickEat"
         android:src="@drawable/ic_action_eat" />
-        <!-- android:background="@android:color/transparent" -->
-        
+    <!-- android:background="@android:color/transparent" -->
+
     <ImageButton
         android:id="@+id/btn_drink"
-        android:onClick="btnOnClickDrink"
         android:layout_width="71dp"
         android:layout_height="60dp"
         android:layout_gravity="bottom|left"
         android:contentDescription="@string/btn_description_drink"
+        android:onClick="btnOnClickDrink"
         android:src="@drawable/ic_action_drink" />
-        <!-- android:background="@android:color/transparent" -->
-    
+    <!-- android:background="@android:color/transparent" -->
+
+    <ImageButton
+        android:id="@+id/btn_wash_dishes"
+        android:layout_width="71dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|right"
+        android:contentDescription="@string/btn_description_drink"
+        android:onClick="btnOnClickWashDishes"
+        android:src="@drawable/ic_action_dishes" />
+    <!-- android:background="@android:color/transparent" -->
+
 </FrameLayout>
