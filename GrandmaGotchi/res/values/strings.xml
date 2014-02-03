@@ -39,6 +39,12 @@
         <item>Medium</item>
         <item>Hard</item>
     </string-array>
+    
+    <string-array name="medicaments_list_array">
+        <item>Morning</item>
+        <item>Noon</item>
+        <item>Evening</item>
+    </string-array>
 
     <string name="title_activity_tic_tac_toe_game">Game Time!</string>
     <string name="empty_Field"></string>
