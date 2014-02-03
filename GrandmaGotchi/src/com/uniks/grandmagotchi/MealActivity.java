@@ -3,17 +3,24 @@ package com.uniks.grandmagotchi;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import com.uniks.grandmagotchi.data.FoodAttributes;
 import com.uniks.grandmagotchi.data.MealAdapter;
 import com.uniks.grandmagotchi.util.Message;
+import com.uniks.grandmagotchi.util.Root;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -22,6 +29,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class MealActivity extends Activity {
 
@@ -31,14 +39,32 @@ public class MealActivity extends Activity {
 	public static final String KEY_MEAL = "meal";
 	public static final String KEY_TIME = "time";
 	public static final String KEY_ICON = "icon";
+	public static final String KEY_COUNT = "count";
 
 	ListView list;
 	MealAdapter adapter = null;
+	TextView tvFoodCount;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_meal_popup);
+		
+		int countItems = 0;
+        
+        for(FoodAttributes foodItem : Root.getFoodList())
+        {
+        	if(foodItem.getCount() == 0)
+        	{
+        		countItems++;
+        	}
+        }
+        
+        if(countItems == 9)
+        {
+        	Message.message(this, "No Items");
+        	MealActivity.this.finish();
+        }
 
 		try {
 
@@ -54,6 +80,7 @@ public class MealActivity extends Activity {
 			NodeList mList = doc.getElementsByTagName(KEY_MEALDATA);
 
 			for (int i = 0; i < mList.getLength(); i++) {
+				
 				// creating new HashMap
 				HashMap<String, String> map = new HashMap<String, String>();
 				// Element e = (Element) mList.item(i);
@@ -61,7 +88,7 @@ public class MealActivity extends Activity {
 				if (firstMList.getNodeType() == Node.ELEMENT_NODE) {
 
 					Element firstMealElement = (Element) firstMList;
-
+					
 					NodeList idList = firstMealElement.getElementsByTagName(KEY_ID);
 					Element firstIdElement = (Element) idList.item(0);
 					NodeList textIdList = firstIdElement.getChildNodes();
@@ -71,12 +98,29 @@ public class MealActivity extends Activity {
 					NodeList mealList = firstMealElement.getElementsByTagName(KEY_MEAL);
 					Element firstMElement = (Element) mealList.item(0);
 					NodeList textMealList = firstMElement.getChildNodes();
+					
+					for(FoodAttributes foodAttribute : Root.getFoodList())
+					{
+						if(foodAttribute.getName().equals(firstMElement.getTextContent()))
+						{
+							
+							NodeList mealCounter = firstMealElement.getElementsByTagName(KEY_COUNT);
+							Element firstCElement = (Element) mealCounter.item(0);
+							NodeList textCountList = firstCElement.getChildNodes();
+							
+							map.put(KEY_COUNT, ((Node) textCountList.item(0)).getNodeValue().trim());
+							
+							
+						}
+					}
+					
 					// --Meal
 					map.put(KEY_MEAL, ((Node) textMealList.item(0)).getNodeValue().trim());
 
 					NodeList infoList = firstMealElement.getElementsByTagName(KEY_TIME);
 					Element firstInfoElement = (Element) infoList.item(0);
 					NodeList textInfoList = firstInfoElement.getChildNodes();
+					
 					// --Meal Information
 					map.put(KEY_TIME, ((Node) textInfoList.item(0)).getNodeValue().trim());
 
@@ -86,10 +130,21 @@ public class MealActivity extends Activity {
 					// --Meal icon
 					map.put(KEY_ICON, ((Node) textIconList.item(0)).getNodeValue().trim());
 
-					// adding HashList to ArrayList
-					data.add(map);
+					for(FoodAttributes foodAttribute : Root.getFoodList())
+					{
+						if(foodAttribute.getName().equals(firstMElement.getTextContent()))
+						{
+							if(foodAttribute.getCount() > 0)
+							{
+								// adding HashList to ArrayList
+								data.add(map);
+							}
+						}
+					}
 				}
 			}
+			
+			
 
 			// Getting adapter by passing xml data ArrayList
 			final MealAdapter adapter = new MealAdapter(this, data);
@@ -98,6 +153,9 @@ public class MealActivity extends Activity {
 			Log.i("BEFORE", "<<------------- Before SetAdapter-------------->>");
 
 			list.setAdapter(adapter);
+			
+			
+			
 
 			Log.i("AFTER", "<<------------- After SetAdapter-------------->>");
 
@@ -109,62 +167,55 @@ public class MealActivity extends Activity {
 						int position, long id) {
 					
 					//TODO Hier Reaktionen auf klicken der items ( Oma nicht mehr hungrieg etc.)
-					Message.message(getBaseContext(), "The granny is no longer hungry.");
-					data.remove(position);
-		            adapter.notifyDataSetChanged();
-		            
-//					switch (position) {
-//					case 0:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 1:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 2:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 3:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 4:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 5:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 6:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 7:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 8:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 9:
-//						
-//						break;
-//					}
-//					finish();
+					
+					
 
+					
+					Iterator it = data.get(position).entrySet().iterator();
+					 while (it.hasNext()) 
+					 {
+					        Map.Entry pairs = (Map.Entry)it.next();
+//					        System.out.println(pairs.getKey() + " = " + pairs.getValue());
+					        for(FoodAttributes foodItem : Root.getFoodList())
+					        {
+					        	if(pairs.getValue().equals(foodItem.getName()))
+					        	{
+					        		if(foodItem.getCount() == 0)
+					        		{
+										data.remove(position);
+							            adapter.notifyDataSetChanged(); 
+					        		}
+					        		else if(foodItem.getCount() > 0)
+					        		{
+					        			Message.message(getBaseContext(), "The granny is no longer hungry.");
+					        			foodItem.setCount(foodItem.getCount() - 1);
+					        			adapter.notifyDataSetChanged(); 
+					        			
+					        			if(foodItem.getCount() == 0)
+						        		{
+											data.remove(position);
+								            adapter.notifyDataSetChanged(); 
+						        		}
+					        		}
+					        	}
+					        }
+					        
+					        int i = 0;
+					        
+					        for(FoodAttributes foodItem : Root.getFoodList())
+					        {
+					        	if(foodItem.getCount() == 0)
+					        	{
+					        		i++;
+					        	}
+					        }
+					        
+					        if(i == 9)
+					        {
+					        	MealActivity.this.finish();
+					        }
+					         
+					 }
 
 				}
 

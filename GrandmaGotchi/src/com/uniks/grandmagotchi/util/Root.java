@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import android.support.v4.app.Fragment;
 
 import com.uniks.grandmagotchi.data.Attributes;
+import com.uniks.grandmagotchi.data.FoodAttributes;
 
 public class Root
 {
@@ -15,6 +16,7 @@ public class Root
 	private static Root uniqueRootInstance;
 	private static Attributes attributes = new Attributes();
 	private static LinkedList<Fragment> roomList = new LinkedList<Fragment>();
+	private static LinkedList<FoodAttributes> foodList = new LinkedList<FoodAttributes>();
 
 	public static Attributes getAttributes()
 	{
@@ -43,6 +45,15 @@ public class Root
 		}
 		
 		return uniqueRootInstance;
+	}
+	
+	public static LinkedList<FoodAttributes> getFoodList()
+	{
+		return foodList;
+	}
+	public static void setFoodList(LinkedList<FoodAttributes> foodList)
+	{
+		Root.foodList = foodList;
 	}
 
 }

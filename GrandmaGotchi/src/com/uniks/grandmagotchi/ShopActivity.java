@@ -3,6 +3,8 @@ package com.uniks.grandmagotchi;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,8 +14,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.uniks.grandmagotchi.data.FoodAttributes;
 import com.uniks.grandmagotchi.data.MealAdapter;
 import com.uniks.grandmagotchi.util.Message;
+import com.uniks.grandmagotchi.util.Root;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -109,8 +113,34 @@ public class ShopActivity extends Activity{
 						int position, long id) {
 					
 					//TODO Hier Reaktionen auf klicken der items ( Oma nicht mehr hungrieg etc.)
-					Message.message(getBaseContext(), "You bought this item!");
-					data.remove(position);
+//					data.remove(position);
+					
+					Iterator it = data.get(position).entrySet().iterator();
+					 while (it.hasNext()) 
+					 {
+					        Map.Entry pairs = (Map.Entry)it.next();
+//					        System.out.println(pairs.getKey() + " = " + pairs.getValue());
+					        for(FoodAttributes foodItem : Root.getFoodList())
+					        {
+					        	if(pairs.getValue().equals(foodItem.getName()))
+					        	{
+					        		if(foodItem.getCount() < 3)
+					        		{
+//					        			Message.message(getBaseContext(), "You bought this item!");
+					        			foodItem.setCount(foodItem.getCount() + 1);
+					        			adapter.notifyDataSetChanged();
+					        		}
+					        		else
+					        		{
+					        			Message.message(getBaseContext(), "You already have the maximum count of this Item");
+					        		}
+				        			
+					        	}
+					        }
+					         
+					 }
+					
+					
 		            adapter.notifyDataSetChanged();
 		            
 //					switch (position) {
