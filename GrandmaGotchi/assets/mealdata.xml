@@ -5,54 +5,63 @@
         <meal>Yogurt</meal>
         <time>breakfast</time>
         <icon>ic_meal_joghurt</icon>
+        <count>0</count>
     </mealdata>
     <mealdata>
         <id>2</id>
         <meal>Flakes</meal>
         <time>breakfast</time>
         <icon>ic_meal_flakes</icon>
+        <count>0</count>
     </mealdata>
     <mealdata>
         <id>3</id>
         <meal>Eggs</meal>
         <time>breakfast</time>
         <icon>ic_meal_egg</icon>
+        <count>0</count>
     </mealdata>
     <mealdata>
         <id>4</id>
         <meal>Fish</meal>
         <time>lunch</time>
         <icon>ic_meal_fish</icon>
+        <count>0</count>
     </mealdata>
     <mealdata>
         <id>5</id>
         <meal>Pizza</meal>
         <time>lunch</time>
         <icon>ic_meal_pizza</icon>
+        <count>0</count>
     </mealdata>
     <mealdata>
         <id>6</id>
         <meal>Salat</meal>
         <time>lunch</time>
         <icon>ic_meal_salat</icon>
+        <count>0</count>
     </mealdata>
     <mealdata>
         <id>7</id>
         <meal>Pasta</meal>
         <time>dinner</time>
         <icon>ic_meal_pasta</icon>
+        <count>0</count>
     </mealdata>
     <mealdata>
         <id>8</id>
         <meal>Potatos</meal>
         <time>dinner</time>
         <icon>ic_meal_potatos</icon>
+        <count>0</count>
     </mealdata>
     <mealdata>
         <id>9</id>
         <meal>Sandwich</meal>
         <time>dinner</time>
         <icon>ic_meal_sandwich</icon>
+        <count>0</count>
     </mealdata>
     
     <shopdata>
