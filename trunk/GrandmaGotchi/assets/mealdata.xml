@@ -63,6 +63,13 @@
         <icon>ic_meal_sandwich</icon>
         <count>0</count>
     </mealdata>
+    <mealdata>
+        <id>10</id>
+        <meal>Water</meal>
+        <time>daily 3 times</time>
+        <icon>ic_water_bottle</icon>
+        <count>0</count>
+    </mealdata>
     
     <shopdata>
         <id>1</id>

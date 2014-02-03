@@ -562,9 +562,25 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	
 	public void btnOnClickDrink(View view)
 	{
-		Message.message(this,"Grandma is not thirsty anymore");
-        //every 8 hours
-        createTimer(5000, KITCHEN_POS, DrinkTimer.class);
+		for(FoodAttributes foodAttribute : Root.getFoodList())
+		{
+			if(foodAttribute.getName().equals("Water"))
+			{
+				if(foodAttribute.getCount() > 0)
+				{
+					foodAttribute.setCount(foodAttribute.getCount() - 1);
+					Message.message(this,"Grandma is not thirsty anymore");
+			        //every 8 hours
+			        createTimer(5000, KITCHEN_POS, DrinkTimer.class);
+				}
+				else
+				{
+					Message.message(this, "No Items, buy new Water");
+				}
+			}
+		}
+			
+		
 	}
 	
 	public void btnOnClickBedroomHelp(View view)

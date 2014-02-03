@@ -30,11 +30,12 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ShopActivity extends Activity{
 	
 	// XML node keys
-	static final String KEY_MEALDATA = "shopdata"; // parent node
+	static final String KEY_MEALDATA = "mealdata"; // parent node
 	static final String KEY_ID = "id";
 	public static final String KEY_MEAL = "meal";
 	public static final String KEY_TIME = "time";
 	public static final String KEY_ICON = "icon";
+	public static final String KEY_COUNT = "count";
 
 	ListView list;
 	MealAdapter adapter = null;
