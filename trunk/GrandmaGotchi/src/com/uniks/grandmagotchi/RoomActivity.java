@@ -6,6 +6,7 @@ import java.util.Calendar;
 import android.content.IntentFilter;
 import android.net.Uri;
 
+import com.uniks.grandmagotchi.data.FoodAttributes;
 import com.uniks.grandmagotchi.rooms.FragmentBedroom;
 import com.uniks.grandmagotchi.rooms.FragmentDressingRoom;
 import com.uniks.grandmagotchi.rooms.FragmentDrugstore;
@@ -69,6 +70,30 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	// the threshold for how hard you've to shake the device to react
 	private static final int SHAKE_THRESHOLD = 6;
 	
+	
+	// entries for the foodlist
+//	private static final String YOGURT   = "yogurt";
+//	private static final String FLAKES   = "flakes";
+//	private static final String EGGS     = "eggs";
+//	private static final String FISH     = "fish";
+//	private static final String PIZZA    = "pizza";
+//	private static final String SALAT    = "salat";
+//	private static final String PASTA    = "pasta";
+//	private static final String POTATOS  = "potatos";
+//	private static final String SANDWICH = "sandwich";
+//	private static final String WATER    = "water";
+	
+	private static FoodAttributes YOGURT = new FoodAttributes();
+	private static FoodAttributes FLAKES = new FoodAttributes();
+	private static FoodAttributes EGGS = new FoodAttributes();
+	private static FoodAttributes FISH = new FoodAttributes();
+	private static FoodAttributes PIZZA = new FoodAttributes();
+	private static FoodAttributes SALAT = new FoodAttributes();
+	private static FoodAttributes PASTA = new FoodAttributes();
+	private static FoodAttributes POTATOS = new FoodAttributes();
+	private static FoodAttributes SANDWICH = new FoodAttributes();
+	private static FoodAttributes WATER = new FoodAttributes();
+	
 	private Fragment livingRoomFragment;
 	private Fragment kitchenFragment;
 	private Fragment dressingRoomFragment;
@@ -107,6 +132,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		Root.getUniqueRootInstance();
 	
 		this.setTitle(Root.getAttributes().getName() + " - Difficulty: " + Root.getAttributes().getDifficultyLevel());
+		
+		init();
 		
 		Root.getAttributes().setCurrentFragmentPosition(LIVINGROOM_POS);
 		
@@ -246,6 +273,42 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
         mDrinkReceiver =  new DrinkReceiver();
         registerReceiver(mDrinkReceiver, mStatusIntentFilter);
 
+	}
+
+	private void init()
+	{		
+		YOGURT.setName("Yogurt");
+		YOGURT.setCount(3);
+		FLAKES.setName("Flakes");
+		FLAKES.setCount(1);
+		EGGS.setName("Eggs");
+		EGGS.setCount(1);
+		FISH.setName("Fish");
+		FISH.setCount(1);
+		PIZZA.setName("Pizza");
+		PIZZA.setCount(1);
+		SALAT.setName("Salat");
+		SALAT.setCount(1);
+		PASTA.setName("Pasta");
+		PASTA.setCount(1);
+		POTATOS.setName("Potatos");
+		POTATOS.setCount(1);
+		SANDWICH.setName("Sandwich");
+		SANDWICH.setCount(1);
+		WATER.setName("Water");
+		WATER.setCount(3);
+		
+		Root.getFoodList().add(YOGURT);
+		Root.getFoodList().add(FLAKES);
+		Root.getFoodList().add(EGGS);
+		Root.getFoodList().add(FISH);
+		Root.getFoodList().add(PIZZA);
+		Root.getFoodList().add(SALAT);
+		Root.getFoodList().add(PASTA);
+		Root.getFoodList().add(POTATOS);
+		Root.getFoodList().add(SANDWICH);
+		Root.getFoodList().add(WATER);
+		
 	}
 
 	@Override

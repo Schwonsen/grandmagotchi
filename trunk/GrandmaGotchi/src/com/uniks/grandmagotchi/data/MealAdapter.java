@@ -1,10 +1,14 @@
 package com.uniks.grandmagotchi.data;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.uniks.grandmagotchi.MealActivity;
 import com.uniks.grandmagotchi.R;
+import com.uniks.grandmagotchi.util.Root;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -53,6 +57,7 @@ public class MealAdapter extends BaseAdapter {
 		TextView meal;
 		TextView information;
 		ImageView ic_image;
+		TextView tvFoodCount;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -65,6 +70,7 @@ public class MealAdapter extends BaseAdapter {
 			holder.meal = (TextView) vi.findViewById(R.id.tvMeal); // meal name
 			holder.information = (TextView) vi.findViewById(R.id.tvInformation); // lunch time
 			holder.ic_image = (ImageView) vi.findViewById(R.id.list_image); // meal image
+			holder.tvFoodCount = (TextView) vi.findViewById(R.id.tvFoodCount);
 
 			vi.setTag(holder);
 
@@ -91,6 +97,21 @@ public class MealAdapter extends BaseAdapter {
 		Drawable image = vi.getContext().getResources()
 				.getDrawable(imageResource);
 		holder.ic_image.setImageDrawable(image);
+		
+		String counter = data.get(position).get(MealActivity.KEY_COUNT);
+		Iterator it = data.get(position).entrySet().iterator();
+		while (it.hasNext()) 
+		{
+		        Map.Entry pairs = (Map.Entry)it.next();
+//		        System.out.println(pairs.getKey() + " = " + pairs.getValue());
+		        for(FoodAttributes foodItem : Root.getFoodList())
+		        {
+		        	if(pairs.getValue().equals(foodItem.getName()))
+		        	{
+		        		holder.tvFoodCount.setText(String.valueOf(foodItem.getCount()));
+		        	}
+		        }
+		 }
 
 		return vi;
 
