@@ -187,7 +187,14 @@ public class MealActivity extends Activity {
 					        		}
 					        		else if(foodItem.getCount() > 0)
 					        		{
-					        			Message.message(getBaseContext(), "The granny is no longer hungry.");
+					        			if(!foodItem.getName().equals("Water"))
+					        			{
+					        				Message.message(getBaseContext(), "The granny is no longer hungry.");
+					        			}
+					        			else
+					        			{
+					        				Message.message(getBaseContext(), "The granny is no longer thirsty.");
+					        			}
 					        			foodItem.setCount(foodItem.getCount() - 1);
 					        			adapter.notifyDataSetChanged(); 
 					        			
