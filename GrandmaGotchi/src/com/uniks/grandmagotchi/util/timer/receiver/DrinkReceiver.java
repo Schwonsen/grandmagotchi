@@ -3,6 +3,7 @@ package com.uniks.grandmagotchi.util.timer.receiver;
 import android.app.Activity;
 import android.content.Intent;
 import com.uniks.grandmagotchi.R;
+import com.uniks.grandmagotchi.util.Needs;
 import com.uniks.grandmagotchi.util.Root;
 import com.uniks.grandmagotchi.util.timer.services.DrinkDeathTimer;
 
@@ -27,6 +28,8 @@ public class DrinkReceiver extends NotificationReceiver
     @Override
     protected void createNeed(){
         Root.getUniqueRootInstance().setThirsty(true);
+        Root.getUniqueRootInstance().addNeed(Needs.DRINK);
+
     }
     @Override
     protected void startTimer(){

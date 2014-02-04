@@ -25,7 +25,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/imageGrandma"
-            android:layout_alignParentTop="true" android:layout_alignParentRight="true">
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/needs_view">
     </LinearLayout>
 
 
@@ -64,7 +66,7 @@
                         android:layout_height="100dp"
                         android:id="@+id/drink_body" android:layout_alignParentStart="true" android:background="@drawable/timer_body"
                         android:layout_marginLeft="4dp" android:baselineAlignBottom="false" android:layout_marginTop="3dp"
-                        android:layout_below="@+id/textView3"/>
+                        android:layout_below="@+id/textView3" android:focusableInTouchMode="false"/>
 
 
             </RelativeLayout>

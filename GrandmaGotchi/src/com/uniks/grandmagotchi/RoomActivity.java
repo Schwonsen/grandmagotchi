@@ -377,22 +377,22 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			builder.setMessage("Are you sure you want to exit?")
 				   .setCancelable(false)
 				   .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-					   public void onClick(DialogInterface dialog, int id) {
-						   
-						   // gets the current time and date
-						   String date = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
-						   
-						   if(Root.DEBUG) Message.message(RoomActivity.this, date);
-						   
-						   RoomActivity.this.finish();
-						   
-					   }
-				   })
+                       public void onClick(DialogInterface dialog, int id) {
+
+                           // gets the current time and date
+                           String date = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
+
+                           if (Root.DEBUG) Message.message(RoomActivity.this, date);
+
+                           RoomActivity.this.finish();
+
+                       }
+                   })
 				   .setNegativeButton("No", new DialogInterface.OnClickListener() {
-					   public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-					   }
-				   });
+                       public void onClick(DialogInterface dialog, int id) {
+                           dialog.cancel();
+                       }
+                   });
 			AlertDialog alert = builder.create();
 			alert.show();
 	}
@@ -541,7 +541,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickTelevision(View view) 
 	{	
 		Message.message(this, "Now you are watching TV!");
-		createTimer(5000, FoodTimer.class);
+		//createTimer(5000, FoodTimer.class);
 
 	}
 	
@@ -561,7 +561,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickSoap(View view) 
 	{
 		Message.message(this, "The Grandma is clean again!");
-		createTimer(5000, FoodTimer.class);
+		//createTimer(5000, FoodTimer.class);
         Intent intentwash = new Intent(this, Wash.class);
 	    startActivity(intentwash);
 	}
@@ -569,7 +569,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickDrugs(View view)
 	{
 		Message.message(this, "Grandma is fit again!");
-		createTimer(5000, FoodTimer.class);
+		//createTimer(5000, FoodTimer.class);
 
 	}
 	
@@ -581,7 +581,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickBrush(View view)
 	{
 		Message.message(this,"The house is clean again");
-		createTimer(5000, FoodTimer.class);
+		//createTimer(5000, FoodTimer.class);
 
 	}
 	
@@ -590,6 +590,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		if(Root.getUniqueRootInstance().isHungry()){
 			startActivity(new Intent(RoomActivity.this, MealActivity.class));
 			createTimer(5000, FoodTimer.class);
+            //TODO: create Timer for dish washing
 		}
 		else
 			Message.message(this, "Grandma is not hungry at the moment.");
