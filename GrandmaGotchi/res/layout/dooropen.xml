@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#333" >
+
+    <WebView
+        android:id="@+id/webviewActionView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="none" >
+    </WebView>
+    
+            <TextView 
+        android:id="@+id/GesamtDistanzWert" 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0 Meter" 
+        android:textSize="18sp"
+        android:background="#99dddddd" />
+
+</RelativeLayout>
