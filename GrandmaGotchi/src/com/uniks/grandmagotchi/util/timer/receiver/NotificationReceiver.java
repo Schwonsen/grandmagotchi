@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.uniks.grandmagotchi.RoomActivity;
 import com.uniks.grandmagotchi.util.Message;
+import com.uniks.grandmagotchi.util.Root;
+import com.uniks.grandmagotchi.util.timer.services.DrinkTimer;
 
 /**
  * Created by Robin on 03.02.14.
@@ -37,14 +39,23 @@ public abstract class NotificationReceiver extends BroadcastReceiver {
             String title = "Grandma died";
             String text = "You shouldn't work in a retirement home ..";
             Message.message(context, title);
-            Message.notification(context, title, text, RoomActivity.class);
+            if(!Root.getUniqueRootInstance().isInForeground())
+                Message.notification(context, title, text, RoomActivity.class);
             //TODO: implement death
         }
         if(perc == 100){
+            if(restartTimer()){
+                Intent mServiceIntent = new Intent(act.getApplicationContext(), DrinkTimer.class);
+                mServiceIntent.putExtra("countdown", 14400000);
+                act.startService(mServiceIntent);
+            }
+            else{
             Message.message(context, title);
-            Message.notification(context, title, text, RoomActivity.class);
+            if(!Root.getUniqueRootInstance().isInForeground())
+                Message.notification(context, title, text, RoomActivity.class);
             createNeed();
             startTimer();
+            }
         }
         else{
 
@@ -53,12 +64,13 @@ public abstract class NotificationReceiver extends BroadcastReceiver {
                 @Override
                 public void run() {
                     ImageView testBody = (ImageView) act.findViewById(timerBodyID);
-                    ViewGroup.LayoutParams lp = testBody.getLayoutParams();
-                    final float scale = act.getResources().getDisplayMetrics().density;
-                    int pixels = (int) (perc * scale + 0.5f);
-                    lp.height = pixels;
-                    testBody.setLayoutParams(lp);
-
+                    if(testBody != null){
+                        ViewGroup.LayoutParams lp = testBody.getLayoutParams();
+                        final float scale = act.getResources().getDisplayMetrics().density;
+                        int pixels = (int) (perc * scale + 0.5f);
+                        lp.height = pixels;
+                        testBody.setLayoutParams(lp);
+                    }
                 }
             });
         }
@@ -67,6 +79,7 @@ public abstract class NotificationReceiver extends BroadcastReceiver {
     protected abstract boolean isStillInNeed();
     protected abstract void createNeed();
     protected abstract void startTimer();
+    protected abstract boolean restartTimer();
 
 
 }

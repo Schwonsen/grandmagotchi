@@ -3,7 +3,7 @@ package com.uniks.grandmagotchi.util.timer.receiver;
 import android.app.Activity;
 import android.content.Intent;
 import com.uniks.grandmagotchi.R;
-import com.uniks.grandmagotchi.data.RoomAttributes;
+import com.uniks.grandmagotchi.util.Root;
 import com.uniks.grandmagotchi.util.timer.services.FoodDeathTimer;
 
 /**
@@ -22,16 +22,20 @@ public class FoodReceiver extends NotificationReceiver
 
     @Override
     protected boolean isStillInNeed() {
-        return RoomAttributes.getInstance().isHungry();
+        return Root.getUniqueRootInstance().isHungry();
     }
     @Override
     protected void createNeed(){
-        RoomAttributes.getInstance().setHungry(true);
+        Root.getUniqueRootInstance().setHungry(true);
     }
     @Override
     protected void startTimer(){
         Intent mServiceIntent = new Intent(act.getApplicationContext(), FoodDeathTimer.class);
         act.startService(mServiceIntent);
+    }
+    @Override
+    protected boolean restartTimer(){
+        return false;
     }
 
        /* switch (type){
