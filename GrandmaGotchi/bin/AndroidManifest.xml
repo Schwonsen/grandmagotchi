@@ -50,6 +50,9 @@
         <service
                 android:name=".util.timer.services.DrinkDeathTimer"
                 android:exported="false" />
+        <service
+                android:name=".util.timer.services.MedDeathTimer"
+                android:exported="false" />
         <activity
             android:name="com.uniks.grandmagotchi.TicTacToeGameActivity"
             android:label="@string/title_activity_tic_tac_toe_game" 
@@ -71,12 +74,16 @@
             android:name="com.uniks.grandmagotchi.grandmawalk"            
             android:screenOrientation="portrait">
         </activity>
+        <activity 
+            android:name="com.uniks.grandmagotchi.Wash"            
+            android:screenOrientation="portrait">
+        </activity>
         <meta-data
 android:name="com.google.android.maps.v2.API_KEY"
 android:value="AIzaSyCmqTIr2_d4Iko_bQ5FAr1MFtIgEqMjKbk" />
         <meta-data
 android:name="com.google.android.gms.version"
-android:value="@integer/google_play_services_version" />
+android:value="43500" />
     </application>
 
 </manifest>
