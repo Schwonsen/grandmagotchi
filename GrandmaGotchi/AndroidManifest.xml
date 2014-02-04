@@ -40,7 +40,9 @@
         <service
                 android:name=".util.timer.services.DrinkTimer"
                 android:exported="false" />
-
+        <service
+                android:name=".util.timer.services.DrinkDeathTimer"
+                android:exported="false" />
         <activity
             android:name="com.uniks.grandmagotchi.TicTacToeGameActivity"
             android:label="@string/title_activity_tic_tac_toe_game" 
