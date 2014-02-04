@@ -1,5 +1,7 @@
 package com.uniks.grandmagotchi.data;
 
+import java.util.LinkedList;
+
 import com.uniks.grandmagotchi.util.Message;
 import com.uniks.grandmagotchi.util.Root;
 
@@ -9,6 +11,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseAdapter
 {
@@ -30,6 +33,68 @@ public class DatabaseAdapter
 		contentValues.put(DatabaseHandler.DIFFICULTY_LEVEL, difficultyLevel);
 		long id = db.insert(DatabaseHandler.SAVEGAME_TABLE, null, contentValues);
 		return id;
+	}
+	
+	public long insertFoodData(String id, String foodName, String foodCount)
+	{
+		SQLiteDatabase db = databaseHandler.getWritableDatabase();
+		ContentValues contentValues = new ContentValues();
+		
+		contentValues.put(DatabaseHandler.FOOD_ID, id);
+		contentValues.put(DatabaseHandler.FOOD_NAME, foodName);
+		contentValues.put(DatabaseHandler.FOOD_COUNT, foodCount);
+		
+		long status = db.insert(DatabaseHandler.FOOD_TABLE, null, contentValues);
+		return status;
+	}
+	
+	public LinkedList<FoodAttributes> getFoodDataById(String id)
+	{
+
+			SQLiteDatabase db = databaseHandler.getWritableDatabase();
+			String[] columns = {DatabaseHandler.FOOD_ID, DatabaseHandler.FOOD_NAME, DatabaseHandler.FOOD_COUNT};
+			Cursor cursor = db.query(DatabaseHandler.FOOD_TABLE, columns, null, null, null, null, null);
+			LinkedList<FoodAttributes> foodAttributes = new LinkedList<FoodAttributes>();
+			while(cursor.moveToNext())
+			{
+				int index1 = cursor.getColumnIndex(DatabaseHandler.FOOD_ID);
+				int cid = cursor.getInt(index1);
+				int index2 = cursor.getColumnIndex(DatabaseHandler.FOOD_NAME);
+				String foodName = cursor.getString(index2);
+				int index3 = cursor.getColumnIndex(DatabaseHandler.FOOD_COUNT);
+				String foodCount = cursor.getString(index3);
+				if(cid == Integer.parseInt(id))
+				{
+					FoodAttributes fA = new FoodAttributes();
+					Log.e("Get From DB", id);
+					fA.setName(foodName);
+					Log.e("Get From DB", foodName);
+					fA.setCount(Integer.valueOf(foodCount));
+					Log.e("Get From DB", foodCount);
+					foodAttributes.add(fA);
+				}
+			}
+			return foodAttributes;
+	}
+	
+	
+	public String getAllFoodData()
+	{
+		SQLiteDatabase db = databaseHandler.getWritableDatabase();
+		String[] columns = {DatabaseHandler.FOOD_ID, DatabaseHandler.FOOD_NAME, DatabaseHandler.FOOD_COUNT};
+		Cursor cursor = db.query(DatabaseHandler.FOOD_TABLE, columns, null, null, null, null, null);
+		StringBuffer buffer = new StringBuffer();
+		while(cursor.moveToNext())
+		{
+			int index1 = cursor.getColumnIndex(DatabaseHandler.FOOD_ID);
+			int cid = cursor.getInt(index1);
+			int index2 = cursor.getColumnIndex(DatabaseHandler.FOOD_NAME);
+			String name = cursor.getString(index2);
+			int index3 = cursor.getColumnIndex(DatabaseHandler.FOOD_COUNT);
+			String count = cursor.getString(index3);
+			buffer.append(cid+" "+name+" "+count+"\n");
+		}
+		return buffer.toString();
 	}
 	
 	public String getAllData()
@@ -141,7 +206,7 @@ public class DatabaseAdapter
 	static class DatabaseHandler extends SQLiteOpenHelper
 	{
 		private static final String DATABASE_NAME = "savegame.db";
-		private static final int DATABASE_VERSION = 5;
+		private static final int DATABASE_VERSION = 9;
 		
 		private static final String SAVEGAME_TABLE = "savegame";
 		
@@ -153,6 +218,20 @@ public class DatabaseAdapter
 				SAVEGAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME + " VARCHAR(255), " +
 				PASSWORD + " VARCHAR(255), " + DIFFICULTY_LEVEL + " VARCHAR(255));";
 		private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + SAVEGAME_TABLE;
+		
+		
+		private static final String FOOD_TABLE = "savefood";
+		
+		private static final String FOOD_ID = "_id";
+		private static final String FOOD_NAME = "foodName";
+		private static final String FOOD_COUNT = "foodCount";
+		private static final String QUERY_FOOD = "CREATE TABLE " + FOOD_TABLE + " (" +
+				FOOD_ID + " VARCHAR(255), " + FOOD_NAME + " VARCHAR(255), " + 
+				FOOD_COUNT + " VARCHAR(255));";
+		private static final String DROP_TABLE_FOOD = "DROP TABLE IF EXISTS " + FOOD_TABLE;
+		
+		
+		
 		
 		private Context context;
 
@@ -169,6 +248,7 @@ public class DatabaseAdapter
 			try
 			{
 				db.execSQL(QUERY);
+				db.execSQL(QUERY_FOOD);
 				if(Root.DEBUG) Message.message(context, "onCreate called");
 			}
 			catch(SQLException e)
@@ -185,6 +265,7 @@ public class DatabaseAdapter
 			{
 				if(Root.DEBUG) Message.message(context, "onUpgrade called");
 				db.execSQL(DROP_TABLE);
+				db.execSQL(DROP_TABLE_FOOD);
 				onCreate(db);
 			}
 			catch (SQLException e)

@@ -52,7 +52,7 @@ public class CreateNewGameActivity extends Activity
 			
 		});
 		
-		databaseHandler = new DatabaseAdapter(this);;
+		databaseHandler = new DatabaseAdapter(this);
 		
 		userName = (EditText) findViewById(R.id.createNewGameUserName);
 		userPassword = (EditText) findViewById(R.id.createNewGamePassword);
@@ -86,6 +86,9 @@ public class CreateNewGameActivity extends Activity
 					Root.getAttributes().setId(databaseId);
 					if(Root.DEBUG) Message.message(CreateNewGameActivity.this, "Successfully written in Database");
 				}
+				
+				Root.setCalledFromExistingAccount(false);
+				
 				startActivity(new Intent(CreateNewGameActivity.this, RoomActivity.class));
 				setstartsetup();
 				CreateNewGameActivity.this.finish();

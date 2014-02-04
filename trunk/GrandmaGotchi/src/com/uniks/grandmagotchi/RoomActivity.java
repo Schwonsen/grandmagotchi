@@ -4,11 +4,18 @@ package com.uniks.grandmagotchi;
 import java.util.Calendar;
 
 import android.app.NotificationManager;
+
+
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.view.*;
+
+
+import com.uniks.grandmagotchi.data.DatabaseAdapter;
 
 import android.os.AsyncTask;
 import android.view.*;
+
 
 import com.uniks.grandmagotchi.data.ClotheAttributes;
 import com.uniks.grandmagotchi.data.FoodAttributes;
@@ -46,12 +53,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.ImageButton;
+
 import com.uniks.grandmagotchi.util.timer.OverallTimings;
+
 import com.uniks.grandmagotchi.util.timer.receiver.DrinkReceiver;
 import com.uniks.grandmagotchi.util.timer.receiver.FoodReceiver;
 import com.uniks.grandmagotchi.util.timer.receiver.MedReceiver;
 import com.uniks.grandmagotchi.util.timer.services.DrinkTimer;
 import com.uniks.grandmagotchi.util.timer.services.FoodTimer;
+
 import android.widget.ImageView;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -75,18 +85,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	// the threshold for how hard you've to shake the device to react
 	private static final int SHAKE_THRESHOLD = 6;
 	
-	
-	// entries for the foodlist
-//	private static final String YOGURT   = "yogurt";
-//	private static final String FLAKES   = "flakes";
-//	private static final String EGGS     = "eggs";
-//	private static final String FISH     = "fish";
-//	private static final String PIZZA    = "pizza";
-//	private static final String SALAT    = "salat";
-//	private static final String PASTA    = "pasta";
-//	private static final String POTATOS  = "potatos";
-//	private static final String SANDWICH = "sandwich";
-//	private static final String WATER    = "water";
+	private DatabaseAdapter databaseHandler;
 	
 	private static FoodAttributes YOGURT = new FoodAttributes();
 	private static FoodAttributes FLAKES = new FoodAttributes();
@@ -302,6 +301,49 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 
 	private void init()
 	{		
+
+		databaseHandler = new DatabaseAdapter(this);
+
+		if(Root.isCalledFromExistingAccount())
+		{
+			Root.setFoodList(databaseHandler.getFoodDataById(Root.getId()));
+		}
+		else if(!Root.isCalledFromExistingAccount())
+		{
+
+			YOGURT.setName("Yogurt");
+			YOGURT.setCount(3);
+			FLAKES.setName("Flakes");
+			FLAKES.setCount(1);
+			EGGS.setName("Eggs");
+			EGGS.setCount(1);
+			FISH.setName("Fish");
+			FISH.setCount(1);
+			PIZZA.setName("Pizza");
+			PIZZA.setCount(1);
+			SALAT.setName("Salat");
+			SALAT.setCount(1);
+			PASTA.setName("Pasta");
+			PASTA.setCount(1);
+			POTATOS.setName("Potatos");
+			POTATOS.setCount(1);
+			SANDWICH.setName("Sandwich");
+			SANDWICH.setCount(1);
+			WATER.setName("Water");
+			WATER.setCount(3);
+			
+			Root.getFoodList().add(YOGURT);
+			Root.getFoodList().add(FLAKES);
+			Root.getFoodList().add(EGGS);
+			Root.getFoodList().add(FISH);
+			Root.getFoodList().add(PIZZA);
+			Root.getFoodList().add(SALAT);
+			Root.getFoodList().add(PASTA);
+			Root.getFoodList().add(POTATOS);
+			Root.getFoodList().add(SANDWICH);
+			Root.getFoodList().add(WATER);
+		}
+
 		//Food
 		YOGURT.setName("Yogurt");
 		YOGURT.setCount(3);
@@ -323,17 +365,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		SANDWICH.setCount(1);
 		WATER.setName("Water");
 		WATER.setCount(3);
-		
-		Root.getFoodList().add(YOGURT);
-		Root.getFoodList().add(FLAKES);
-		Root.getFoodList().add(EGGS);
-		Root.getFoodList().add(FISH);
-		Root.getFoodList().add(PIZZA);
-		Root.getFoodList().add(SALAT);
-		Root.getFoodList().add(PASTA);
-		Root.getFoodList().add(POTATOS);
-		Root.getFoodList().add(SANDWICH);
-		Root.getFoodList().add(WATER);
+
 		
 		//Clothes
 		PINK.setName("Pinky");
@@ -417,6 +449,64 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	{
 		
 		   AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		    builder.setMessage("Are you sure you want to exit?")
+		           .setCancelable(false)
+		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		               public void onClick(DialogInterface dialog, int id) {
+		            	   
+		            	   // gets the current time and date
+		            	   String date = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
+		            	   
+		            	   if(Root.DEBUG) Message.message(RoomActivity.this, date);
+		            	   
+		       
+		            	   long status = -1;
+		            	   if(Root.isCalledFromExistingAccount())
+		            	   {
+		            		   for(FoodAttributes fA : Root.getFoodList())
+		            		   {
+		            			   String foodName = fA.getName();
+		            			   String foodCount = String.valueOf(fA.getCount());
+		            			   status = databaseHandler.insertFoodData(Root.getId(), foodName, foodCount);
+		            		   }
+		            		   
+		            	   }
+		            	   else
+		            	   {
+		            		   String[] countNames = databaseHandler.getNamesArray();
+		            		   String idCode = String.valueOf(countNames.length);
+		            		   for(FoodAttributes fA : Root.getFoodList())
+		            		   {
+		            			   String foodName = fA.getName();
+		            			   String foodCount = String.valueOf(fA.getCount());
+		            			   status = databaseHandler.insertFoodData(idCode, foodName, foodCount);
+		            		   }
+		            		   
+		            	   }
+		            	   
+		            	   	if(status < 0)
+		            	   	{
+		   						if(Root.DEBUG) Message.message(RoomActivity.this, "Unsuccessful written in Database");
+		            	   	}
+			   				else
+			   				{
+			   					
+			   					if(Root.DEBUG) Message.message(RoomActivity.this, "Successfully written in Database");
+			   				}
+		   				
+		            	   
+		                   RoomActivity.this.finish();
+		                   
+		               }
+		           })
+		           .setNegativeButton("No", new DialogInterface.OnClickListener() {
+		               public void onClick(DialogInterface dialog, int id) {
+		                    dialog.cancel();
+		               }
+		           });
+		    AlertDialog alert = builder.create();
+		    alert.show();
+
 			builder.setMessage("Are you sure you want to exit?")
 				   .setCancelable(false)
 				   .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -436,8 +526,9 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
                            dialog.cancel();
                        }
                    });
-			AlertDialog alert = builder.create();
-			alert.show();
+			AlertDialog alert1 = builder.create();
+			alert1.show();
+
 	}
 	
 	class FragAdapter extends FragmentPagerAdapter
@@ -632,6 +723,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	
 	public void btnOnClickEat(View view)
 	{
+
 		if(Root.getUniqueRootInstance().isHungry()){
 			startActivity(new Intent(RoomActivity.this, MealActivity.class));
 			createTimer(5000, FoodTimer.class);
@@ -639,6 +731,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		}
 		else
 			Message.message(this, "Grandma is not hungry at the moment.");
+
 	}
 	
 	public void btnOnClickChangeClothes(View view)
