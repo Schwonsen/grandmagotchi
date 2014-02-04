@@ -31,6 +31,7 @@
     <string name="btn_description_help_bedroom">Help</string>
     <string name="btn_description_wake_up">Wake Up</string>
     <string name="btn_description_shopcart">Shop</string>
+    <string name="btn_description_warderobe">Warderobe</string>
     <string name="settings_roomactivity_change_account">Change Account</string>
     <string name="difficulty_levels">Difficulty Levels</string>
 
