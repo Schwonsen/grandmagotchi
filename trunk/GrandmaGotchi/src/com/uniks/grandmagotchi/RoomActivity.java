@@ -6,7 +6,9 @@ import java.util.Calendar;
 import android.content.IntentFilter;
 import android.net.Uri;
 
+import android.view.*;
 import com.uniks.grandmagotchi.data.FoodAttributes;
+import com.uniks.grandmagotchi.data.RoomAttributes;
 import com.uniks.grandmagotchi.rooms.FragmentBedroom;
 import com.uniks.grandmagotchi.rooms.FragmentDressingRoom;
 import com.uniks.grandmagotchi.rooms.FragmentDrugstore;
@@ -38,10 +40,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 import com.uniks.grandmagotchi.util.timer.receiver.DrinkReceiver;
 import com.uniks.grandmagotchi.util.timer.receiver.FoodReceiver;
@@ -267,11 +265,11 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 
         //Timer Listener
         IntentFilter mStatusIntentFilter = new IntentFilter(FoodReceiver.BROADCAST_ACTION);
-        mFoodReceiver =  new FoodReceiver();
+        mFoodReceiver =  new FoodReceiver(this);
         registerReceiver(mFoodReceiver, mStatusIntentFilter);
         IntentFilter drinkStatusIntentFilter = new IntentFilter(DrinkReceiver.BROADCAST_ACTION);
-        mDrinkReceiver =  new DrinkReceiver();
-        registerReceiver(mDrinkReceiver, mStatusIntentFilter);
+        mDrinkReceiver =  new DrinkReceiver(this);
+        registerReceiver(mDrinkReceiver, drinkStatusIntentFilter);
 
 	}
 
@@ -310,6 +308,22 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		Root.getFoodList().add(WATER);
 		
 	}
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        unregisterReceiver(mDrinkReceiver);
+        unregisterReceiver(mFoodReceiver);
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        IntentFilter mStatusIntentFilter = new IntentFilter(FoodReceiver.BROADCAST_ACTION);
+        registerReceiver(mFoodReceiver, mStatusIntentFilter);
+        IntentFilter drinkStatusIntentFilter = new IntentFilter(DrinkReceiver.BROADCAST_ACTION);
+        registerReceiver(mDrinkReceiver, drinkStatusIntentFilter);
+    }
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -504,7 +518,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickTelevision(View view) 
 	{	
 		Message.message(this, "Now you are watching TV!");
-        createTimer(5000, LIVINGROOM_POS, FoodTimer.class);
+        createTimer(5000, FoodTimer.class);
 
     }
 	
@@ -524,15 +538,15 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	
 	public void btnOnClickSoap(View view) 
 	{
-		 Message.message(this, "The Grandma is clean again!");
-        createTimer(5000, WASHINGROOM_POS, FoodTimer.class);
+		Message.message(this, "The Grandma is clean again!");
+        createTimer(5000, FoodTimer.class);
 
     }
 	
 	public void btnOnClickDrugs(View view)
 	{
 		Message.message(this, "Grandma is fit again!");
-        createTimer(5000, DRUGSTORE_POS, FoodTimer.class);
+        createTimer(5000, FoodTimer.class);
 
     }
 	
@@ -544,15 +558,18 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickBrush(View view)
 	{
 		Message.message(this,"The house is clean again");
-        createTimer(5000, WASHINGROOM_POS, FoodTimer.class);
+        createTimer(5000, FoodTimer.class);
 
     }
 	
 	public void btnOnClickEat(View view)
 	{
-		startActivity(new Intent(RoomActivity.this, MealActivity.class));
-//		Message.message(this, "Grandma is not hungry anymore");
-        createTimer(5000, KITCHEN_POS, FoodTimer.class);
+        if(RoomAttributes.getInstance().isHungry()){
+		    startActivity(new Intent(RoomActivity.this, MealActivity.class));
+            createTimer(5000, FoodTimer.class);
+        }
+        else
+            Message.message(this, "Grandma is not hungry at the moment.");
 	}
 	
 	public void btnOnClickShopcart(View view)
@@ -571,7 +588,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 					foodAttribute.setCount(foodAttribute.getCount() - 1);
 					Message.message(this,"Grandma is not thirsty anymore");
 			        //every 8 hours
-			        createTimer(5000, KITCHEN_POS, DrinkTimer.class);
+			        createTimer(10000, DrinkTimer.class);
+                    RoomAttributes.getInstance().setThirsty(false);
 				}
 				else
 				{
@@ -579,8 +597,6 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 				}
 			}
 		}
-			
-		
 	}
 	
 	public void btnOnClickBedroomHelp(View view)
@@ -604,7 +620,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
 		btnWakeUp.setVisibility(View.INVISIBLE);
 	} 
-    private void createTimer(int countdown, int type, Class target){
+    private void createTimer(int countdown, Class target){
         Intent mServiceIntent = new Intent(getApplicationContext(), target);
         mServiceIntent.putExtra("countdown", countdown);
         startService(mServiceIntent);

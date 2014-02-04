@@ -1,42 +1,40 @@
 package com.uniks.grandmagotchi.util.timer.receiver;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
-import com.uniks.grandmagotchi.MainActivity;
 import com.uniks.grandmagotchi.R;
-import com.uniks.grandmagotchi.RoomActivity;
-import com.uniks.grandmagotchi.util.Message;
+import com.uniks.grandmagotchi.data.RoomAttributes;
+import com.uniks.grandmagotchi.util.timer.services.FoodDeathTimer;
 
 /**
  * Created by Robin on 09.01.14.
  */
-public class FoodReceiver extends BroadcastReceiver
+public class FoodReceiver extends NotificationReceiver
 {
-    public static final String BROADCAST_ACTION = "com.uniks.grandmagotchi.intent.broadcast.food";
-    // Prevents instantiation
-    public FoodReceiver() {
+    public static String BROADCAST_ACTION = "com.uniks.grandmagotchi.intent.broadcast.food";
+
+    public FoodReceiver(Activity act) {
+        super(act);
+        title = "Grandma is hungry";
+        text = "Give her something to eat.";
+        timerBodyID = R.id.food_body;
     }
-    // Called when the BroadcastReceiver gets an Intent it's registered to receive
 
-    public void onReceive(Context context, Intent intent) {
-        int type = intent.getIntExtra("type", 0);
-        int add = intent.getIntExtra("add", -1);
-        Log.d("grandmaService", "response reveived:" + type);
-
-
-        createNotification(context, type, add);
+    @Override
+    protected boolean isStillInNeed() {
+        return RoomAttributes.getInstance().isHungry();
     }
-    private void createNotification(Context context, int type, int add){
-        String title = "";
-        String text = "";
-        String currentRoom = "";
-        switch (type){
+    @Override
+    protected void createNeed(){
+        RoomAttributes.getInstance().setHungry(true);
+    }
+    @Override
+    protected void startTimer(){
+        Intent mServiceIntent = new Intent(act.getApplicationContext(), FoodDeathTimer.class);
+        act.startService(mServiceIntent);
+    }
+
+       /* switch (type){
             case RoomActivity.LIVINGROOM_POS : title = "Grandma is boring"; currentRoom = "LR"; text = "Let her watch T.V.!"; break;
             case RoomActivity.KITCHEN_POS :
                 if(add < 4){
@@ -51,10 +49,8 @@ public class FoodReceiver extends BroadcastReceiver
             case RoomActivity.BEDROOM_POS : title = "Grandma is tired"; currentRoom = "BR"; text = "Put her to sleep."; break;
             case RoomActivity.DRUGSTORE_POS : title = "Grandma is ill"; currentRoom = "DS"; text = "Give her medicine (or someting else wooohoo!)."; break;
             default: title = "Grandma wants something"; text = "Give her a look!"; break;
-        }
-        //TODO: Change class depending on case
-        Message.message(context, title);
-        Message.notification(context, title, text, RoomActivity.class);
-    }
+
+        }     */
+
 
 }
