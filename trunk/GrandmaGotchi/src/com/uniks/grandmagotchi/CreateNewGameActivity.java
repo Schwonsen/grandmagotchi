@@ -1,8 +1,15 @@
 package com.uniks.grandmagotchi;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import com.uniks.grandmagotchi.data.DatabaseAdapter;
 import com.uniks.grandmagotchi.util.Message;
 import com.uniks.grandmagotchi.util.Root;
+import com.uniks.grandmagotchi.util.timer.services.FoodTimer;
+import com.uniks.grandmagotchi.util.timer.receiver.DrinkReceiver;
+import com.uniks.grandmagotchi.util.timer.receiver.FoodReceiver;
+import com.uniks.grandmagotchi.util.timer.services.DrinkTimer;
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.app.Activity;
 import android.content.Intent;
+
 
 public class CreateNewGameActivity extends Activity
 {
@@ -79,6 +87,7 @@ public class CreateNewGameActivity extends Activity
 					if(Root.DEBUG) Message.message(CreateNewGameActivity.this, "Successfully written in Database");
 				}
 				startActivity(new Intent(CreateNewGameActivity.this, RoomActivity.class));
+				setstartsetup();
 				CreateNewGameActivity.this.finish();
 			}
 			else
@@ -91,9 +100,17 @@ public class CreateNewGameActivity extends Activity
 			Message.message(this, "User " + name + " already exists, choose another name");
 		}
 		
-		
+
 		
 	}
-	
+    void createTimer(int countdown, Class target){
+        Intent mServiceIntent = new Intent(getApplicationContext(), target);
+        mServiceIntent.putExtra("countdown", countdown);
+        startService(mServiceIntent);
+    }
+	public void setstartsetup(){	
+        createTimer(5000, FoodTimer.class);
+        createTimer(5000, DrinkTimer.class);
+	}
 
 }

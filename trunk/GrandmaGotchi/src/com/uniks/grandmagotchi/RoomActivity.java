@@ -562,7 +562,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	{
 		Message.message(this, "The Grandma is clean again!");
 		createTimer(5000, FoodTimer.class);
-
+        Intent intentwash = new Intent(this, Wash.class);
+	    startActivity(intentwash);
 	}
 	
 	public void btnOnClickDrugs(View view)
@@ -641,11 +642,14 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
 		btnWakeUp.setVisibility(View.INVISIBLE);
 	} 
+
+
 	private void createTimer(int countdown, Class target){
 		Intent mServiceIntent = new Intent(getApplicationContext(), target);
 		mServiceIntent.putExtra("countdown", countdown);
 		startService(mServiceIntent);
 	}
+
 	public void opendoorfunction(View view)
 	{
 		Intent intent = new Intent(this, opendoor.class);
