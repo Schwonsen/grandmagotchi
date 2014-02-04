@@ -18,7 +18,75 @@ public class Root
 	private static LinkedList<Fragment> roomList = new LinkedList<Fragment>();
 	private static LinkedList<FoodAttributes> foodList = new LinkedList<FoodAttributes>();
 
-	public static Attributes getAttributes()
+    private int foodTime = 0;
+
+
+    private boolean isThirsty = false;
+    private boolean isHungry = true;
+    private boolean inForeground = true;
+    private boolean isSleeping = false;
+    private boolean isDressed = false;
+    private boolean med = false;
+    private boolean unhealthyFood = false;
+
+    public boolean isUnhealthyFood() {
+        return unhealthyFood;
+    }
+
+    public void setUnhealthyFood(boolean unhealthyFood) {
+        this.unhealthyFood = unhealthyFood;
+    }
+
+    public boolean isDressed() {
+        return isDressed;
+    }
+
+    public void setDressed(boolean isDressed) {
+        this.isDressed = isDressed;
+    }
+
+    public boolean isMed() {
+        return med;
+    }
+
+    public void setMed(boolean morningMed) {
+        this.med = morningMed;
+    }
+
+    public boolean isSleeping() {
+        return isSleeping;
+    }
+
+    public void setSleeping(boolean isSleeping) {
+        this.isSleeping = isSleeping;
+    }
+
+    public boolean isInForeground() {
+        return inForeground;
+    }
+
+    public void setInForeground(boolean inForeground) {
+        this.inForeground = inForeground;
+    }
+    public boolean isThirsty() {
+        return isThirsty;
+    }
+
+    public void setThirsty(boolean isThirsty) {
+        this.isThirsty = isThirsty;
+    }
+
+    public boolean isHungry() {
+        return isHungry;
+    }
+
+    public void setHungry(boolean isHungry) {
+        this.isHungry = isHungry;
+    }
+
+
+
+    public static Attributes getAttributes()
 	{
 		return attributes;
 	}

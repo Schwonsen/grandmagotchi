@@ -3,13 +3,13 @@ package com.uniks.grandmagotchi;
 
 import java.util.Calendar;
 
-
+import android.app.NotificationManager;
 import android.content.IntentFilter;
 import android.net.Uri;
 
+import android.os.AsyncTask;
 import android.view.*;
 import com.uniks.grandmagotchi.data.FoodAttributes;
-import com.uniks.grandmagotchi.data.RoomAttributes;
 import com.uniks.grandmagotchi.rooms.FragmentBedroom;
 import com.uniks.grandmagotchi.rooms.FragmentDressingRoom;
 import com.uniks.grandmagotchi.rooms.FragmentDrugstore;
@@ -42,8 +42,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.ImageButton;
+import com.uniks.grandmagotchi.util.timer.OverallTimings;
 import com.uniks.grandmagotchi.util.timer.receiver.DrinkReceiver;
 import com.uniks.grandmagotchi.util.timer.receiver.FoodReceiver;
+import com.uniks.grandmagotchi.util.timer.receiver.MedReceiver;
 import com.uniks.grandmagotchi.util.timer.services.DrinkTimer;
 import com.uniks.grandmagotchi.util.timer.services.FoodTimer;
 import android.widget.ImageView;
@@ -55,13 +57,13 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	// positions for different Rooms 
 	// (always write a constant for a new Room for better legibility of code)
 	public static final int LIVINGROOM_POS = 0;
-    public static final int KITCHEN_POS = 1;
-    public static final int DRESSINGROOM_POS = 2;
-    public static final int WASHINGROOM_POS = 3;
-    public static final int BEDROOM_POS = 4;
-    public static final int DRUGSTORE_POS = 5;
-    public static final int SUPERMARKET_POS = 6;
-    public static final int OUTSIDE_POS = 7;
+	public static final int KITCHEN_POS = 1;
+	public static final int DRESSINGROOM_POS = 2;
+	public static final int WASHINGROOM_POS = 3;
+	public static final int BEDROOM_POS = 4;
+	public static final int DRUGSTORE_POS = 5;
+	public static final int SUPERMARKET_POS = 6;
+	public static final int OUTSIDE_POS = 7;
 	
 	// by adding or removing a room update the new number of rooms
 	private static final int NUMBER_OF_ROOMS = 8;
@@ -118,8 +120,10 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	private SensorManager sensorManager;
 	private Sensor proxSensor;
 	private Sensor accelSensor;
-    private FoodReceiver mFoodReceiver;
-    private DrinkReceiver mDrinkReceiver;
+	private FoodReceiver mFoodReceiver;
+	private DrinkReceiver mDrinkReceiver;
+	private MedReceiver mMedReceiver;
+	private AsyncTask aTask;
 
 	
 	@Override
@@ -146,8 +150,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		sensorManager.registerListener(this, accelSensor, SensorManager.SENSOR_DELAY_NORMAL);
 		
 		mAccel = 0.00f;
-	    mAccelCurrent = SensorManager.GRAVITY_EARTH;
-	    mAccelLast = SensorManager.GRAVITY_EARTH;
+		mAccelCurrent = SensorManager.GRAVITY_EARTH;
+		mAccelLast = SensorManager.GRAVITY_EARTH;
 		
 		// adding rooms to a static list to reuse them
 		livingRoomFragment = new FragmentLivingRoom();
@@ -264,14 +268,24 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		actionBar.addTab(tabSupermarket);
 		actionBar.addTab(tabOutside);
 
-        //Timer Listener
-        IntentFilter mStatusIntentFilter = new IntentFilter(FoodReceiver.BROADCAST_ACTION);
-        mFoodReceiver =  new FoodReceiver(this);
-        registerReceiver(mFoodReceiver, mStatusIntentFilter);
-        IntentFilter drinkStatusIntentFilter = new IntentFilter(DrinkReceiver.BROADCAST_ACTION);
-        mDrinkReceiver =  new DrinkReceiver(this);
-        registerReceiver(mDrinkReceiver, drinkStatusIntentFilter);
-
+		//Timer Listener
+		try{
+			IntentFilter mStatusIntentFilter = new IntentFilter(FoodReceiver.BROADCAST_ACTION);
+			mFoodReceiver =  new FoodReceiver(this);
+			registerReceiver(mFoodReceiver, mStatusIntentFilter);
+			IntentFilter drinkStatusIntentFilter = new IntentFilter(DrinkReceiver.BROADCAST_ACTION);
+			mDrinkReceiver =  new DrinkReceiver(this);
+			registerReceiver(mDrinkReceiver, drinkStatusIntentFilter);
+			IntentFilter medStatusIntentFilter = new IntentFilter(MedReceiver.BROADCAST_ACTION);
+			mMedReceiver = new MedReceiver(this);
+			registerReceiver(mMedReceiver, medStatusIntentFilter);
+		}catch(Exception e){
+			Log.d("grandmaReceiver", "double creation");
+		}
+		if(aTask == null){
+			aTask = new OverallTimings(this);
+			aTask.execute();
+		}
 	}
 
 	private void init()
@@ -310,69 +324,77 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		
 	}
 
-    @Override
-    public void onPause(){
-        super.onPause();
-        unregisterReceiver(mDrinkReceiver);
-        unregisterReceiver(mFoodReceiver);
-    }
-    @Override
-    public void onResume(){
-        super.onResume();
-        IntentFilter mStatusIntentFilter = new IntentFilter(FoodReceiver.BROADCAST_ACTION);
-        registerReceiver(mFoodReceiver, mStatusIntentFilter);
-        IntentFilter drinkStatusIntentFilter = new IntentFilter(DrinkReceiver.BROADCAST_ACTION);
-        registerReceiver(mDrinkReceiver, drinkStatusIntentFilter);
-    }
+	@Override
+	public void onPause(){
+		super.onPause();
+		Root.getUniqueRootInstance().setInForeground(false);
+	  //  unregisterReceiver(mDrinkReceiver);
+	  //  unregisterReceiver(mFoodReceiver);
+	}
+	@Override
+	public void onResume(){
+		super.onResume();
+		Root.getUniqueRootInstance().setInForeground(true);
+		String ns = Context.NOTIFICATION_SERVICE;
+		NotificationManager nMgr = (NotificationManager) getApplicationContext().getSystemService(ns);
+		nMgr.cancel(123456789);
+	}
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		unregisterReceiver(mMedReceiver);
+		unregisterReceiver(mDrinkReceiver);
+		unregisterReceiver(mFoodReceiver);
+	}
 
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.living_room, menu);
-        return true;
+		inflater.inflate(R.menu.living_room, menu);
+		return true;
 	}
 	
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.settings_roomactivity_change_account:
-            	startActivity(new Intent(RoomActivity.this, MainActivity.class));
-    			RoomActivity.this.finish();	
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		switch (item.getItemId()) {
+			case R.id.settings_roomactivity_change_account:
+				startActivity(new Intent(RoomActivity.this, MainActivity.class));
+				RoomActivity.this.finish();	
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 	
 	@Override
 	public void onBackPressed()
 	{
 		
 		   AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		    builder.setMessage("Are you sure you want to exit?")
-		           .setCancelable(false)
-		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-		               public void onClick(DialogInterface dialog, int id) {
-		            	   
-		            	   // gets the current time and date
-		            	   String date = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
-		            	   
-		            	   if(Root.DEBUG) Message.message(RoomActivity.this, date);
-		            	   
-		                   RoomActivity.this.finish();
-		                   
-		               }
-		           })
-		           .setNegativeButton("No", new DialogInterface.OnClickListener() {
-		               public void onClick(DialogInterface dialog, int id) {
-		                    dialog.cancel();
-		               }
-		           });
-		    AlertDialog alert = builder.create();
-		    alert.show();
+			builder.setMessage("Are you sure you want to exit?")
+				   .setCancelable(false)
+				   .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					   public void onClick(DialogInterface dialog, int id) {
+						   
+						   // gets the current time and date
+						   String date = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
+						   
+						   if(Root.DEBUG) Message.message(RoomActivity.this, date);
+						   
+						   RoomActivity.this.finish();
+						   
+					   }
+				   })
+				   .setNegativeButton("No", new DialogInterface.OnClickListener() {
+					   public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
+					   }
+				   });
+			AlertDialog alert = builder.create();
+			alert.show();
 	}
 	
 	class FragAdapter extends FragmentPagerAdapter
@@ -493,18 +515,18 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
 			{
 				 float x = event.values[0];
-			     float y = event.values[1];
-			     float z = event.values[2];
-			     mAccelLast = mAccelCurrent;
-			     mAccelCurrent = (float) Math.sqrt((double) (x*x + y*y + z*z));
-			     float delta = mAccelCurrent - mAccelLast;
-			     mAccel = mAccel * 0.9f + delta; // perform low-cut filter
-			     
-			     if(mAccel > SHAKE_THRESHOLD)
-			     {
-			    	 Message.message(this, "Grandma washed cloth " + mAccel);
-			     }
-			     
+				 float y = event.values[1];
+				 float z = event.values[2];
+				 mAccelLast = mAccelCurrent;
+				 mAccelCurrent = (float) Math.sqrt((double) (x*x + y*y + z*z));
+				 float delta = mAccelCurrent - mAccelLast;
+				 mAccel = mAccel * 0.9f + delta; // perform low-cut filter
+				 
+				 if(mAccel > SHAKE_THRESHOLD)
+				 {
+					 Message.message(this, "Grandma washed cloth " + mAccel);
+				 }
+				 
 		
 			}
 		}	
@@ -519,9 +541,9 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickTelevision(View view) 
 	{	
 		Message.message(this, "Now you are watching TV!");
-        createTimer(5000, FoodTimer.class);
+		createTimer(5000, FoodTimer.class);
 
-    }
+	}
 	
 	public void btnOnClickGame(View view)
 	{
@@ -539,16 +561,16 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickSoap(View view) 
 	{
 		Message.message(this, "The Grandma is clean again!");
-        createTimer(5000, FoodTimer.class);
+		createTimer(5000, FoodTimer.class);
 
-    }
+	}
 	
 	public void btnOnClickDrugs(View view)
 	{
 		Message.message(this, "Grandma is fit again!");
-        createTimer(5000, FoodTimer.class);
+		createTimer(5000, FoodTimer.class);
 
-    }
+	}
 	
 	public void btnOnClickWash(View view)
 	{
@@ -558,18 +580,18 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickBrush(View view)
 	{
 		Message.message(this,"The house is clean again");
-        createTimer(5000, FoodTimer.class);
+		createTimer(5000, FoodTimer.class);
 
-    }
+	}
 	
 	public void btnOnClickEat(View view)
 	{
-        if(RoomAttributes.getInstance().isHungry()){
-		    startActivity(new Intent(RoomActivity.this, MealActivity.class));
-            createTimer(5000, FoodTimer.class);
-        }
-        else
-            Message.message(this, "Grandma is not hungry at the moment.");
+		if(Root.getUniqueRootInstance().isHungry()){
+			startActivity(new Intent(RoomActivity.this, MealActivity.class));
+			createTimer(5000, FoodTimer.class);
+		}
+		else
+			Message.message(this, "Grandma is not hungry at the moment.");
 	}
 	
 	public void btnOnClickShopcart(View view)
@@ -587,9 +609,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 				{
 					foodAttribute.setCount(foodAttribute.getCount() - 1);
 					Message.message(this,"Grandma is not thirsty anymore");
-			        //every 8 hours
-			        createTimer(10000, DrinkTimer.class);
-                    RoomAttributes.getInstance().setThirsty(false);
+					//every 8 hours
+					createTimer(10000, DrinkTimer.class);
 				}
 				else
 				{
@@ -620,15 +641,15 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
 		btnWakeUp.setVisibility(View.INVISIBLE);
 	} 
-    private void createTimer(int countdown, Class target){
-        Intent mServiceIntent = new Intent(getApplicationContext(), target);
-        mServiceIntent.putExtra("countdown", countdown);
-        startService(mServiceIntent);
-    }
+	private void createTimer(int countdown, Class target){
+		Intent mServiceIntent = new Intent(getApplicationContext(), target);
+		mServiceIntent.putExtra("countdown", countdown);
+		startService(mServiceIntent);
+	}
 	public void opendoorfunction(View view)
 	{
 		Intent intent = new Intent(this, opendoor.class);
-	    startActivity(intent);
+		startActivity(intent);
 	}
 
 }

@@ -44,7 +44,7 @@ public class Message
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 // mId allows you to update the notification later on.
-        mNotificationManager.notify(1  //mId
+        mNotificationManager.notify(123456789  //mId
                 , mBuilder.build());
     }
 }

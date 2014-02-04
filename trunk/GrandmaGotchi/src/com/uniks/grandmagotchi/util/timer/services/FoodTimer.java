@@ -1,8 +1,7 @@
 package com.uniks.grandmagotchi.util.timer.services;
 
-import com.uniks.grandmagotchi.data.RoomAttributes;
+import com.uniks.grandmagotchi.util.Root;
 import com.uniks.grandmagotchi.util.timer.receiver.FoodReceiver;
-import com.uniks.grandmagotchi.util.timer.receiver.NotificationReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -28,7 +27,7 @@ public class FoodTimer extends Timer {
 
     @Override
     protected void setNeed() {
-        RoomAttributes.getInstance().setHungry(false);
+        Root.getUniqueRootInstance().setHungry(false);
         BROADCAST_ACTION = FoodReceiver.BROADCAST_ACTION;
     }
 }
