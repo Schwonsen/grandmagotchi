@@ -96,8 +96,14 @@ public class MainActivity extends Activity {
     			if(Root.DEBUG) Message.message(this, id);
 
     			id = id.trim();
+    			
+    			Root.setId(id);
+    			
+    			Root.setCalledFromExistingAccount(true);
+    			
     			String[] data = databaseHandler.getDataByID(id);
     			
+    			  			
     			Root.getAttributes().setId(data[0]);
     			Root.getAttributes().setName(data[1]);
     			Root.getAttributes().setDifficultyLevel(data[2]);

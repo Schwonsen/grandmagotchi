@@ -19,8 +19,13 @@ public class Root
 	private static Attributes attributes = new Attributes();
 	private static LinkedList<Fragment> roomList = new LinkedList<Fragment>();
 	private static LinkedList<FoodAttributes> foodList = new LinkedList<FoodAttributes>();
+
+	private static String id;
+	private static boolean calledFromExistingAccount;
+
 	private static LinkedList<ClotheAttributes> clotheList = new LinkedList<ClotheAttributes>();
 	private static LinkedList<MedicAttributes> medicList = new LinkedList<MedicAttributes>();
+
 
     private int foodTime = 0;
 
@@ -154,6 +159,25 @@ public class Root
 	{
 		Root.foodList = foodList;
 	}
+
+	public static String getId()
+	{
+		return id;
+	}
+	public static void setId(String id)
+	{
+		Root.id = id;
+	}
+	public static boolean isCalledFromExistingAccount()
+	{
+		return calledFromExistingAccount;
+	}
+	public static void setCalledFromExistingAccount(
+			boolean calledFromExistingAccount)
+	{
+		Root.calledFromExistingAccount = calledFromExistingAccount;
+	}
+
 	
 	public static LinkedList<ClotheAttributes> getClotheList() {
 		// TODO Auto-generated method stub
@@ -172,5 +196,6 @@ public class Root
 	{
 		Root.medicList = medicList;
 	}
+
 
 }
