@@ -52,6 +52,9 @@ public class Root
         }
         return false;
     }
+    public LinkedList<Needs> getAllNeeds(){
+        return needs;
+    }
 
     public boolean isUnhealthyFood() {
         return unhealthyFood;

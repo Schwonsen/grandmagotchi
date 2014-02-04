@@ -5,6 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import com.uniks.grandmagotchi.R;
 import com.uniks.grandmagotchi.RoomActivity;
 import com.uniks.grandmagotchi.util.Message;
 import com.uniks.grandmagotchi.util.Needs;
@@ -32,18 +36,26 @@ public class OverallTimings extends AsyncTask {
         if(hour == 7 && Root.getUniqueRootInstance().isSleeping()){
             Root.getUniqueRootInstance().setSleeping(false);
         }
-        if(hour == 7 && !Root.getUniqueRootInstance().isDressed() && !Root.getUniqueRootInstance().isMed()){
+        if(hour == 7 && !Root.getUniqueRootInstance().isDressed() && !Root.getUniqueRootInstance().isMed()
+                &&  !Root.getUniqueRootInstance().containsNeed(Needs.MEDICINE)
+                &&  !Root.getUniqueRootInstance().containsNeed(Needs.DRESS)){
             createMessage("Grandma is awake!", "Dress her and give her medicine!");
             startTimer(MedDeathTimer.class);
+            Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
+            Root.getUniqueRootInstance().addNeed(Needs.DRESS);
         }
         else{
-            if(hour == 7 && Root.getUniqueRootInstance().isDressed() && !Root.getUniqueRootInstance().isMed()){
+            if(hour == 7 && Root.getUniqueRootInstance().isDressed() && !Root.getUniqueRootInstance().isMed()
+                    &&  !Root.getUniqueRootInstance().containsNeed(Needs.MEDICINE)){
                 createMessage("Grandma is awake!", "Give her medicine!");
+                Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
                 startTimer(MedDeathTimer.class);
             }
 
-            if(hour == 7 && !Root.getUniqueRootInstance().isDressed() && Root.getUniqueRootInstance().isMed()){
+            if(hour == 7 && !Root.getUniqueRootInstance().isDressed() && Root.getUniqueRootInstance().isMed()
+                    &&  !Root.getUniqueRootInstance().containsNeed(Needs.DRESS) ){
                 createMessage("Grandma is awake!", "Dress her!");
+                Root.getUniqueRootInstance().addNeed(Needs.DRESS);
             }
         }
         if(hour == 14 && Root.getUniqueRootInstance().isMed()){
@@ -68,6 +80,32 @@ public class OverallTimings extends AsyncTask {
         }
 
         Log.d("grandmaRunner", "ruuuuun");
+        act.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                LinearLayout needs = (LinearLayout) act.findViewById(R.id.needs_view);
+                needs.removeAllViews();
+                for(Needs need : Root.getUniqueRootInstance().getAllNeeds()){
+                    ImageView iv = new ImageView(act.getApplicationContext());
+                    //TODO: switch to dps
+                    ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(20, 20);
+                    iv.setLayoutParams(lp);
+                    switch (need){
+                        case FOOD: iv.setImageResource(R.id.btn_food); break;
+                        case DRINK: iv.setImageResource(R.id.btn_drink); break;
+                        case MEDICINE: iv.setImageResource(R.id.btn_drugs); break;
+                        case BUY: iv.setImageResource(R.id.btn_shopcart); break;
+                        case WASH: iv.setImageResource(R.id.btn_washCloth); break;
+                        case SLEEP: iv.setImageResource(R.id.btn_bedroom_help); break;
+                        case DRESS: iv.setImageResource(R.id.btn_washCloth); break;
+                        case CLEAN: iv.setImageResource(R.id.btn_brush); break;
+                    }
+                    needs.addView(iv);
+                }
+            }
+        });
+
+
 
         try{
             Thread.sleep(5000);
