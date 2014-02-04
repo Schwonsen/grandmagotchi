@@ -20,5 +20,74 @@
          android:layout_centerVertical="true"
          android:contentDescription="TODO"
          android:src="@drawable/image_grandma_confused" />
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/imageGrandma"
+            android:layout_alignParentTop="true" android:layout_alignParentRight="true">
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:layout_gravity="left|top">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/textView2" android:layout_gravity="left|top" android:text="Timer"/>
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:orientation="horizontal">
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Drink"
+                        android:rotation="90"
+                        android:id="@+id/textView3" android:layout_marginBottom="10dp" android:layout_marginTop="10dp"
+                        android:layout_alignParentStart="false" android:layout_alignParentEnd="false"
+                        android:layout_marginLeft="-8dp"/>
+                <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="106dp"
+                        android:id="@+id/imageView" android:layout_gravity="left|top"
+                        android:background="@drawable/timer_background" android:layout_alignParentStart="false"
+                        android:layout_below="@+id/textView3"/>
+                <ImageView
+                        android:layout_width="8dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/drink_body" android:layout_alignParentStart="true" android:background="@drawable/timer_body"
+                        android:layout_marginLeft="4dp" android:baselineAlignBottom="false" android:layout_marginTop="3dp"
+                        android:layout_below="@+id/textView3"/>
+
+
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:id="@+id/relativeLayout" android:layout_marginLeft="2dp">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Food"
+                        android:rotation="90"
+                        android:id="@+id/textView4" android:layout_marginBottom="10dp" android:layout_marginTop="10dp"
+                        android:layout_alignParentStart="false" android:layout_alignParentEnd="false"
+                        android:layout_marginLeft="-8dp"/>
+                <ImageView android:layout_width="15dp" android:layout_height="106dp" android:id="@+id/imageView2"
+                           android:layout_gravity="left|top" android:background="@drawable/timer_background"
+                           android:layout_alignParentStart="true" android:layout_below="@+id/textView4"/>
+                <ImageView android:layout_width="8dp" android:layout_height="100dp" android:id="@+id/food_body"
+                           android:layout_alignParentStart="true" android:background="@drawable/timer_body"
+                           android:layout_marginLeft="4dp" android:baselineAlignBottom="false"
+                           android:layout_marginTop="3dp" android:layout_below="@+id/textView4"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

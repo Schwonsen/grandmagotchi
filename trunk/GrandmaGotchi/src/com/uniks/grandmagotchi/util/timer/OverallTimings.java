@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import com.uniks.grandmagotchi.RoomActivity;
 import com.uniks.grandmagotchi.util.Message;
+import com.uniks.grandmagotchi.util.Needs;
 import com.uniks.grandmagotchi.util.Root;
 import com.uniks.grandmagotchi.util.timer.services.MedDeathTimer;
 
@@ -53,9 +54,10 @@ public class OverallTimings extends AsyncTask {
             createMessage("Grandma ate a lot", "She needs Medicine!");
             startTimer(MedDeathTimer.class);
         }
-        if(hour == 20 && !Root.getUniqueRootInstance().isMed()){
+        if(hour == 20 && !Root.getUniqueRootInstance().isMed() && !Root.getUniqueRootInstance().containsNeed(Needs.MEDICINE)){
             createMessage("It's late ..", "Grandma needs medicine");
             startTimer(MedDeathTimer.class);
+            Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
         }
 
         if(hour == 22 && !Root.getUniqueRootInstance().isSleeping()){
