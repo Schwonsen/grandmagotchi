@@ -3,6 +3,7 @@ package com.uniks.grandmagotchi;
 
 import java.util.Calendar;
 
+
 import android.content.IntentFilter;
 import android.net.Uri;
 
@@ -531,7 +532,6 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickMusic(View view)
 	{
 		String videoID = "raluLqdSrJ4";
-		// TODO: Sanitize input to prevent code injection
 		startActivity(new Intent(Intent.ACTION_VIEW,
 				Uri.parse("http://m.youtube.com/watch?v=" + videoID)));
 	}
@@ -625,6 +625,11 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
         mServiceIntent.putExtra("countdown", countdown);
         startService(mServiceIntent);
     }
+	public void opendoorfunction(View view)
+	{
+		Intent intent = new Intent(this, opendoor.class);
+	    startActivity(intent);
+	}
 
 }
 
