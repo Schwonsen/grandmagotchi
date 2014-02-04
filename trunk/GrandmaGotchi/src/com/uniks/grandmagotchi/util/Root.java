@@ -5,7 +5,9 @@ import java.util.LinkedList;
 import android.support.v4.app.Fragment;
 
 import com.uniks.grandmagotchi.data.Attributes;
+import com.uniks.grandmagotchi.data.ClotheAttributes;
 import com.uniks.grandmagotchi.data.FoodAttributes;
+import com.uniks.grandmagotchi.data.MedicAttributes;
 
 public class Root
 {
@@ -17,6 +19,8 @@ public class Root
 	private static Attributes attributes = new Attributes();
 	private static LinkedList<Fragment> roomList = new LinkedList<Fragment>();
 	private static LinkedList<FoodAttributes> foodList = new LinkedList<FoodAttributes>();
+	private static LinkedList<ClotheAttributes> clotheList = new LinkedList<ClotheAttributes>();
+	private static LinkedList<MedicAttributes> medicList = new LinkedList<MedicAttributes>();
 
     private int foodTime = 0;
 
@@ -149,6 +153,24 @@ public class Root
 	public static void setFoodList(LinkedList<FoodAttributes> foodList)
 	{
 		Root.foodList = foodList;
+	}
+	
+	public static LinkedList<ClotheAttributes> getClotheList() {
+		// TODO Auto-generated method stub
+		return clotheList;
+	}
+	public static void setClotheList(LinkedList<ClotheAttributes> clotheList)
+	{
+		Root.clotheList = clotheList;
+	}
+	
+	public static LinkedList<MedicAttributes> getMedicList() {
+		// TODO Auto-generated method stub
+		return medicList;
+	}
+	public static void setMedicList(LinkedList<MedicAttributes> clotheList)
+	{
+		Root.medicList = medicList;
 	}
 
 }

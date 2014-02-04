@@ -63,6 +63,14 @@
             android:theme="@android:style/Theme.Dialog">
         </activity>
         <activity 
+            android:name="com.uniks.grandmagotchi.PainkillerActivity"
+            android:theme="@android:style/Theme.Dialog">
+        </activity>
+        <activity 
+            android:name="com.uniks.grandmagotchi.WarderobeActivity"
+            android:theme="@android:style/Theme.Dialog">
+        </activity>
+        <activity 
             android:name="com.uniks.grandmagotchi.ShopActivity"
             android:theme="@android:style/Theme.Dialog">
         </activity>

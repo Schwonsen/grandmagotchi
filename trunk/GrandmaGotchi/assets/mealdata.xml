@@ -134,14 +134,58 @@
     
     <clothedata>
         <id>1</id>
-        <clothes>Underwear</clothes>
-        <time>7x</time>
-        <icon>ic_clothes_underwear</icon>
+        <clothes>Pinky</clothes>
+        <time>A pink dress.</time>
+        <icon>ic_clothes_pink</icon>
+        <count>0</count>
     </clothedata>
-     <clothedata>
+    <clothedata>
         <id>2</id>
-        <clothes>Robe</clothes>
-        <time>3x</time>
-        <icon>ic_clothes_underwear</icon>
+        <clothes>Red skull</clothes>
+        <time>A red dress.</time>
+        <icon>ic_clothes_red</icon>
+        <count>0</count>
     </clothedata>
+    <clothedata>
+        <id>3</id>
+        <clothes>Black Dress</clothes>
+        <time>The little black.</time>
+        <icon>ic_clothes_black</icon>
+        <count>0</count>
+    </clothedata>
+    <clothedata>
+        <id>4</id>
+        <clothes>Camo</clothes>
+        <time>Back to army.</time>
+        <icon>ic_clothes_green</icon>
+        <count>0</count>
+    </clothedata>
+    <clothedata>
+        <id>5</id>
+        <clothes>Sunny</clothes>
+        <time>Sunshine.</time>
+        <icon>ic_clothes_blue</icon>
+        <count>0</count>
+    </clothedata>
+    
+     <painkiller>
+         <id>1</id>
+         <med>Pill</med>
+         <time>morning</time>
+         <icon>ic_pill</icon>
+     </painkiller>
+     <painkiller>
+         <id>2</id>
+         <med>Cough syrup</med>
+         <time>lunch</time>
+         <icon>ic_med1</icon>
+     </painkiller>
+     <painkiller>
+         <id>3</id>
+         <med>Green medicine</med>
+         <time>evening</time>
+         <icon>ic_weed</icon>
+     </painkiller>
+     
+     
 </Meal>

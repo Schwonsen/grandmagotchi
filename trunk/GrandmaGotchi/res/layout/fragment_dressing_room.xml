@@ -14,5 +14,14 @@
         android:id="@+id/textView"
         android:text="@string/fragment_dressing_room"
         android:layout_gravity="center" />
+    <ImageButton
+        android:id="@+id/btn_warderobe"
+        android:layout_width="71dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|center"
+        android:contentDescription="@string/btn_description_warderobe"
+        android:onClick="btnOnClickChangeClothes"
+        android:src="@drawable/ic_action_warderobe" />
+    <!-- android:background="@android:color/transparent" -->
 
 </FrameLayout>

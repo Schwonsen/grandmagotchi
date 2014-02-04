@@ -9,7 +9,11 @@ import android.net.Uri;
 
 import android.os.AsyncTask;
 import android.view.*;
+
+import com.uniks.grandmagotchi.data.ClotheAttributes;
 import com.uniks.grandmagotchi.data.FoodAttributes;
+import com.uniks.grandmagotchi.data.MedicAttributes;
+import com.uniks.grandmagotchi.data.RoomAttributes;
 import com.uniks.grandmagotchi.rooms.FragmentBedroom;
 import com.uniks.grandmagotchi.rooms.FragmentDressingRoom;
 import com.uniks.grandmagotchi.rooms.FragmentDrugstore;
@@ -94,6 +98,14 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	private static FoodAttributes POTATOS = new FoodAttributes();
 	private static FoodAttributes SANDWICH = new FoodAttributes();
 	private static FoodAttributes WATER = new FoodAttributes();
+	private static ClotheAttributes PINK = new ClotheAttributes();
+	private static ClotheAttributes RED = new ClotheAttributes();
+	private static ClotheAttributes BLACK = new ClotheAttributes();
+	private static ClotheAttributes GREEN = new ClotheAttributes();
+	private static ClotheAttributes BLUE = new ClotheAttributes();
+	private static MedicAttributes PILL = new MedicAttributes();
+	private static MedicAttributes SYRUP = new MedicAttributes();
+	private static MedicAttributes WEED = new MedicAttributes();
 	
 	private Fragment livingRoomFragment;
 	private Fragment kitchenFragment;
@@ -290,6 +302,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 
 	private void init()
 	{		
+		//Food
 		YOGURT.setName("Yogurt");
 		YOGURT.setCount(3);
 		FLAKES.setName("Flakes");
@@ -321,6 +334,36 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		Root.getFoodList().add(POTATOS);
 		Root.getFoodList().add(SANDWICH);
 		Root.getFoodList().add(WATER);
+		
+		//Clothes
+		PINK.setName("Pinky");
+		PINK.setCount(1);
+		RED.setName("Red skull");
+		RED.setCount(1);
+		BLACK.setName("Black Dress");
+		BLACK.setCount(1);
+		GREEN.setName("Camo");
+		GREEN.setCount(1);
+		BLUE.setName("Sunny");
+		BLUE.setCount(1);
+		
+		Root.getClotheList().add(PINK);
+		Root.getClotheList().add(RED);
+		Root.getClotheList().add(BLACK);
+		Root.getClotheList().add(GREEN);
+		Root.getClotheList().add(BLUE);
+		
+//		//Medicine
+//		PILL.setName("Pill");
+//		PILL.setCount(1);
+//		SYRUP.setName("Cough syrup");
+//		SYRUP.setCount(1);
+//		WEED.setName("Green medicine");
+//		WEED.setCount(1);
+//		
+//		Root.getMedicList().add(PILL);
+//		Root.getMedicList().add(SYRUP);
+//		Root.getMedicList().add(WEED);
 		
 	}
 
@@ -568,13 +611,15 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	
 	public void btnOnClickDrugs(View view)
 	{
-		Message.message(this, "Grandma is fit again!");
+	    startActivity(new Intent(RoomActivity.this, PainkillerActivity.class));
+
+//		Message.message(this, "Grandma is fit again!");
 		//createTimer(5000, FoodTimer.class);
 
 	}
 	
 	public void btnOnClickWash(View view)
-	{
+	{		
 		Message.message(this,"All clothes are clean again!");
 	}
 	
@@ -595,6 +640,12 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		else
 			Message.message(this, "Grandma is not hungry at the moment.");
 	}
+	
+	public void btnOnClickChangeClothes(View view)
+	{
+		startActivity(new Intent(RoomActivity.this, WarderobeActivity.class));
+	}
+	
 	
 	public void btnOnClickShopcart(View view)
 	{
