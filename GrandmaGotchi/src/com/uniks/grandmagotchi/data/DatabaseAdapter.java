@@ -26,6 +26,7 @@ public class DatabaseAdapter
 	
 	public long insertData(String name, String password, String difficultyLevel)
 	{
+		
 		SQLiteDatabase db = databaseHandler.getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(DatabaseHandler.NAME, name);
@@ -46,6 +47,39 @@ public class DatabaseAdapter
 		
 		long status = db.insert(DatabaseHandler.FOOD_TABLE, null, contentValues);
 		return status;
+	}
+	
+	public void updateFoodData(String id, String foodName, String foodCount)
+	{
+		SQLiteDatabase db = databaseHandler.getWritableDatabase();
+		ContentValues contentValues = new ContentValues();
+		
+		contentValues.put(DatabaseHandler.FOOD_COUNT, foodCount);
+		String[] whereArgs = {id, foodName};
+		
+		db.update(DatabaseHandler.FOOD_TABLE, contentValues, DatabaseHandler.FOOD_ID+ "=? AND "
+				+ DatabaseHandler.FOOD_NAME + "=?", whereArgs);
+	}
+	
+	public void deleteFoodRow(String id)
+	{
+	    SQLiteDatabase db = databaseHandler.getWritableDatabase();
+	    
+	    db.delete(DatabaseHandler.FOOD_TABLE, "FOOD_ID=?", new String[] { id });
+	    
+	    Log.e("DATABASE", "DELETED");
+//	    try
+//	    {
+//	        
+//	    }
+//	    catch(Exception e)
+//	    {
+//	        e.printStackTrace();
+//	    }
+//	    finally
+//	    {
+//	        db.close();
+//	    }
 	}
 	
 	public LinkedList<FoodAttributes> getFoodDataById(String id)
@@ -206,7 +240,7 @@ public class DatabaseAdapter
 	static class DatabaseHandler extends SQLiteOpenHelper
 	{
 		private static final String DATABASE_NAME = "savegame.db";
-		private static final int DATABASE_VERSION = 9;
+		private static final int DATABASE_VERSION = 10;
 		
 		private static final String SAVEGAME_TABLE = "savegame";
 		

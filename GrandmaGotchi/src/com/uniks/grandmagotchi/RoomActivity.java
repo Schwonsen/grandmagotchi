@@ -306,7 +306,12 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 
 		if(Root.isCalledFromExistingAccount())
 		{
+			Log.e("isExisting", "asdfgh");
 			Root.setFoodList(databaseHandler.getFoodDataById(Root.getId()));
+			for(FoodAttributes fA : Root.getFoodList())
+			{
+				Log.e(fA.getName(), String.valueOf(fA.getCount()));
+			}
 		}
 		else if(!Root.isCalledFromExistingAccount())
 		{
@@ -463,16 +468,20 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		            	   long status = -1;
 		            	   if(Root.isCalledFromExistingAccount())
 		            	   {
+
 		            		   for(FoodAttributes fA : Root.getFoodList())
 		            		   {
 		            			   String foodName = fA.getName();
 		            			   String foodCount = String.valueOf(fA.getCount());
-		            			   status = databaseHandler.insertFoodData(Root.getId(), foodName, foodCount);
+		            			   databaseHandler.updateFoodData(Root.getId(), foodName, foodCount);
 		            		   }
+		            		   
+		            		   Message.message(RoomActivity.this, "hier2 " + databaseHandler.getAllFoodData());
 		            		   
 		            	   }
 		            	   else
 		            	   {
+		            		   
 		            		   String[] countNames = databaseHandler.getNamesArray();
 		            		   String idCode = String.valueOf(countNames.length);
 		            		   for(FoodAttributes fA : Root.getFoodList())
@@ -482,20 +491,25 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		            			   status = databaseHandler.insertFoodData(idCode, foodName, foodCount);
 		            		   }
 		            		   
+		            		   Log.e("abcd", "hier4 " + databaseHandler.getAllFoodData());
+		            		   
 		            	   }
 		            	   
 		            	   	if(status < 0)
 		            	   	{
 		   						if(Root.DEBUG) Message.message(RoomActivity.this, "Unsuccessful written in Database");
+		   						
+		   						RoomActivity.this.finish();
 		            	   	}
 			   				else
 			   				{
 			   					
 			   					if(Root.DEBUG) Message.message(RoomActivity.this, "Successfully written in Database");
+			  
 			   				}
 		   				
-		            	   
-		                   RoomActivity.this.finish();
+		            	   	RoomActivity.this.finish();
+		                   
 		                   
 		               }
 		           })
@@ -506,28 +520,6 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		           });
 		    AlertDialog alert = builder.create();
 		    alert.show();
-
-			builder.setMessage("Are you sure you want to exit?")
-				   .setCancelable(false)
-				   .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                       public void onClick(DialogInterface dialog, int id) {
-
-                           // gets the current time and date
-                           String date = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
-
-                           if (Root.DEBUG) Message.message(RoomActivity.this, date);
-
-                           RoomActivity.this.finish();
-
-                       }
-                   })
-				   .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                       public void onClick(DialogInterface dialog, int id) {
-                           dialog.cancel();
-                       }
-                   });
-			AlertDialog alert1 = builder.create();
-			alert1.show();
 
 	}
 	
