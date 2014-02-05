@@ -58,6 +58,10 @@ public class OverallTimings extends AsyncTask {
             startTimer(MedDeathTimer.class);
             Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
             Root.getUniqueRootInstance().addNeed(Needs.DRESS);
+            if(Root.allClothDirty()){
+                Root.getUniqueRootInstance().addNeed(Needs.WASH);
+                Message.message(act, "You need to wash you clothes before!");
+            }
         }
         else{
             if(hour == 7 && Root.getUniqueRootInstance().isDressed() && !Root.getUniqueRootInstance().isMed()
@@ -71,6 +75,10 @@ public class OverallTimings extends AsyncTask {
                     &&  !Root.getUniqueRootInstance().containsNeed(Needs.DRESS) ){
                 createMessage("Grandma is awake!", "Dress her!");
                 Root.getUniqueRootInstance().addNeed(Needs.DRESS);
+                if(Root.allClothDirty()){
+                    Root.getUniqueRootInstance().addNeed(Needs.WASH);
+                    Message.message(act, "You need to wash you clothes before!");
+                }
             }
         }
         if(hour == 14 && Root.getUniqueRootInstance().isMed()){

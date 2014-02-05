@@ -46,6 +46,7 @@ public class FoodReceiver extends NotificationReceiver
     }
     @Override
     protected void createNeed(){
+        Root.getUniqueRootInstance().setFoodTimerRunning(false);
         Root.getUniqueRootInstance().setHungry(true);
         setRandomFood(act);
         Root.getUniqueRootInstance().addNeed(Needs.FOOD);

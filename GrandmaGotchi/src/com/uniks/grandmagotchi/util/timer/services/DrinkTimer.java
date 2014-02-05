@@ -17,5 +17,6 @@ public class DrinkTimer extends Timer {
         BROADCAST_ACTION = DrinkReceiver.BROADCAST_ACTION;
         Root.getUniqueRootInstance().setThirsty(false);
         Root.getUniqueRootInstance().removeNeed(Needs.DRINK);
+        Root.getUniqueRootInstance().setDrinkTimerRunning(true);
     }
 }

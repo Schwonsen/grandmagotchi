@@ -36,6 +36,35 @@ public class Root
     private boolean unhealthyFood = false;
     private LinkedList<Needs> needs= new LinkedList<Needs>();
     private LinkedList<String> buys = new LinkedList<String>();
+    private boolean foodTimerRunning = false;
+
+    public boolean isDrinkTimerRunning() {
+        return drinkTimerRunning;
+    }
+
+    public void setDrinkTimerRunning(boolean drinkTimerRunning) {
+        this.drinkTimerRunning = drinkTimerRunning;
+    }
+
+    public boolean isFoodTimerRunning() {
+        return foodTimerRunning;
+    }
+
+    public void setFoodTimerRunning(boolean foodTimerRunning) {
+        this.foodTimerRunning = foodTimerRunning;
+    }
+
+    private boolean drinkTimerRunning = false;
+
+    public static boolean allClothDirty(){
+        boolean clean = false;
+        for( ClotheAttributes ca : clotheList){
+            if(!ca.isDirty())
+                clean = true;
+        }
+        return !clean;
+    }
+
 
     public String getBuysAsString(){
         String ret = "";
