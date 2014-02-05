@@ -32,5 +32,13 @@ public class FoodTimer extends Timer {
         Root.getUniqueRootInstance().removeNeed(Needs.FOOD);
         Root.getUniqueRootInstance().addNeed(Needs.DISHES);
         BROADCAST_ACTION = FoodReceiver.BROADCAST_ACTION;
+        if(Root.isCalledFromExistingAccount())
+        {
+        	
+        }
+        else
+        {
+        	
+        }
     }
 }

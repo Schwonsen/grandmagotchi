@@ -10,6 +10,7 @@ import com.uniks.grandmagotchi.util.timer.receiver.DrinkReceiver;
  */
 public abstract class Timer extends IntentService {
     protected String BROADCAST_ACTION;
+    protected long time;
     public Timer(String name) {
         super(name);
     }
@@ -19,7 +20,7 @@ public abstract class Timer extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent workIntent) {
-        long time = workIntent.getIntExtra("countdown", 500);
+        time = workIntent.getIntExtra("countdown", 500);
         time = getTime(time);
         setNeed();
         Intent startIntent = new Intent();

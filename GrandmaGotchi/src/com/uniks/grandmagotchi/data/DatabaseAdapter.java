@@ -64,6 +64,21 @@ public class DatabaseAdapter
 		return status;
 	}
 	
+	public long insertTimerData(String id, String timerName, String timerStartTime, String timerCurrentTime)
+	{
+		SQLiteDatabase db = databaseHandler.getWritableDatabase();
+		ContentValues contentValues = new ContentValues();
+		
+		contentValues.put(DatabaseHandler.TIMER_ID, id);
+		contentValues.put(DatabaseHandler.TIMER_NAME, timerName);
+		contentValues.put(DatabaseHandler.TIMER_START_TIME, timerStartTime);
+		contentValues.put(DatabaseHandler.TIMER_CURRENT_TIME, timerCurrentTime);
+		
+		
+		long status = db.insert(DatabaseHandler.TIMER_TABLE, null, contentValues);
+		return status;
+	}
+	
 	public void updateFoodData(String id, String foodName, String foodCount)
 	{
 		SQLiteDatabase db = databaseHandler.getWritableDatabase();
@@ -89,27 +104,20 @@ public class DatabaseAdapter
 				+ DatabaseHandler.CLOTH_NAME + "=?", whereArgs);
 	}
 	
-	public void deleteFoodRow(String id)
+	public void updateTimerData(String id, String timerName, String timerStartTime, String timerCurrentTime)
 	{
-	    SQLiteDatabase db = databaseHandler.getWritableDatabase();
-	    
-	    db.delete(DatabaseHandler.FOOD_TABLE, "FOOD_ID=?", new String[] { id });
-	    
-	    Log.e("DATABASE", "DELETED");
-//	    try
-//	    {
-//	        
-//	    }
-//	    catch(Exception e)
-//	    {
-//	        e.printStackTrace();
-//	    }
-//	    finally
-//	    {
-//	        db.close();
-//	    }
+		SQLiteDatabase db = databaseHandler.getWritableDatabase();
+		ContentValues contentValues = new ContentValues();
+		
+		contentValues.put(DatabaseHandler.TIMER_START_TIME, timerStartTime);
+		contentValues.put(DatabaseHandler.TIMER_CURRENT_TIME, timerCurrentTime);
+		String[] whereArgs = {id, timerName};
+		
+		db.update(DatabaseHandler.TIMER_TABLE, contentValues, DatabaseHandler.TIMER_ID+ "=? AND "
+				+ DatabaseHandler.TIMER_NAME + "=?", whereArgs);
 	}
-	
+
+
 	public LinkedList<FoodAttributes> getFoodDataById(String id)
 	{
 
@@ -336,6 +344,17 @@ public class DatabaseAdapter
 		private static final String DROP_TABLE_CLOTH = "DROP TABLE IF EXISTS " + CLOTH_TABLE;
 		
 		
+		private static final String TIMER_TABLE = "savetimer";
+		
+		private static final String TIMER_ID = "_id";
+		private static final String TIMER_NAME = "timerName";
+		private static final String TIMER_START_TIME = "timerStartTime";
+		private static final String TIMER_CURRENT_TIME = "timerCurrentTime";
+		private static final String QUERY_TIMER = "CREATE TABLE " + TIMER_TABLE + " (" +
+				TIMER_ID + " VARCHAR(255), " + TIMER_NAME + " VARCHAR(255), " + 
+				TIMER_START_TIME + " VARCHAR(255), " + TIMER_CURRENT_TIME +  " VARCHAR(255));";
+		private static final String DROP_TABLE_TIMER = "DROP TABLE IF EXISTS " + TIMER_TABLE;
+		
 		
 		private Context context;
 
@@ -354,6 +373,7 @@ public class DatabaseAdapter
 				db.execSQL(QUERY);
 				db.execSQL(QUERY_FOOD);
 				db.execSQL(QUERY_CLOTH);
+				db.execSQL(QUERY_TIMER);
 				if(Root.DEBUG) Message.message(context, "onCreate called");
 			}
 			catch(SQLException e)
@@ -372,6 +392,7 @@ public class DatabaseAdapter
 				db.execSQL(DROP_TABLE);
 				db.execSQL(DROP_TABLE_FOOD);
 				db.execSQL(DROP_TABLE_CLOTH);
+				db.execSQL(DROP_TABLE_TIMER);
 				onCreate(db);
 			}
 			catch (SQLException e)
