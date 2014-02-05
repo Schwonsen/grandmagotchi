@@ -108,7 +108,15 @@ public class ClotheAdapter extends BaseAdapter {
 		        {
 		        	if(pairs.getValue().equals(clotheItem.getName()))
 		        	{
-		        		holder.tvFoodCount.setText(String.valueOf(clotheItem.getCount()));
+		        		if(clotheItem.isDirty())
+		        		{
+		        			holder.tvFoodCount.setText("Dirty");
+		        		}
+		        		else
+		        		{
+		        			holder.tvFoodCount.setText("Clean");
+		        		}
+		        		
 		        	}
 		        }
 		 }

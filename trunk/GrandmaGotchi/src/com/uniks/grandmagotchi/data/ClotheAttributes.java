@@ -4,7 +4,8 @@ public class ClotheAttributes
 {
 	
 	private String name;
-	private int count;
+	private boolean isDirty;
+	private boolean isCurrentDress;
 	
 	public String getName()
 	{
@@ -14,13 +15,22 @@ public class ClotheAttributes
 	{
 		this.name = name;
 	}
-	public int getCount()
+	public boolean isDirty()
 	{
-		return count;
+		return isDirty;
 	}
-	public void setCount(int count)
+	public void setDirty(boolean isDirty)
 	{
-		this.count = count;
+		this.isDirty = isDirty;
 	}
+	public boolean isCurrentDress()
+	{
+		return isCurrentDress;
+	}
+	public void setCurrentDress(boolean isCurrentDress)
+	{
+		this.isCurrentDress = isCurrentDress;
+	}
+
 
 }

@@ -51,13 +51,13 @@ public class WarderobeActivity extends Activity {
         
         for(ClotheAttributes clotheItem : Root.getClotheList())
         {
-        	if(clotheItem.getCount() == 0)
+        	if(clotheItem.isDirty())
         	{
         		countItems++;
         	}
         }
         
-        if(countItems == 5)
+        if(countItems == 4)
         {
         	Message.message(this, "No Items, wash your clothes");
         	WarderobeActivity.this.finish();
@@ -127,17 +127,9 @@ public class WarderobeActivity extends Activity {
 					// --Meal icon
 					map.put(KEY_ICON, ((Node) textIconList.item(0)).getNodeValue().trim());
 
-					for(ClotheAttributes clotheAttribute : Root.getClotheList())
-					{
-						if(clotheAttribute.getName().equals(firstMElement.getTextContent()))
-						{
-							if(clotheAttribute.getCount() > 0)
-							{
 								// adding HashList to ArrayList
-								data.add(map);
-							}
-						}
-					}
+					data.add(map);
+
 				}
 			}
 
@@ -177,12 +169,13 @@ public class WarderobeActivity extends Activity {
 					        {
 					        	if(pairs.getValue().equals(clotheItem.getName()))
 					        	{
-					        		if(clotheItem.getCount() == 0)
+					        		if(clotheItem.isDirty())
 					        		{
-										data.remove(position);
+					        			Message.message(getBaseContext(), "This Dress is dirty!");
+//										data.remove(position);
 							            adapter.notifyDataSetChanged(); 
 					        		}
-					        		else if(clotheItem.getCount() > 0)
+					        		else if(!clotheItem.isDirty())
 					        		{
 //					        			if(clotheItem.getName().equals("Pinky"))
 //					        			{
@@ -205,14 +198,23 @@ public class WarderobeActivity extends Activity {
 //					        				grannyClothes.setImageResource(R.drawable.image_grandma_confused_blue);
 //					        			}
 					        			Message.message(getBaseContext(), "Changed clothes!");
-					        			clotheItem.setCount(clotheItem.getCount() - 1);
+					        			for(ClotheAttributes cA : Root.getClotheList())
+					        			{
+					        				if(cA.isCurrentDress())
+					        				{
+					        					cA.setCurrentDress(false);
+					        					cA.setDirty(true);
+					        					break;
+					        				}
+					        			}
+					        			clotheItem.setCurrentDress(true);
 					        			adapter.notifyDataSetChanged(); 
-					        			
-					        			if(clotheItem.getCount() == 0)
-						        		{
-											data.remove(position);
-								            adapter.notifyDataSetChanged(); 
-						        		}
+//					        			
+//					        			if(clotheItem.getCount() == 0)
+//						        		{
+//											data.remove(position);
+//								            adapter.notifyDataSetChanged(); 
+//						        		}
 					        			
 					        		}
 					        	}
@@ -222,7 +224,7 @@ public class WarderobeActivity extends Activity {
 					        
 					        for(ClotheAttributes clotheItem : Root.getClotheList())
 					        {
-					        	if(clotheItem.getCount() == 0)
+					        	if(clotheItem.isDirty())
 					        	{
 					        		i++;
 					        	}
