@@ -875,11 +875,6 @@ youtubebuttonclicked=false;
 	public void btnOnClickDrugs(View view)
 	{
 	    startActivity(new Intent(RoomActivity.this, PainkillerActivity.class));
-
-//		Message.message(this, "Grandma is fit again!");
-	    Root.getUniqueRootInstance().removeNeed(Needs.MEDICINE);
-	    //createTimer(5000, FoodTimer.class);
-
 	}
 	
 	public void btnOnClickWash(View view)
@@ -904,7 +899,7 @@ youtubebuttonclicked=false;
 	public void btnOnClickEat(View view)
 	{
 
-		if(Root.getUniqueRootInstance().isHungry() || Root.getUniqueRootInstance().isThirsty()){
+		if(Root.getUniqueRootInstance().isHungry() || Root.getUniqueRootInstance().isThirsty() || Root.getUniqueRootInstance().isSimMode()){
 			startActivity(new Intent(RoomActivity.this, MealActivity.class));
 		}
 		else
