@@ -181,11 +181,14 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	}
 	//updatet omabild
 	public void startupdatehandler(){
+		
 		if(updatehandler==true){
 		Handler handler = new Handler(); 
 		handler.postDelayed(new Runnable() { 
 			public void run() { 
+				if (!Root.getAttributes().isSleeping()&&dancecounter==0){//im schlaf und beim tanzen soll nicht upgedated werden
 				 updatecurrentgrandmacomplete();	
+				}
 	        	 startupdatehandler();
 	         } 
 	    }, 200);}
@@ -671,7 +674,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		           .setCancelable(false)
 		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int id) {
-		            	   
+		            	   updatehandler=false;
 
 		            	   long status = -1;
 		            	   if(Root.isCalledFromExistingAccount())

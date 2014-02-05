@@ -213,8 +213,7 @@ private int gesamtdistanz=0;
 				}
 			}
 		//schlieﬂen durch menubutton aufruf
-		public void closegrandmawalking(MenuItem item) {
-			
+		public void closegrandmawalking(MenuItem item) {		
 				if(toast!=null){toast.cancel();}
 			    close=true;
 			    finish();
