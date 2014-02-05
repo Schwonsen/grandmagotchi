@@ -60,7 +60,7 @@ public class OverallTimings extends AsyncTask {
             Root.getUniqueRootInstance().addNeed(Needs.DRESS);
             if(Root.allClothDirty()){
                 Root.getUniqueRootInstance().addNeed(Needs.WASH);
-                Message.message(act, "You need to wash you clothes before!");
+                Message.message(act, "You need to wash your clothes before!");
             }
         }
         else{

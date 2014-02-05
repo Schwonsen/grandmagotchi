@@ -17,27 +17,18 @@
         android:id="@+id/btn_food"
         android:layout_width="71dp"
         android:layout_height="60dp"
-        android:layout_gravity="bottom|center"
+        android:layout_gravity="bottom|right"
         android:contentDescription="@string/btn_description_food"
         android:onClick="btnOnClickEat"
         android:src="@drawable/ic_action_eat" />
     <!-- android:background="@android:color/transparent" -->
-
-    <ImageButton
-        android:id="@+id/btn_drink"
-        android:layout_width="71dp"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom|left"
-        android:contentDescription="@string/btn_description_drink"
-        android:onClick="btnOnClickDrink"
-        android:src="@drawable/ic_action_drink" />
     <!-- android:background="@android:color/transparent" -->
 
     <ImageButton
         android:id="@+id/btn_wash_dishes"
         android:layout_width="71dp"
         android:layout_height="60dp"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|left"
         android:contentDescription="@string/btn_description_drink"
         android:onClick="btnOnClickWashDishes"
         android:src="@drawable/ic_action_dishes" />
