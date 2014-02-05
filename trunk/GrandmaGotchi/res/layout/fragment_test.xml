@@ -4,62 +4,82 @@
     android:layout_height="match_parent"
     tools:context=".FragmentSupermarket" >
 
-<LinearLayout 
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:orientation="vertical" android:layout_gravity="bottom|right">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_gravity="bottom|right"
+        android:orientation="vertical" >
 
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="medizinwunsch"
+            android:src="@drawable/ic_action_medication"
+            android:text="medizin" />
 
- <Button
-     android:layout_height="wrap_content"
-     android:layout_width="wrap_content"
-     android:text="essen"
-     android:onClick="essenswunsch" android:layout_gravity="right"/>
- 
-  <Button
-     android:layout_height="wrap_content"
-     android:layout_width="wrap_content"
-     android:text="trinken"
-     android:onClick="trinkenwunsch" android:layout_gravity="right"/>
-  
-   <Button
-     android:layout_height="wrap_content"
-     android:layout_width="wrap_content"
-     android:text="medizin"
-     android:onClick="medizinwunsch" android:layout_gravity="right"/>
-   
-    <Button
-     android:layout_height="wrap_content"
-     android:layout_width="wrap_content"
-     android:text="spazieren"
-     android:onClick="spazierenwunsch" android:layout_gravity="right"/>
-    
-     <Button
-     android:layout_height="wrap_content"
-     android:layout_width="wrap_content"
-     android:text="Geschir"
-     android:onClick="waschenwunsch" android:layout_gravity="right"/>
-     
-      <Button
-     android:layout_height="wrap_content"
-     android:layout_width="wrap_content"
-     android:text="sauber machen"
-     android:onClick="saubermachenwunsch" android:layout_gravity="right"/>
-    <Button
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Umziehen"
-            android:onClick="dressme" android:layout_gravity="right"/>
-    <Button
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Schlafen"
-            android:onClick="gosleep" android:layout_gravity="right"/>
-    <Button
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Simulation"
-            android:onClick="simulationsmodus" android:layout_gravity="right"/>
-</LinearLayout>
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="spazierenwunsch"
+            android:src="@drawable/grandmakopfklein"
+            android:text="spazieren" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="trinkenwunsch"
+            android:src="@drawable/ic_action_drink"
+            android:text="trinken" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="simulationsmodus"
+            android:src="@drawable/ic_action_help_bedroom"
+            android:text="Simulation" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:layout_gravity="bottom|left"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="essenswunsch"
+            android:src="@drawable/ic_action_eat"
+            android:text="essen" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="gosleep"
+            android:src="@drawable/ic_action_wake_up"
+            android:text="Schlafen" />
+
+        <ImageButton
+            android:id="@+id/imageButton1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="dressme"
+            android:src="@drawable/ic_clothes_underwear"
+            android:text="Umziehen" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="saubermachenwunsch"
+            android:src="@drawable/ic_action_brush"
+            android:text="sauber machen" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="waschenwunsch"
+            android:src="@drawable/ic_action_dishes"
+            android:text="Geschir" />
+    </LinearLayout>
 
 </FrameLayout>
