@@ -195,7 +195,7 @@ public class MealActivity extends Activity {
 					        				    Message.message(getBaseContext(), "The granny is no longer thirsty.");
                                                 Root.getUniqueRootInstance().setFakeThirst(false);
                                                 if(!Root.getUniqueRootInstance().isSimMode())
-                                                createTimer(RoomActivity.foodTimer, DrinkTimer.class);
+                                                createTimer(RoomActivity.drinkTimer, DrinkTimer.class);
                                             }
                                             else{
                                                 Message.message(getApplicationContext(), "Grandma is not thirsty.");
