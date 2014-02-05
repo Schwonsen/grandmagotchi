@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import com.uniks.grandmagotchi.util.Needs;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -157,7 +158,7 @@ public class WarderobeActivity extends Activity {
 						int position, long id) {
 					
 					//TODO Hier Reaktionen auf klicken der items ( Oma nicht mehr hungrieg etc.)
-					
+					Root.getUniqueRootInstance().removeNeed(Needs.DRESS);
 					
 
 					

@@ -1,5 +1,6 @@
 package com.uniks.grandmagotchi.util.timer.services;
 
+import com.uniks.grandmagotchi.util.Needs;
 import com.uniks.grandmagotchi.util.Root;
 import com.uniks.grandmagotchi.util.timer.receiver.DrinkReceiver;
 
@@ -15,5 +16,6 @@ public class DrinkTimer extends Timer {
     protected void setNeed() {
         BROADCAST_ACTION = DrinkReceiver.BROADCAST_ACTION;
         Root.getUniqueRootInstance().setThirsty(false);
+        Root.getUniqueRootInstance().removeNeed(Needs.DRINK);
     }
 }

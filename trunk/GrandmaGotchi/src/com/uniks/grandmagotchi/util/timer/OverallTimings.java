@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.uniks.grandmagotchi.R;
 import com.uniks.grandmagotchi.RoomActivity;
 import com.uniks.grandmagotchi.util.Message;
@@ -18,14 +20,18 @@ import com.uniks.grandmagotchi.util.timer.services.MedDeathTimer;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedList;
 
 /**
  * Created by Robin on 04.02.14.
  */
 public class OverallTimings extends AsyncTask {
     private Activity act;
+    private long houseClean;
     public OverallTimings (Activity act){
         this.act = act;
+        houseClean = 0; //TODO: set database value
     }
 
     @Override
@@ -79,27 +85,58 @@ public class OverallTimings extends AsyncTask {
             Root.getUniqueRootInstance().setMed(false);
         }
 
+        Date d = new Date();
+        long stamp = d.getTime();
+        if((houseClean + 604800000) < stamp && !Root.getUniqueRootInstance().containsNeed(Needs.CLEAN)){
+            Root.getUniqueRootInstance().addNeed(Needs.CLEAN);
+            houseClean = stamp;
+            //TODO: Write new stamp into db
+        }
+
         Log.d("grandmaRunner", "ruuuuun");
         act.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 LinearLayout needs = (LinearLayout) act.findViewById(R.id.needs_view);
                 needs.removeAllViews();
-                for(Needs need : Root.getUniqueRootInstance().getAllNeeds()){
+                LinkedList<Needs> granniesNeeds =  Root.getUniqueRootInstance().getAllNeeds();
+
+                for(Needs need : granniesNeeds){
+                    Log.d("grandmaNeeeeds", need.name());
                     ImageView iv = new ImageView(act.getApplicationContext());
-                    //TODO: switch to dps
-                    ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(20, 20);
+                    final float scale = act.getResources().getDisplayMetrics().density;
+                    int pixels = (int) (30 * scale + 0.5f);
+                    ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(pixels, pixels);
                     iv.setLayoutParams(lp);
+                    String text = "";
                     switch (need){
-                        case FOOD: iv.setImageResource(R.id.btn_food); break;
-                        case DRINK: iv.setImageResource(R.id.btn_drink); break;
-                        case MEDICINE: iv.setImageResource(R.id.btn_drugs); break;
-                        case BUY: iv.setImageResource(R.id.btn_shopcart); break;
-                        case WASH: iv.setImageResource(R.id.btn_washCloth); break;
-                        case SLEEP: iv.setImageResource(R.id.btn_bedroom_help); break;
-                        case DRESS: iv.setImageResource(R.id.btn_washCloth); break;
-                        case CLEAN: iv.setImageResource(R.id.btn_brush); break;
+                        case FOOD: iv.setImageResource(R.drawable.ic_action_eat);
+                            text = "Grandma wants to eat " + Root.getUniqueRootInstance().getFood(); break;
+                        case DRINK: iv.setImageResource(R.drawable.ic_action_drink);
+                            text ="Grandma wants to drink something"; break;
+                        case MEDICINE: iv.setImageResource(R.drawable.ic_action_medication);
+                            text = "Grandma needs Medication"; break;
+                        case BUY: iv.setImageResource(R.drawable.ic_action_shopcart);
+                            text = "Grandma needs to buy " + Root.getUniqueRootInstance().getBuysAsString(); break;
+                        case WASH: iv.setImageResource(R.drawable.ic_washing_machine);
+                            text = "Grandma needs to wash hr clothes"; break;
+                        case SLEEP: iv.setImageResource(R.drawable.ic_action_wake_up);
+                            text = "Grandma wants to go to bed"; break;
+                        case DRESS: iv.setImageResource(R.drawable.ic_wardrobe);
+                            text = "Grandma needs to get dressed"; break;
+                        case CLEAN: iv.setImageResource(R.drawable.ic_action_brush);
+                            text = "Grandma needs to clean the house"; break;
+                        case DISHES: iv.setImageResource(R.drawable.ic_action_dishes);
+                            text = "Grandma should clean the dishes"; break;
+                        default: break;
                     }
+                    final String clickText = text;
+                    iv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Message.message(act, clickText);
+                        }
+                    });
                     needs.addView(iv);
                 }
             }

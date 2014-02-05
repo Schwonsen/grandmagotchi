@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import com.uniks.grandmagotchi.util.Needs;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -130,6 +131,9 @@ public class ShopActivity extends Activity{
 //					        			Message.message(getBaseContext(), "You bought this item!");
 					        			foodItem.setCount(foodItem.getCount() + 1);
 					        			adapter.notifyDataSetChanged();
+                                        Root.getUniqueRootInstance().removeBuy(foodItem.getName());
+                                        if(Root.getUniqueRootInstance().getBuys().size() == 0)
+                                            Root.getUniqueRootInstance().removeNeed(Needs.BUY);
 					        		}
 					        		else
 					        		{

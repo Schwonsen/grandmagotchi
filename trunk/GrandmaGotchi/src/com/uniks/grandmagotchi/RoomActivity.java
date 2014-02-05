@@ -81,6 +81,9 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public static final int DRUGSTORE_POS = 5;
 	public static final int SUPERMARKET_POS = 6;
 	public static final int OUTSIDE_POS = 7;
+    public static final long foodTimer = 100000;
+    public static final long drinkTimer = 21600000;
+
 	final Context context = this;
 	
 	// by adding or removing a room update the new number of rooms
@@ -706,6 +709,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 				grannyImage.setImageResource(R.drawable.image_sleeping_grandma);
 				
 				btnWakeUp.setVisibility(View.VISIBLE);
+
+                Root.getUniqueRootInstance().removeNeed(Needs.SLEEP);
 			}
 		}
 		if(Root.getAttributes().getCurrentFragmentPosition() == WASHINGROOM_POS)
@@ -769,6 +774,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	    startActivity(new Intent(RoomActivity.this, PainkillerActivity.class));
 
 //		Message.message(this, "Grandma is fit again!");
+        Root.getUniqueRootInstance().removeNeed(Needs.MEDICINE);
 		//createTimer(5000, FoodTimer.class);
 
 	}
@@ -776,12 +782,14 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickWash(View view)
 	{		
 		Message.message(this,"All clothes are clean again!");
+        Root.getUniqueRootInstance().removeNeed(Needs.WASH);
 		diedPopup();
 	}
 	
 	public void btnOnClickBrush(View view)
 	{
 		Message.message(this,"The house is clean again");
+        Root.getUniqueRootInstance().removeNeed(Needs.CLEAN);
 		//createTimer(5000, FoodTimer.class);
 
 	}
@@ -789,13 +797,11 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickEat(View view)
 	{
 
-		if(Root.getUniqueRootInstance().isHungry()){
+		if(Root.getUniqueRootInstance().isHungry() || Root.getUniqueRootInstance().isThirsty()){
 			startActivity(new Intent(RoomActivity.this, MealActivity.class));
-			createTimer(5000, FoodTimer.class);
-            //TODO: create Timer for dish washing
 		}
 		else
-			Message.message(this, "Grandma is not hungry at the moment.");
+			Message.message(this, "Grandma is not hungry or thirsty at the moment.");
 
 	}
 	
@@ -803,7 +809,17 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	{
 		startActivity(new Intent(RoomActivity.this, WarderobeActivity.class));
 	}
-	
+
+    public void btnOnClickWashDishes(View view)
+    {
+        if(Root.getUniqueRootInstance().containsNeed(Needs.DISHES)){
+            Message.message(this, "Grandma washed the dishes");
+            Root.getUniqueRootInstance().removeNeed(Needs.DISHES);
+        }
+        else{
+            Message.message(this, "The dishes are clean.");
+        }
+    }
 	
 	public void btnOnClickShopcart(View view)
 	{
@@ -826,6 +842,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 				else
 				{
 					Message.message(this, "No Items, buy new Water");
+                    Root.getUniqueRootInstance().addNeed(Needs.BUY);
 				}
 			}
 		}
@@ -845,6 +862,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	{
 		Message.message(this, "Grandma is awake");
 		Root.getAttributes().setSleeping(false);
+        Root.getUniqueRootInstance().setSleeping(false);
 		
 		grannyImage = (ImageView) findViewById(R.id.imageGrandma);
 		grannyImage.setImageResource(currentgrandma);

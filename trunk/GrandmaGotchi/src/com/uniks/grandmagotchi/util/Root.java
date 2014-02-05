@@ -35,6 +35,43 @@ public class Root
     private boolean med = false;
     private boolean unhealthyFood = false;
     private LinkedList<Needs> needs= new LinkedList<Needs>();
+    private LinkedList<String> buys = new LinkedList<String>();
+
+    public String getBuysAsString(){
+        String ret = "";
+        for(String s : buys){
+            ret += ", " + s;
+        }
+        return ret.substring(2);
+    }
+
+    public LinkedList<String> getBuys() {
+        return buys;
+    }
+
+    public void setBuys(LinkedList<String> buys) {
+        this.buys = buys;
+    }
+    public void addBuys(String buy){
+        if(!buys.contains(buy)){
+            buys.add(buy);
+        }
+    }
+    public void removeBuy(String buy){
+        if(buy.contains(buy)){
+            buys.remove(buy);
+        }
+    }
+
+    public String getFood() {
+        return food;
+    }
+
+    public void setFood(String food) {
+        this.food = food;
+    }
+
+    private String food;
 
     public void addNeed(Needs need){
         for(Needs exNeed : needs){
