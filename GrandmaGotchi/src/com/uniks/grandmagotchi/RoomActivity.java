@@ -10,16 +10,14 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.view.*;
 
-
 import com.uniks.grandmagotchi.data.DatabaseAdapter;
 
 import android.os.AsyncTask;
-import android.view.*;
+import android.view.View.OnClickListener;
 
 
 import com.uniks.grandmagotchi.data.ClotheAttributes;
 import com.uniks.grandmagotchi.data.FoodAttributes;
-import com.uniks.grandmagotchi.data.RoomAttributes;
 import com.uniks.grandmagotchi.rooms.FragmentBedroom;
 import com.uniks.grandmagotchi.rooms.FragmentDressingRoom;
 import com.uniks.grandmagotchi.rooms.FragmentDrugstore;
@@ -35,6 +33,7 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -51,6 +50,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.uniks.grandmagotchi.util.timer.OverallTimings;
@@ -81,6 +81,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public static final int DRUGSTORE_POS = 5;
 	public static final int SUPERMARKET_POS = 6;
 	public static final int OUTSIDE_POS = 7;
+	final Context context = this;
 	
 	// by adding or removing a room update the new number of rooms
 	private static final int NUMBER_OF_ROOMS = 8;
@@ -299,6 +300,26 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			aTask = new OverallTimings(this);
 			aTask.execute();
 		}
+	}
+	//Deathscreen
+	private void diedPopup() {
+		final Dialog dialog = new Dialog(context);
+		dialog.setContentView(R.layout.dialog_dead_granny);
+		dialog.setTitle(R.string.dead);
+		dialog.setCancelable(false);
+		
+		Button dialogButton = (Button) dialog.findViewById(R.id.btn_respwan);
+		
+		// if button is clicked, respawn
+		dialogButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Message.message(getBaseContext(), "Start a new Game with your granny!");
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
 	}
 
 	private void init()
@@ -743,6 +764,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void btnOnClickWash(View view)
 	{		
 		Message.message(this,"All clothes are clean again!");
+		diedPopup();
 	}
 	
 	public void btnOnClickBrush(View view)
