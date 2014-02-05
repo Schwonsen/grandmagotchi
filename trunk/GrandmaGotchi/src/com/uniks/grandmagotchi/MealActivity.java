@@ -13,6 +13,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import android.content.Intent;
 import com.google.android.gms.games.multiplayer.realtime.Room;
+import com.uniks.grandmagotchi.util.Needs;
 import com.uniks.grandmagotchi.util.timer.services.DrinkTimer;
 import com.uniks.grandmagotchi.util.timer.services.FoodTimer;
 import org.w3c.dom.Document;
@@ -192,10 +193,10 @@ public class MealActivity extends Activity {
 					        			{
                                             if(Root.getUniqueRootInstance().isThirsty()){
 					        				    Message.message(getBaseContext(), "The granny is no longer thirsty.");
-                                                createTimer(RoomActivity.drinkTimer, DrinkTimer.class);
+                                                createTimer(RoomActivity.foodTimer, DrinkTimer.class);
                                             }
                                             else{
-                                                Message.message(getApplicationContext(), "Grandma is not thristy.");
+                                                Message.message(getApplicationContext(), "Grandma is not thirsty.");
                                                 ate = false;
                                             }
                                         }
@@ -203,13 +204,19 @@ public class MealActivity extends Activity {
 					        			{
 
                                             if(Root.getUniqueRootInstance().isHungry()){
-                                                if(foodItem.getName().equals(Root.getUniqueRootInstance().getFood())){
-					        				        Message.message(getBaseContext(), "The granny is no longer hungry.");
-                                                    createTimer(RoomActivity.foodTimer, FoodTimer.class);
+                                                if(!Root.getUniqueRootInstance().containsNeed(Needs.DISHES)) {
+                                                    if(foodItem.getName().equals(Root.getUniqueRootInstance().getFood())){
+					        				            Message.message(getBaseContext(), "The granny is no longer hungry.");
+                                                     createTimer(RoomActivity.foodTimer, FoodTimer.class);
+                                                    }
+                                                    else{
+                                                        Message.message(getApplicationContext(), "Grandma wants to eat " + Root.getUniqueRootInstance().getFood() + "!");
+                                                        ate = false;
+                                                    }
                                                 }
                                                 else{
-                                                    Message.message(getApplicationContext(), "Grandma wants to eat " + Root.getUniqueRootInstance().getFood() + "!");
                                                     ate = false;
+                                                    Message.message(getApplicationContext(), "You need to make the dishes, before you can eat!");
                                                 }
                                             }
                                             else{

@@ -72,7 +72,7 @@ public class OverallTimings extends AsyncTask {
             createMessage("Grandma ate a lot", "She needs Medicine!");
             startTimer(MedDeathTimer.class);
         }
-        if(hour == 20 && !Root.getUniqueRootInstance().isMed() && !Root.getUniqueRootInstance().containsNeed(Needs.MEDICINE)){
+        if(hour == 19 && !Root.getUniqueRootInstance().isMed() && !Root.getUniqueRootInstance().containsNeed(Needs.MEDICINE)){
             createMessage("It's late ..", "Grandma needs medicine");
             startTimer(MedDeathTimer.class);
             Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
@@ -80,6 +80,7 @@ public class OverallTimings extends AsyncTask {
 
         if(hour == 22 && !Root.getUniqueRootInstance().isSleeping()){
             createMessage("Grandma is tired", "Put her to sleep.");
+            Root.getUniqueRootInstance().addNeed(Needs.SLEEP);
         }
         if(hour == 5 && Root.getUniqueRootInstance().isMed()){
             Root.getUniqueRootInstance().setMed(false);
@@ -93,7 +94,6 @@ public class OverallTimings extends AsyncTask {
             //TODO: Write new stamp into db
         }
 
-        Log.d("grandmaRunner", "ruuuuun");
         act.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -102,7 +102,6 @@ public class OverallTimings extends AsyncTask {
                 LinkedList<Needs> granniesNeeds =  Root.getUniqueRootInstance().getAllNeeds();
 
                 for(Needs need : granniesNeeds){
-                    Log.d("grandmaNeeeeds", need.name());
                     ImageView iv = new ImageView(act.getApplicationContext());
                     final float scale = act.getResources().getDisplayMetrics().density;
                     int pixels = (int) (30 * scale + 0.5f);
@@ -145,7 +144,7 @@ public class OverallTimings extends AsyncTask {
 
 
         try{
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         }catch(InterruptedException e){
            e.printStackTrace();
             return null;
