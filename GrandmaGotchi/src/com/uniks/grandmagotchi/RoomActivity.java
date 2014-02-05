@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.view.*;
 
+import com.google.android.gms.internal.ev;
 import com.uniks.grandmagotchi.data.DatabaseAdapter;
 
 import android.os.AsyncTask;
@@ -32,6 +33,7 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentTransaction;
@@ -52,6 +54,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 
 import com.uniks.grandmagotchi.util.timer.OverallTimings;
 
@@ -140,6 +143,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	private MedReceiver mMedReceiver;
 	private AsyncTask aTask;
 	private ImageView grannyImage;
+	private PopupWindow fadePopup;
 
 	static int[][] grandmaimagearray=new int[5][5];
 	
