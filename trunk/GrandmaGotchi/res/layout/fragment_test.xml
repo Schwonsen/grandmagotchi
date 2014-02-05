@@ -1,0 +1,51 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FragmentSupermarket" >
+
+<LinearLayout 
+              android:layout_width="fill_parent" 
+              android:layout_height="fill_parent" 
+              android:orientation="vertical" >
+
+
+ <Button
+     android:layout_height="wrap_content"
+     android:layout_width="wrap_content"
+     android:text="essen"
+     android:onClick="essenswunsch" />
+ 
+  <Button
+     android:layout_height="wrap_content"
+     android:layout_width="wrap_content"
+     android:text="trinken"
+     android:onClick="trinkenwunsch" />
+  
+   <Button
+     android:layout_height="wrap_content"
+     android:layout_width="wrap_content"
+     android:text="medizin"
+     android:onClick="medizinwunsch" />
+   
+    <Button
+     android:layout_height="wrap_content"
+     android:layout_width="wrap_content"
+     android:text="spazieren"
+     android:onClick="spazierenwunsch" />
+    
+     <Button
+     android:layout_height="wrap_content"
+     android:layout_width="wrap_content"
+     android:text="waschen"
+     android:onClick="waschenwunsch" />
+     
+      <Button
+     android:layout_height="wrap_content"
+     android:layout_width="wrap_content"
+     android:text="sauber machen"
+     android:onClick="saubermachenwunsch" />
+ 
+</LinearLayout>
+
+</FrameLayout>

@@ -2,6 +2,7 @@ package com.uniks.grandmagotchi;
 
 
 import java.util.Calendar;
+import java.util.Random;
 
 import android.app.NotificationManager;
 
@@ -26,6 +27,7 @@ import com.uniks.grandmagotchi.rooms.FragmentKitchen;
 import com.uniks.grandmagotchi.rooms.FragmentLivingRoom;
 import com.uniks.grandmagotchi.rooms.FragmentOutside;
 import com.uniks.grandmagotchi.rooms.FragmentSupermarket;
+import com.uniks.grandmagotchi.rooms.FragmentTest;
 import com.uniks.grandmagotchi.rooms.FragmentWashingRoom;
 import com.uniks.grandmagotchi.util.*;
 
@@ -46,6 +48,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -54,6 +57,9 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
+
+import android.widget.Toast;
+
 import android.widget.PopupWindow;
 
 import com.uniks.grandmagotchi.util.timer.OverallTimings;
@@ -84,13 +90,14 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public static final int DRUGSTORE_POS = 5;
 	public static final int SUPERMARKET_POS = 6;
 	public static final int OUTSIDE_POS = 7;
-    public static final long foodTimer = 100000;
+	public static final int TEST_POS = 8;	
+	public static final long foodTimer = 100000;
     public static final long drinkTimer = 21600000;
 
 	final Context context = this;
 	
 	// by adding or removing a room update the new number of rooms
-	private static final int NUMBER_OF_ROOMS = 8;
+	private static final int NUMBER_OF_ROOMS = 9;
 	
 	// the threshold for how hard you've to shake the device to react
 	private static final int SHAKE_THRESHOLD = 6;
@@ -121,6 +128,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	private Fragment drugstoreFragment;
 	private Fragment supermarketFragment;
 	private Fragment outsideFragment;
+	private Fragment testFragment;
 	
 	private ViewPager viewPager;
 	private ActionBar actionBar;
@@ -143,9 +151,30 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	private MedReceiver mMedReceiver;
 	private AsyncTask aTask;
 	private ImageView grannyImage;
+
+	private boolean youtubebuttonclicked = false;
+	protected int dancecounter=0;
+
 	private PopupWindow fadePopup;
 
+
 	static int[][] grandmaimagearray=new int[5][5];
+	
+	public void updatestatusgrandma(){
+		if (Root.getUniqueRootInstance().containsNeed(Needs.MEDICINE)){
+			currentgrandmastatus=2;
+		}if(Root.getUniqueRootInstance().isThirsty()==true){
+			currentgrandmastatus=4;
+		}else if(Root.getUniqueRootInstance().isHungry()==true){
+			currentgrandmastatus=4;
+		}else{currentgrandmastatus=1;}
+	}
+	
+	public void updatecurrentgrandmacomplete(){		
+	updatestatusgrandma();
+	updatecurrentgrandma();
+	updatecurrentgrandmaimage();
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -158,7 +187,6 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 //		this.setTitle(Root.getAttributes().getName() + " - Difficulty: " + Root.getAttributes().getDifficultyLevel());
 		
 		init();
-		
 		Root.getAttributes().setCurrentFragmentPosition(LIVINGROOM_POS);
 		
 		// initialization and registration of the sensor
@@ -173,6 +201,9 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		mAccel = 0.00f;
 		mAccelCurrent = SensorManager.GRAVITY_EARTH;
 		mAccelLast = SensorManager.GRAVITY_EARTH;
+		
+
+		updatecurrentgrandmacomplete();
 		
 		// adding rooms to a static list to reuse them
 		livingRoomFragment = new FragmentLivingRoom();
@@ -191,6 +222,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		Root.getRoomList().add(supermarketFragment);
 		outsideFragment = new FragmentOutside();
 		Root.getRoomList().add(outsideFragment);
+		testFragment = new FragmentTest();
+		Root.getRoomList().add(testFragment);
 
 		// initialization and registration of the viewpager for swiping the fragments
 		viewPager = (ViewPager) findViewById(R.id.pager);
@@ -280,6 +313,10 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		tabOutside.setText("Outside");
 		tabOutside.setTabListener(this);
 		
+		ActionBar.Tab tabTest = actionBar.newTab();
+		tabTest.setText("Test");
+		tabTest.setTabListener(this);
+		
 		actionBar.addTab(tabLivingRoom);
 		actionBar.addTab(tabKitchen);
 		actionBar.addTab(tabDressingRoom);
@@ -288,6 +325,9 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		actionBar.addTab(tabDrugstore);
 		actionBar.addTab(tabSupermarket);
 		actionBar.addTab(tabOutside);
+		actionBar.addTab(tabTest
+				
+				);
 
 		//Timer Listener
 		try{
@@ -322,6 +362,11 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		// if button is clicked, respawn
 		dialogButton.setOnClickListener(new OnClickListener() {
 
+
+
+
+	
+
 			@Override
 			public void onClick(View v) {
 				Message.message(ctx, "Start a new Game with your granny!");
@@ -330,6 +375,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		});
 		dialog.show();
 	}
+
 
 	private void init()
 	{		
@@ -441,7 +487,10 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		String ns = Context.NOTIFICATION_SERVICE;
 		NotificationManager nMgr = (NotificationManager) getApplicationContext().getSystemService(ns);
 		nMgr.cancel(123456789);
-		updatecurrentgrandmaimage();
+		updatecurrentgrandmacomplete();
+		if (youtubebuttonclicked==true){
+		startdancing();
+		}
         if(aTask.getStatus() != AsyncTask.Status.RUNNING){
             aTask.execute();
         }
@@ -612,6 +661,10 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			{
 				fragment = Root.getRoomList().get(OUTSIDE_POS);
 			}
+			else if(position == TEST_POS)
+			{
+				fragment = Root.getRoomList().get(TEST_POS);
+			}
 			
 			
 			return fragment;
@@ -682,8 +735,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		
 		// slides to the fragment (room) you selected on the actionbar tabs
 		viewPager.setCurrentItem(tab.getPosition());
-		updatecurrentgrandmaimage();
-
+		//updatecurrentgrandmaimage();
+		updatecurrentgrandmacomplete();
 	}
 
 	@Override
@@ -773,7 +826,43 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		String videoID = "raluLqdSrJ4";
 		startActivity(new Intent(Intent.ACTION_VIEW,
 				Uri.parse("http://m.youtube.com/watch?v=" + videoID)));
+		youtubebuttonclicked=true;
+		dancecounter=0;
 	}
+	public void startdancing(){
+    if (Root.getAttributes().getCurrentFragmentPosition()==0 && dancecounter<30){
+    int grandmadancepicture = R.drawable.grandmadance1;
+	Handler handler = new Handler(); 
+	grannyImage = (ImageView) findViewById(R.id.imageGrandma);
+	grannyImage.setImageResource(R.drawable.grandmadancing1);
+	Random rn = new Random();
+	int randomnumber = rn.nextInt(2) + 1;
+	switch(randomnumber){
+	case 1:
+	grandmadancepicture=R.drawable.grandmadance1;
+	break;
+	case 2:
+		grandmadancepicture=R.drawable.grandmadance2;
+		break;
+	case 3:
+		grandmadancepicture=R.drawable.grandmadance3;
+		break;
+	}
+	grannyImage.setImageResource(grandmadancepicture);
+    handler.postDelayed(new Runnable() { 
+
+		public void run() { 
+             dancecounter=dancecounter+1;
+        	 startdancing();
+         } 
+    }, 170);
+    }
+    else{
+    	grannyImage.setImageResource(currentgrandma);
+    }
+youtubebuttonclicked=false;
+	}
+
 	
 	public void btnOnClickSoap(View view) 
 	{
@@ -788,15 +877,15 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	    startActivity(new Intent(RoomActivity.this, PainkillerActivity.class));
 
 //		Message.message(this, "Grandma is fit again!");
-        Root.getUniqueRootInstance().removeNeed(Needs.MEDICINE);
-		//createTimer(5000, FoodTimer.class);
+	    Root.getUniqueRootInstance().removeNeed(Needs.MEDICINE);
+	    //createTimer(5000, FoodTimer.class);
 
 	}
 	
 	public void btnOnClickWash(View view)
 	{		
 		Message.message(this,"All clothes are clean again!");
-        Root.getUniqueRootInstance().removeNeed(Needs.WASH);
+		Root.getUniqueRootInstance().removeNeed(Needs.WASH);
 		for(ClotheAttributes clotheItem : Root.getClotheList())
 		{
 			 clotheItem.setDirty(false);
@@ -827,6 +916,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	{
 		startActivity(new Intent(RoomActivity.this, WarderobeActivity.class));
 	}
+	
 
     public void btnOnClickWashDishes(View view)
     {
@@ -839,6 +929,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
         }
     }
 	
+	
+    
 	public void btnOnClickShopcart(View view)
 	{
 		startActivity(new Intent(RoomActivity.this, ShopActivity.class));
@@ -880,7 +972,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	{
 		Message.message(this, "Grandma is awake");
 		Root.getAttributes().setSleeping(false);
-        Root.getUniqueRootInstance().setSleeping(false);
+		Root.getUniqueRootInstance().setSleeping(false);
 		
 		grannyImage = (ImageView) findViewById(R.id.imageGrandma);
 		grannyImage.setImageResource(currentgrandma);
@@ -902,5 +994,26 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		startActivity(intent);
 	}
 
+	//Testmethoden
+	public void essenswunsch(View view){
+		Toast.makeText(getApplicationContext(), "essen", Toast.LENGTH_LONG).show();	
+	}
+	public void trinkenwunsch(View view){
+		Toast.makeText(getApplicationContext(), "trinken", Toast.LENGTH_LONG).show();	
+	}
+	public void medizinwunsch(View view){
+		Toast.makeText(getApplicationContext(), "medizin", Toast.LENGTH_LONG).show();	
+	}
+	public void spazierenwunsch(View view){
+		Toast.makeText(getApplicationContext(), "spazieren", Toast.LENGTH_LONG).show();	
+	}
+	public void waschenwunsch(View view){
+		Toast.makeText(getApplicationContext(), "waschen", Toast.LENGTH_LONG).show();	
+	}
+	public void saubermachenwunsch(View view){
+		Toast.makeText(getApplicationContext(), "sauber machen", Toast.LENGTH_LONG).show();	
+	}
+	
+	
 }
 

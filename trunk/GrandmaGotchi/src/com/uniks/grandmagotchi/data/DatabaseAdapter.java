@@ -25,8 +25,7 @@ public class DatabaseAdapter
 	}
 	
 	public long insertData(String name, String password, String difficultyLevel)
-	{
-		
+	{		
 		SQLiteDatabase db = databaseHandler.getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(DatabaseHandler.NAME, name);
