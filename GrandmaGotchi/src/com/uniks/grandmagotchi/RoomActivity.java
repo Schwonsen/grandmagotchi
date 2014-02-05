@@ -823,10 +823,15 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public static void updatecurrentgrandma(){
       currentgrandma=grandmaimagearray[currentgrandmacloth][currentgrandmastatus];
 	}
-	public void updatecurrentgrandmaimage(){
-		      ImageView grannyBedroom= (ImageView) findViewById(R.id.imageGrandma);
-		      grannyBedroom.setImageResource(currentgrandma);
+
+	public void updatecurrentgrandmaimage() {
+		ImageView grannyBedroom = (ImageView) findViewById(R.id.imageGrandma);
+		grannyBedroom.setImageResource(currentgrandma);
+		Message.message(this, "Grandma is awake");
+		Root.getAttributes().setSleeping(false);
+		Root.getUniqueRootInstance().setSleeping(false);
 	}
+	
     public void initializegranmaimagearray(){
 	//normal
 	grandmaimagearray[0][0]= R.drawable.image_grandma_normal;
