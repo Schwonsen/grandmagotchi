@@ -1,6 +1,7 @@
 package com.uniks.grandmagotchi.util.timer.receiver;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import com.uniks.grandmagotchi.MealActivity;
@@ -46,12 +47,12 @@ public class FoodReceiver extends NotificationReceiver
     @Override
     protected void createNeed(){
         Root.getUniqueRootInstance().setHungry(true);
-        setRandomFood();
+        setRandomFood(act);
         Root.getUniqueRootInstance().addNeed(Needs.FOOD);
 
     }
 
-    private void setRandomFood() {
+    public static void setRandomFood(Context ctx) {
         String timeStamp = new SimpleDateFormat("HH").format(Calendar.getInstance().getTime());
         int hour = Integer.valueOf(timeStamp);
         String meal = "dinner";
@@ -73,7 +74,7 @@ public class FoodReceiver extends NotificationReceiver
 
             docBuilder = docBuilderFactory.newDocumentBuilder();
 
-        Document doc = docBuilder.parse(act.getAssets().open("mealdata.xml"));
+        Document doc = docBuilder.parse(ctx.getAssets().open("mealdata.xml"));
 
         final ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
 
@@ -96,11 +97,11 @@ public class FoodReceiver extends NotificationReceiver
             random.setSeed(System.currentTimeMillis());
             int myRand = random.nextInt(2);
             Root.getUniqueRootInstance().setFood(possible[myRand]);
-            Message.message(act, "Grandma wants to eat " + possible[myRand]);
+            Message.message(ctx, "Grandma wants to eat " + possible[myRand]);
             for(FoodAttributes fa : Root.getFoodList()){
                 if(fa.getName().equals(possible[myRand])){
                     if(fa.getCount() == 0){
-                        Message.message(act, "You need to buy " + fa.getName());
+                        Message.message(ctx, "You need to buy " + fa.getName());
                         Root.getUniqueRootInstance().addNeed(Needs.BUY);
                         Root.getUniqueRootInstance().addBuys(fa.getName());
                     }
