@@ -17,6 +17,9 @@ import android.os.AsyncTask;
 import android.view.View.OnClickListener;
 
 
+
+
+
 import com.uniks.grandmagotchi.data.ClotheAttributes;
 import com.uniks.grandmagotchi.data.FoodAttributes;
 import com.uniks.grandmagotchi.rooms.FragmentBedroom;
@@ -41,6 +44,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -56,17 +60,16 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
-
 import android.widget.Toast;
-
 import android.widget.PopupWindow;
 
 import com.uniks.grandmagotchi.util.timer.OverallTimings;
-
 import com.uniks.grandmagotchi.util.timer.receiver.DrinkReceiver;
 import com.uniks.grandmagotchi.util.timer.receiver.FoodReceiver;
 import com.uniks.grandmagotchi.util.timer.receiver.MedReceiver;
+import com.uniks.grandmagotchi.util.timer.services.DrinkDeathTimer;
 import com.uniks.grandmagotchi.util.timer.services.DrinkTimer;
+import com.uniks.grandmagotchi.util.timer.services.FoodDeathTimer;
 import com.uniks.grandmagotchi.util.timer.services.FoodTimer;
 
 import android.widget.ImageView;
@@ -162,6 +165,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void updatestatusgrandma(){
 		if (Root.getUniqueRootInstance().containsNeed(Needs.MEDICINE)){
 			currentgrandmastatus=2;
+			
 		}if(Root.getUniqueRootInstance().isThirsty()==true){
 			currentgrandmastatus=4;
 		}else if(Root.getUniqueRootInstance().isHungry()==true){
@@ -381,16 +385,126 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		initializegranmaimagearray();//fuer grandmaimageaustausch
 		
 		databaseHandler = new DatabaseAdapter(this);
+		
+		
 
 		if(Root.isCalledFromExistingAccount())
 		{
-
+			
 			Root.setFoodList(databaseHandler.getFoodDataById(Root.getId()));
 			Root.setClotheList(databaseHandler.getClothDataById(Root.getId()));
+			
+			Cursor cursorFood = databaseHandler.getCurrentTimeByNameAndId(Root.getId(), "FoodTimer");
+			cursorFood.moveToFirst();
+			String startFoodTime = cursorFood.getString(0);
+			String currentFoodTime = cursorFood.getString(1);
+			
+			Cursor cursorDrink = databaseHandler.getCurrentTimeByNameAndId(Root.getId(), "DrinkTimer");
+			cursorDrink.moveToFirst();
+			String startDrinkTime = cursorDrink.getString(0);
+			String currentDrinkTime = cursorDrink.getString(1);
+			
+			Cursor cursorNeeds = databaseHandler.getNeedsById(Root.getId());
+			cursorNeeds.moveToFirst();
+			String allNeeds = cursorNeeds.getString(0);
+			String[] needsArray = allNeeds.split(",");
+			for(String need : needsArray)
+			{
+				switch (Integer.valueOf(need))
+				{
+				case 1:
+					Root.getUniqueRootInstance().addNeed(Needs.DRINK);
+					break;
+					
+				case 2:
+					Root.getUniqueRootInstance().addNeed(Needs.FOOD);
+					break;
+					
+				case 3:
+					Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
+					break;
+					
+				case 4:
+					Root.getUniqueRootInstance().addNeed(Needs.SLEEP);
+					break;
+					
+				case 5:
+					Root.getUniqueRootInstance().addNeed(Needs.DRESS);
+					break;
+					
+				case 6:
+					Root.getUniqueRootInstance().addNeed(Needs.WASH);
+					break;
+					
+				case 7:
+					Root.getUniqueRootInstance().addNeed(Needs.BUY);
+					break;
+					
+				case 8:
+					Root.getUniqueRootInstance().addNeed(Needs.CLEAN);
+					break;
+					
+				case 9:
+					Root.getUniqueRootInstance().addNeed(Needs.DISHES);
+					break;
+					
+//				case 10:
+//					Root.getUniqueRootInstance().addNeed(Needs.WALK);
+//					break;
+					
+				default:
+					break;
+				}
+
+			}
+			
+			long currentFood = (Long.valueOf(currentFoodTime) + Long.valueOf(startFoodTime)) - System.currentTimeMillis();
+			long currentDrink = (Long.valueOf(currentDrinkTime) + Long.valueOf(startDrinkTime)) - System.currentTimeMillis();
+			
+			if(currentFood < 0)
+			{
+				
+				if(currentFood < -(60*60*1000))
+				{
+					diedPopup(this);
+				}
+				else
+				{
+					createTimer(60*60*1000 + currentFood, FoodDeathTimer.class);
+					FoodReceiver.setRandomFood(this);
+					Root.getUniqueRootInstance().addNeed(Needs.FOOD);
+				}
+				
+			}
+			else
+			{
+				createTimer(currentFood, FoodTimer.class);
+			}
+			
+			if(currentDrink < 0)
+			{
+				
+				if(currentDrink < -(60*60*1000))
+				{
+					diedPopup(this);
+				}
+				else
+				{
+					createTimer(60*60*1000 + currentDrink, DrinkDeathTimer.class);
+					Root.getUniqueRootInstance().addNeed(Needs.DRINK);
+				}
+				
+			}
+			else
+			{
+				createTimer(currentDrink, DrinkDeathTimer.class);
+			}
 			
 		}
 		else if(!Root.isCalledFromExistingAccount())
 		{
+			
+			setstartsetup();
 
 			YOGURT.setName("Yogurt");
 			YOGURT.setCount(3);
@@ -534,12 +648,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int id) {
 		            	   
-		            	   // gets the current time and date
-		            	   String date = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
-		            	   
-		            	   if(Root.DEBUG) Message.message(RoomActivity.this, date);
-		            	   
-		       
+
 		            	   long status = -1;
 		            	   if(Root.isCalledFromExistingAccount())
 		            	   {
@@ -558,6 +667,14 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		            			   String clothCurrentDress = String.valueOf(cA.isCurrentDress());
 		            			   databaseHandler.updateClothdData(Root.getId(), clothName, clothDirtyStatus, clothCurrentDress);
 		            		   }
+		            		   
+		            		   String allNeeds = "";
+		            		   for(Needs need : Root.getUniqueRootInstance().getAllNeeds())
+		            		   {
+		            			   allNeeds += "," + need.getValue();
+		            		   }
+		            		   allNeeds = allNeeds.substring(1);
+		            		   databaseHandler.updateNeedsData(Root.getId(), allNeeds);
 		            		   
 		            		   if(status < 0)
 			            	   	{
@@ -594,7 +711,13 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		            			   databaseHandler.insertClothData(idCode, clothName, clothDirtyStatus, clothCurrentDress);
 		            		   }
 		            		   
-		            		   
+		            		   String allNeeds = "";
+		            		   for(Needs need : Root.getUniqueRootInstance().getAllNeeds())
+		            		   {
+		            			   allNeeds += "," + need.getValue();
+		            		   }
+		            		   allNeeds = allNeeds.substring(1);
+		            		   databaseHandler.insertNeedsData(idCode, allNeeds);
 		            	   }
 		            	   
 		   				
@@ -970,7 +1093,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		btnWakeUp.setVisibility(View.INVISIBLE);
 	} 
 	
-	private void createTimer(int countdown, Class target){
+	private void createTimer(long countdown, Class target){
 		Intent mServiceIntent = new Intent(getApplicationContext(), target);
 		mServiceIntent.putExtra("countdown", countdown);
 		startService(mServiceIntent);
@@ -1078,4 +1201,10 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
         }
     }
 	
+
+	public void setstartsetup(){	
+        createTimer(5000, FoodTimer.class);
+        createTimer(5000, DrinkTimer.class);
+	}
+
 }

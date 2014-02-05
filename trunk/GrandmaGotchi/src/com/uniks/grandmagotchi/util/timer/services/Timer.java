@@ -3,6 +3,8 @@ package com.uniks.grandmagotchi.util.timer.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
+
+import com.uniks.grandmagotchi.data.DatabaseAdapter;
 import com.uniks.grandmagotchi.util.timer.receiver.DrinkReceiver;
 
 /**
@@ -11,11 +13,14 @@ import com.uniks.grandmagotchi.util.timer.receiver.DrinkReceiver;
 public abstract class Timer extends IntentService {
     protected String BROADCAST_ACTION;
     protected long time;
+    DatabaseAdapter databaseHandler;
     public Timer(String name) {
         super(name);
+        databaseHandler = new DatabaseAdapter(this);
     }
     public Timer(){
         super("Timer");
+        databaseHandler = new DatabaseAdapter(this);
     }
 
     @Override
@@ -46,4 +51,9 @@ public abstract class Timer extends IntentService {
     }
     protected abstract long getTime(long time);
     protected abstract void setNeed();
+    
+    public DatabaseAdapter getDatabaseHandler()
+    {
+    	return databaseHandler;
+    }
 }

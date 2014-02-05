@@ -1,6 +1,11 @@
 package com.uniks.grandmagotchi.util.timer.services;
 
+
+import com.uniks.grandmagotchi.RoomActivity;
+import com.uniks.grandmagotchi.data.DatabaseAdapter;
+
 import com.uniks.grandmagotchi.util.Message;
+
 import com.uniks.grandmagotchi.util.Needs;
 import com.uniks.grandmagotchi.util.Root;
 import com.uniks.grandmagotchi.util.timer.receiver.FoodReceiver;
@@ -40,13 +45,29 @@ public class FoodTimer extends Timer {
             Root.getUniqueRootInstance().setUnhealthyFood(false);
         }
         BROADCAST_ACTION = FoodReceiver.BROADCAST_ACTION;
+        
+        DatabaseAdapter databaseHandler = getDatabaseHandler();
+        
         if(Root.isCalledFromExistingAccount())
         {
-        	
+        	if(databaseHandler.getTimer(Root.getId(), "FoodTimer"))
+            {
+        		String date = String.valueOf(System.currentTimeMillis());
+            	databaseHandler.updateTimerData(Root.getId(), "FoodTimer" , date, String.valueOf(time));
+            }
+        	else
+        	{
+        		String date = String.valueOf(System.currentTimeMillis());
+        		databaseHandler.insertTimerData(Root.getId(), "FoodTimer", date, String.valueOf(time));
+        	}
         }
         else
         {
-        	
+        	String[] countNames = databaseHandler.getNamesArray();
+ 		   	String idCode = String.valueOf(countNames.length);
+ 		   	String date = String.valueOf(System.currentTimeMillis());
+ 		   	databaseHandler.insertTimerData(idCode, "FoodTimer", date, String.valueOf(time));
         }
+        
     }
 }

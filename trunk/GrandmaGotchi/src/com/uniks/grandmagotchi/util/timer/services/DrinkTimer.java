@@ -1,5 +1,6 @@
 package com.uniks.grandmagotchi.util.timer.services;
 
+import com.uniks.grandmagotchi.data.DatabaseAdapter;
 import com.uniks.grandmagotchi.util.Needs;
 import com.uniks.grandmagotchi.util.Root;
 import com.uniks.grandmagotchi.util.timer.receiver.DrinkReceiver;
@@ -17,6 +18,33 @@ public class DrinkTimer extends Timer {
         BROADCAST_ACTION = DrinkReceiver.BROADCAST_ACTION;
         Root.getUniqueRootInstance().setThirsty(false);
         Root.getUniqueRootInstance().removeNeed(Needs.DRINK);
+
+        
+        
+        DatabaseAdapter databaseHandler = getDatabaseHandler();
+        
+        if(Root.isCalledFromExistingAccount())
+        {
+        	if(databaseHandler.getTimer(Root.getId(), "DrinkTimer"))
+            {
+        		String date = String.valueOf(System.currentTimeMillis());
+            	databaseHandler.updateTimerData(Root.getId(), "DrinkTimer" , date, String.valueOf(time));
+            }
+        	else
+        	{
+        		String date = String.valueOf(System.currentTimeMillis());
+        		databaseHandler.insertTimerData(Root.getId(), "DrinkTimer", date, String.valueOf(time));
+        	}
+        }
+        else
+        {
+        	String[] countNames = databaseHandler.getNamesArray();
+ 		   	String idCode = String.valueOf(countNames.length);
+ 		   	String date = String.valueOf(System.currentTimeMillis());
+ 		   	databaseHandler.insertTimerData(idCode, "DrinkTimer", date, String.valueOf(time));
+        }
+
         Root.getUniqueRootInstance().setDrinkTimerRunning(true);
+
     }
 }

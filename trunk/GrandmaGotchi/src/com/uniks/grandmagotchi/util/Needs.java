@@ -12,6 +12,9 @@ public enum Needs {
     public static boolean compare(Needs a, Needs b){
         return a.value == b.value;
     }
-
+    public int getValue()
+    {
+    	return value;
+    }
 
 }

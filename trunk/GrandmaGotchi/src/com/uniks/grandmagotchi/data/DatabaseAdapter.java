@@ -56,8 +56,7 @@ public class DatabaseAdapter
 		contentValues.put(DatabaseHandler.CLOTH_NAME, clothName);
 		contentValues.put(DatabaseHandler.CLOTH_DIRTY_STATUS, clothDirtyStatus);
 		contentValues.put(DatabaseHandler.CLOTH_CURRENT_DRESS, clothCurrentDress);
-		
-		
+
 		long status = db.insert(DatabaseHandler.CLOTH_TABLE, null, contentValues);
 		return status;
 	}
@@ -74,6 +73,18 @@ public class DatabaseAdapter
 		
 		
 		long status = db.insert(DatabaseHandler.TIMER_TABLE, null, contentValues);
+		return status;
+	}
+	
+	public long insertNeedsData(String id, String needsName)
+	{
+		SQLiteDatabase db = databaseHandler.getWritableDatabase();
+		ContentValues contentValues = new ContentValues();
+		
+		contentValues.put(DatabaseHandler.NEEDS_ID, id);
+		contentValues.put(DatabaseHandler.NEEDS_NAME, needsName);
+		
+		long status = db.insert(DatabaseHandler.NEEDS_TABLE, null, contentValues);
 		return status;
 	}
 	
@@ -113,6 +124,17 @@ public class DatabaseAdapter
 		
 		db.update(DatabaseHandler.TIMER_TABLE, contentValues, DatabaseHandler.TIMER_ID+ "=? AND "
 				+ DatabaseHandler.TIMER_NAME + "=?", whereArgs);
+	}
+	
+	public void updateNeedsData(String id, String needsName)
+	{
+		SQLiteDatabase db = databaseHandler.getWritableDatabase();
+		ContentValues contentValues = new ContentValues();
+		
+		contentValues.put(DatabaseHandler.NEEDS_NAME, needsName);
+		String[] whereArgs = {id};
+		
+		db.update(DatabaseHandler.NEEDS_TABLE, contentValues, DatabaseHandler.NEEDS_ID+ "=?", whereArgs);
 	}
 
 
@@ -174,6 +196,24 @@ public class DatabaseAdapter
 				}
 			}
 			return clothAttributes;
+	}
+	
+	public Cursor getCurrentTimeByNameAndId(String id, String name)
+	{
+
+			SQLiteDatabase db = databaseHandler.getWritableDatabase();
+
+			Cursor c = db.query(DatabaseHandler.TIMER_TABLE, new String[] {DatabaseHandler.TIMER_START_TIME, DatabaseHandler.TIMER_CURRENT_TIME}, DatabaseHandler.TIMER_ID + "= ? AND " + DatabaseHandler.TIMER_NAME + " = ?", new String[] {id, name}, null, null, null);
+			return c;
+	}
+	
+	public Cursor getNeedsById(String id)
+	{
+
+			SQLiteDatabase db = databaseHandler.getWritableDatabase();
+
+			Cursor c = db.query(DatabaseHandler.NEEDS_TABLE, new String[] {DatabaseHandler.NEEDS_NAME}, DatabaseHandler.NEEDS_ID + "= ?", new String[] {id}, null, null, null);
+			return c;
 	}
 	
 	
@@ -301,9 +341,9 @@ public class DatabaseAdapter
 		return data;
 	}
 
-    public boolean getTimer(int userid, String timername){
+    public boolean getTimer(String id, String timername){
         SQLiteDatabase db = databaseHandler.getWritableDatabase();
-        Cursor c = db.query(databaseHandler.TIMER_TABLE, new String[] {databaseHandler.TIMER_NAME}, databaseHandler.TIMER_ID + "= ? AND " + databaseHandler.TIMER_NAME + " = ?", new String[] {String.valueOf(userid), timername}, null, null, null, "1");
+        Cursor c = db.query(DatabaseHandler.TIMER_TABLE, new String[] {DatabaseHandler.TIMER_NAME}, DatabaseHandler.TIMER_ID + "= ? AND " + DatabaseHandler.TIMER_NAME + " = ?", new String[] {id, timername}, null, null, null, "1");
         return c.getCount() > 0;
     }
 	
@@ -311,7 +351,7 @@ public class DatabaseAdapter
 	static class DatabaseHandler extends SQLiteOpenHelper
 	{
 		private static final String DATABASE_NAME = "savegame.db";
-		private static final int DATABASE_VERSION = 13;
+		private static final int DATABASE_VERSION = 17;
 		
 		private static final String SAVEGAME_TABLE = "savegame";
 		
@@ -360,6 +400,15 @@ public class DatabaseAdapter
 		private static final String DROP_TABLE_TIMER = "DROP TABLE IF EXISTS " + TIMER_TABLE;
 		
 
+		private static final String NEEDS_TABLE = "saveneeds";
+		
+		private static final String NEEDS_ID = "_id";
+		private static final String NEEDS_NAME = "needsName";
+		private static final String QUERY_NEEDS = "CREATE TABLE " + NEEDS_TABLE + " (" +
+				NEEDS_ID + " VARCHAR(255), " + NEEDS_NAME + " VARCHAR(255));";
+		private static final String DROP_TABLE_NEEDS = "DROP TABLE IF EXISTS " + NEEDS_TABLE;
+		
+
 
 
 		private Context context;
@@ -380,6 +429,7 @@ public class DatabaseAdapter
 				db.execSQL(QUERY_FOOD);
 				db.execSQL(QUERY_CLOTH);
 				db.execSQL(QUERY_TIMER);
+				db.execSQL(QUERY_NEEDS);
 				if(Root.DEBUG) Message.message(context, "onCreate called");
 			}
 			catch(SQLException e)
@@ -399,6 +449,7 @@ public class DatabaseAdapter
 				db.execSQL(DROP_TABLE_FOOD);
 				db.execSQL(DROP_TABLE_CLOTH);
 				db.execSQL(DROP_TABLE_TIMER);
+				db.execSQL(DROP_TABLE_NEEDS);
 				onCreate(db);
 			}
 			catch (SQLException e)

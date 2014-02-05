@@ -6,6 +6,8 @@ public class ClotheAttributes
 	private String name;
 	private boolean isDirty;
 	private boolean isCurrentDress;
+	private int currentDress;
+	private int currentDressMood;
 	
 	public String getName()
 	{
@@ -30,6 +32,22 @@ public class ClotheAttributes
 	public void setCurrentDress(boolean isCurrentDress)
 	{
 		this.isCurrentDress = isCurrentDress;
+	}
+	public int getCurrentDress()
+	{
+		return currentDress;
+	}
+	public void setCurrentDress(int currentDress)
+	{
+		this.currentDress = currentDress;
+	}
+	public int getCurrentDressMood()
+	{
+		return currentDressMood;
+	}
+	public void setCurrentDressMood(int currentDressMood)
+	{
+		this.currentDressMood = currentDressMood;
 	}
 
 
