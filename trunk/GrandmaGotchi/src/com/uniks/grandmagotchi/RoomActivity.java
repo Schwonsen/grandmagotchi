@@ -943,7 +943,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 				 
 				 if(mAccel > SHAKE_THRESHOLD)
 				 {
-					 Message.message(this, "Grandma washed cloth " + mAccel);
+					 Message.message(this, "Grandma washed cloth ");
 //					 Message.message(this,"All clothes are clean again!");
 					 Root.getUniqueRootInstance().removeNeed(Needs.WASH);
 					 
