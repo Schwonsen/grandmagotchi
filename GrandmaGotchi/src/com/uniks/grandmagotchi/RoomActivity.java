@@ -301,12 +301,14 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		}
 		if(aTask == null){
 			aTask = new OverallTimings(this);
-			aTask.execute();
 		}
+        if(aTask.getStatus() != AsyncTask.Status.RUNNING){
+            aTask.execute();
+        }
 	}
 	//Deathscreen
-	private void diedPopup() {
-		final Dialog dialog = new Dialog(context);
+	public static void diedPopup(final Context ctx) {
+		final Dialog dialog = new Dialog(ctx);
 		dialog.setContentView(R.layout.dialog_dead_granny);
 		dialog.setTitle(R.string.dead);
 		dialog.setCancelable(false);
@@ -318,7 +320,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 
 			@Override
 			public void onClick(View v) {
-				Message.message(getBaseContext(), "Start a new Game with your granny!");
+				Message.message(ctx, "Start a new Game with your granny!");
 				dialog.dismiss();
 			}
 		});
@@ -436,6 +438,9 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		NotificationManager nMgr = (NotificationManager) getApplicationContext().getSystemService(ns);
 		nMgr.cancel(123456789);
 		updatecurrentgrandmaimage();
+        if(aTask.getStatus() != AsyncTask.Status.RUNNING){
+            aTask.execute();
+        }
 	}
 	@Override
 	public void onDestroy(){
@@ -783,7 +788,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	{		
 		Message.message(this,"All clothes are clean again!");
         Root.getUniqueRootInstance().removeNeed(Needs.WASH);
-		diedPopup();
+		diedPopup(context);
 	}
 	
 	public void btnOnClickBrush(View view)

@@ -41,7 +41,7 @@ public abstract class NotificationReceiver extends BroadcastReceiver {
             Message.message(context, title);
             if(!Root.getUniqueRootInstance().isInForeground())
                 Message.notification(context, title, text, RoomActivity.class);
-            //TODO: implement death
+            RoomActivity.diedPopup(act);
         }
         if(perc == 100){
             if(restartTimer()){
