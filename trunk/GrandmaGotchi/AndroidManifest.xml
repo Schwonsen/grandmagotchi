@@ -56,7 +56,8 @@
         <activity
             android:name="com.uniks.grandmagotchi.TicTacToeGameActivity"
             android:label="@string/title_activity_tic_tac_toe_game" 
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity 
             android:name="com.uniks.grandmagotchi.MealActivity"

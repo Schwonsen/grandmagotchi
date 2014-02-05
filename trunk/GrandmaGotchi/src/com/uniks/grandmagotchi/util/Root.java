@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import com.uniks.grandmagotchi.data.Attributes;
 import com.uniks.grandmagotchi.data.ClotheAttributes;
 import com.uniks.grandmagotchi.data.FoodAttributes;
-import com.uniks.grandmagotchi.data.MedicAttributes;
 
 public class Root
 {
@@ -24,8 +23,6 @@ public class Root
 	private static boolean calledFromExistingAccount;
 
 	private static LinkedList<ClotheAttributes> clotheList = new LinkedList<ClotheAttributes>();
-	private static LinkedList<MedicAttributes> medicList = new LinkedList<MedicAttributes>();
-
 
     private int foodTime = 0;
 
@@ -187,15 +184,5 @@ public class Root
 	{
 		Root.clotheList = clotheList;
 	}
-	
-	public static LinkedList<MedicAttributes> getMedicList() {
-		// TODO Auto-generated method stub
-		return medicList;
-	}
-	public static void setMedicList(LinkedList<MedicAttributes> clotheList)
-	{
-		Root.medicList = medicList;
-	}
-
 
 }

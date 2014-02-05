@@ -26,8 +26,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class WarderobeActivity extends Activity {
 
@@ -157,6 +157,8 @@ public class WarderobeActivity extends Activity {
 			// Click event for single list row
 			list.setOnItemClickListener(new OnItemClickListener() {
 
+				private ImageView grannyClothes;
+
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
@@ -182,6 +184,26 @@ public class WarderobeActivity extends Activity {
 					        		}
 					        		else if(clotheItem.getCount() > 0)
 					        		{
+//					        			if(clotheItem.getName().equals("Pinky"))
+//					        			{
+//					        				grannyClothes.setImageResource(R.drawable.image_grandma_confused);
+//					        			} 
+//					        			else if(clotheItem.getName().equals("Red skull"))
+//					        			{
+//					        				grannyClothes.setImageResource(R.drawable.image_grandma_confused_red);
+//					        			}
+//					        			else if(clotheItem.getName().equals("Black Dress"))
+//					        			{
+//					        				grannyClothes.setImageResource(R.drawable.image_grandma_confused_black);
+//					        			}
+//					        			else if(clotheItem.getName().equals("Camo"))
+//					        			{
+//					        				grannyClothes.setImageResource(R.drawable.image_grandma_confused_green);
+//					        			}
+//					        			else if(clotheItem.getName().equals("Sunny"))
+//					        			{
+//					        				grannyClothes.setImageResource(R.drawable.image_grandma_confused_blue);
+//					        			}
 					        			Message.message(getBaseContext(), "Changed clothes!");
 					        			clotheItem.setCount(clotheItem.getCount() - 1);
 					        			adapter.notifyDataSetChanged(); 
@@ -212,7 +234,6 @@ public class WarderobeActivity extends Activity {
 					        }
 					         
 					 }
-
 				}
 
 			});
@@ -224,3 +245,106 @@ public class WarderobeActivity extends Activity {
 		}
 	}
 }
+
+
+
+
+
+//<Button
+//android:id="@+id/one"
+//android:layout_width="100dp"
+//android:layout_height="100dp"
+//android:layout_alignParentRight="true"
+//android:layout_marginLeft="5dp"
+//android:text="@string/empty_Field"
+//android:textSize="70sp" />
+//
+//<Button
+//android:id="@+id/two"
+//android:layout_width="100dp"
+//android:layout_height="100dp"
+//android:layout_alignTop="@id/one"
+//android:layout_toLeftOf="@id/one"
+//android:text="@string/empty_Field"
+//android:textSize="70sp" />
+//
+//<Button
+//android:id="@+id/three"
+//android:layout_width="100dp"
+//android:layout_height="100dp"
+//android:layout_alignRight="@+id/six"
+//android:layout_alignTop="@id/two"
+//android:layout_marginLeft="5dp"
+//android:padding="0dp"
+//android:text="@string/empty_Field"
+//android:textSize="70sp" />
+//
+//<Button
+//android:id="@+id/four"
+//android:layout_width="100dp"
+//android:layout_height="100dp"
+//android:layout_alignParentRight="true"
+//android:layout_below="@id/one"
+//android:layout_marginLeft="5dp"
+//android:text="@string/empty_Field"
+//android:textSize="70sp" />
+//
+//<Button
+//android:id="@+id/five"
+//android:layout_width="100dp"
+//android:layout_height="100dp"
+//android:layout_alignTop="@id/four"
+//android:layout_marginLeft="5dp"
+//android:layout_toLeftOf="@id/four"
+//android:text="@string/empty_Field"
+//android:textSize="70sp" />
+//
+//<Button
+//android:id="@+id/six"
+//android:layout_width="100dp"
+//android:layout_height="100dp"
+//android:layout_alignTop="@id/five"
+//android:layout_marginLeft="5dp"
+//android:layout_toLeftOf="@id/five"
+//android:text="@string/empty_Field"
+//android:textSize="70sp" />
+//
+//<Button
+//android:id="@+id/seven"
+//android:layout_width="100dp"
+//android:layout_height="100dp"
+//android:layout_alignParentRight="true"
+//android:layout_below="@id/four"
+//android:layout_marginLeft="5dp"
+//android:text="@string/empty_Field"
+//android:textSize="70sp" />
+//
+//<Button
+//android:id="@+id/eight"
+//android:layout_width="100dp"
+//android:layout_height="100dp"
+//android:layout_alignTop="@id/seven"
+//android:layout_marginLeft="5dp"
+//android:layout_toLeftOf="@id/seven"
+//android:text="@string/empty_Field"
+//android:textSize="70sp" />
+//
+//<Button
+//android:id="@+id/nine"
+//android:layout_width="100dp"
+//android:layout_height="100dp"
+//android:layout_alignTop="@id/eight"
+//android:layout_marginLeft="5dp"
+//android:layout_toLeftOf="@id/eight"
+//android:text="@string/empty_Field"
+//android:textSize="70sp" />
+//
+//<Button
+//android:id="@+id/new_game"
+//android:layout_width="wrap_content"
+//android:layout_height="wrap_content"
+//android:layout_alignParentBottom="true"
+//android:layout_centerHorizontal="true"
+//android:layout_marginBottom="29dp"
+//android:onClick="btnOnClickGame"
+//android:text="@string/new_game" />

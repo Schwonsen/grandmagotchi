@@ -10,10 +10,8 @@
         <ImageView android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/kitchen"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:layout_marginBottom="20dp"
-        android:id="@+id/kitchen"/>
+        android:id="@+id/kitchen" android:contentDescription="@string/kitchen"/>
         
     <ImageButton
         android:id="@+id/btn_food"
