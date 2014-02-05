@@ -114,9 +114,6 @@ public class ShopActivity extends Activity{
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
 					
-					//TODO Hier Reaktionen auf klicken der items ( Oma nicht mehr hungrieg etc.)
-//					data.remove(position);
-					
 					Iterator it = data.get(position).entrySet().iterator();
 					 while (it.hasNext()) 
 					 {
@@ -141,68 +138,10 @@ public class ShopActivity extends Activity{
 					        		}
 				        			
 					        	}
-					        }
-					         
+					        }       
 					 }
-					
-					
-		            adapter.notifyDataSetChanged();
-		            
-//					switch (position) {
-//					case 0:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 1:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 2:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 3:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 4:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 5:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 6:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 7:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 8:
-//						
-//						break;
-//					}
-//					switch (position) {
-//					case 9:
-//						
-//						break;
-//					}
-//					finish();
-
-
+		            adapter.notifyDataSetChanged();   
 				}
-
 			});
 
 		} catch (IOException ex) {

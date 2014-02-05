@@ -49,20 +49,11 @@
         android:text="@string/tv_password"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Spinner
-        android:id="@+id/spinnerDifficultyLevels"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/createNewGamePassword"
-        android:layout_centerHorizontal="true"
-        android:entries="@array/difficulty_levels_array"
-        android:prompt="@string/difficulty_levels" />
-
     <Button
         android:id="@+id/btnStartGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinnerDifficultyLevels"
+        android:layout_below="@+id/createNewGamePassword"
         android:layout_centerHorizontal="true"
         android:onClick="btnOnClickStartGame"
         android:text="@string/btn_start_game" />

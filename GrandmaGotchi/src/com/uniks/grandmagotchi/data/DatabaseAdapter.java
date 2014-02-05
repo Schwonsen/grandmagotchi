@@ -24,13 +24,12 @@ public class DatabaseAdapter
 		databaseHandler = new DatabaseHandler(context);
 	}
 	
-	public long insertData(String name, String password, String difficultyLevel)
+	public long insertData(String name, String password)
 	{		
 		SQLiteDatabase db = databaseHandler.getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(DatabaseHandler.NAME, name);
 		contentValues.put(DatabaseHandler.PASSWORD, password);
-		contentValues.put(DatabaseHandler.DIFFICULTY_LEVEL, difficultyLevel);
 		long id = db.insert(DatabaseHandler.SAVEGAME_TABLE, null, contentValues);
 		return id;
 	}

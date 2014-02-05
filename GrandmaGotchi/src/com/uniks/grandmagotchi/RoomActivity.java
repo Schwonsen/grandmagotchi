@@ -183,7 +183,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		
 		Root.getUniqueRootInstance();
 	
-		this.setTitle(Root.getAttributes().getName() + " - Difficulty: " + Root.getAttributes().getDifficultyLevel());
+		this.setTitle(Root.getAttributes().getName());
 		
 		init();
 		Root.getAttributes().setCurrentFragmentPosition(LIVINGROOM_POS);
@@ -817,12 +817,14 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 
 	}
 	
+	//on click starts game activity
 	public void btnOnClickGame(View view)
 	{
 		startActivity(new Intent(RoomActivity.this, TicTacToeGameActivity.class));
 //		RoomActivity.this.finish();
 	}
 	
+	//on click go to youtube
 	public void btnOnClickMusic(View view)
 	{
 		String videoID = "raluLqdSrJ4";
@@ -831,41 +833,43 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		youtubebuttonclicked=true;
 		dancecounter=0;
 	}
-	public void startdancing(){
-    if (Root.getAttributes().getCurrentFragmentPosition()==0 && dancecounter<30){
-    int grandmadancepicture = R.drawable.grandmadance1;
-	Handler handler = new Handler(); 
-	grannyImage = (ImageView) findViewById(R.id.imageGrandma);
-	grannyImage.setImageResource(R.drawable.grandmadancing1);
-	Random rn = new Random();
-	int randomnumber = rn.nextInt(2) + 1;
-	switch(randomnumber){
-	case 1:
-	grandmadancepicture=R.drawable.grandmadance1;
-	break;
-	case 2:
-		grandmadancepicture=R.drawable.grandmadance2;
-		break;
-	case 3:
-		grandmadancepicture=R.drawable.grandmadance3;
-		break;
-	}
-	grannyImage.setImageResource(grandmadancepicture);
-    handler.postDelayed(new Runnable() { 
-
-		public void run() { 
-             dancecounter=dancecounter+1;
-        	 startdancing();
-         } 
-    }, 170);
-    }
-    else{
-    	grannyImage.setImageResource(currentgrandma);
-    }
-youtubebuttonclicked=false;
-	}
-
 	
+	//dancing granny after returning from youtube
+	public void startdancing() {
+		if (Root.getAttributes().getCurrentFragmentPosition() == 0
+				&& dancecounter < 30) {
+			int grandmadancepicture = R.drawable.grandmadance1;
+			Handler handler = new Handler();
+			grannyImage = (ImageView) findViewById(R.id.imageGrandma);
+			grannyImage.setImageResource(R.drawable.grandmadancing1);
+			Random rn = new Random();
+			int randomnumber = rn.nextInt(2) + 1;
+			switch (randomnumber) {
+			case 1:
+				grandmadancepicture = R.drawable.grandmadance1;
+				break;
+			case 2:
+				grandmadancepicture = R.drawable.grandmadance2;
+				break;
+			case 3:
+				grandmadancepicture = R.drawable.grandmadance3;
+				break;
+			}
+			grannyImage.setImageResource(grandmadancepicture);
+			handler.postDelayed(new Runnable() {
+
+				public void run() {
+					dancecounter = dancecounter + 1;
+					startdancing();
+				}
+			}, 170);
+		} else {
+			grannyImage.setImageResource(currentgrandma);
+		}
+		youtubebuttonclicked = false;
+	}
+
+	//on click for washing the grandma
 	public void btnOnClickSoap(View view) 
 	{
 		Message.message(this, "The Grandma is clean again!");
@@ -874,11 +878,13 @@ youtubebuttonclicked=false;
 	    startActivity(intentwash);
 	}
 	
+	//on click makes the granny fit
 	public void btnOnClickDrugs(View view)
 	{
 	    startActivity(new Intent(RoomActivity.this, PainkillerActivity.class));
 	}
 	
+	//on click for washing clothes
 	public void btnOnClickWash(View view)
 	{		
 		Message.message(this,"All clothes are clean again!");
@@ -890,6 +896,7 @@ youtubebuttonclicked=false;
 //		diedPopup(context);
 	}
 	
+	//on click for washing the house
 	public void btnOnClickBrush(View view)
 	{
         if(Root.getUniqueRootInstance().containsNeed(Needs.CLEAN) ||Root.getUniqueRootInstance().isSimMode()){
@@ -901,6 +908,7 @@ youtubebuttonclicked=false;
 
 	}
 	
+	//on click for meal
 	public void btnOnClickEat(View view)
 	{
 
@@ -912,12 +920,13 @@ youtubebuttonclicked=false;
 
 	}
 	
+	//on click for changing clothes
 	public void btnOnClickChangeClothes(View view)
 	{
 		startActivity(new Intent(RoomActivity.this, WarderobeActivity.class));
 	}
 	
-
+	//on click washing the dishes
     public void btnOnClickWashDishes(View view)
     {
         if(Root.getUniqueRootInstance().containsNeed(Needs.DISHES)||Root.getUniqueRootInstance().isSimMode()){
@@ -929,45 +938,25 @@ youtubebuttonclicked=false;
         }
     }
 	
-	
-    
+    //on click starts shop activity for shopping
 	public void btnOnClickShopcart(View view)
 	{
 		startActivity(new Intent(RoomActivity.this, ShopActivity.class));
 	}
 	
-//	public void btnOnClickDrink(View view)
-//	{
-//		for(FoodAttributes foodAttribute : Root.getFoodList())
-//		{
-//			if(foodAttribute.getName().equals("Water"))
-//			{
-//				if(foodAttribute.getCount() > 0)
-//				{
-//					foodAttribute.setCount(foodAttribute.getCount() - 1);
-//					Message.message(this,"Grandma is not thirsty anymore");
-//					//every 8 hours
-//					createTimer(10000, DrinkTimer.class);
-//				}
-//				else
-//				{
-//					Message.message(this, "No Items, buy new Water");
-//                    Root.getUniqueRootInstance().addNeed(Needs.BUY);
-//				}
-//			}
-//		}
-//	}
-	
+	//message for proxyimity sensor instruction
 	public void btnOnClickBedroomHelp(View view)
 	{
 		Message.message(this,"Put Grandma to sleep by putting your hand over proximity Sensor");
 	}
 	
+	//message for shake device instruction
 	public void btnOnClickWashingroomHelp(View view)
 	{
 		Message.message(this,"Shake Device to clean laundry");
 	}
 
+	//on click for takes the granny to beed
 	public void btnOnClickWakeUp(View view)
 	{
 		Message.message(this, "Grandma is awake");
@@ -980,14 +969,14 @@ youtubebuttonclicked=false;
 		btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
 		btnWakeUp.setVisibility(View.INVISIBLE);
 	} 
-
-
+	
 	private void createTimer(int countdown, Class target){
 		Intent mServiceIntent = new Intent(getApplicationContext(), target);
 		mServiceIntent.putExtra("countdown", countdown);
 		startService(mServiceIntent);
 	}
 
+	//starts maps
 	public void opendoorfunction(View view)
 	{
 		Intent intent = new Intent(this, opendoor.class);
@@ -1066,6 +1055,7 @@ youtubebuttonclicked=false;
         }
         else
             Toast.makeText(getApplicationContext(), "already wants to clean", Toast.LENGTH_LONG).show();
+
 	}
     public void simulationsmodus(View view){
         if(!Root.getUniqueRootInstance().isSimMode())  {
@@ -1089,4 +1079,3 @@ youtubebuttonclicked=false;
     }
 	
 }
-
