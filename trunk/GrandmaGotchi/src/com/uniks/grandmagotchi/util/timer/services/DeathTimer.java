@@ -19,10 +19,10 @@ public abstract class DeathTimer extends IntentService{
 
     @Override
     protected void onHandleIntent(Intent workIntent) {
-
+        long time = workIntent.getLongExtra("countdown", 3600000);
         Log.d("grandmaService", "Death Timer started");
         try {
-            Thread.sleep(3600000);
+            Thread.sleep(time);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
