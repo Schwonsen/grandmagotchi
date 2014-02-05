@@ -60,6 +60,8 @@
     <string name="door">Door</string>
     <string name="timer_food">FoodTimer</string>
     <string name="timer_drink">DrinkTimer</string>
+    <string name="dead">Rest in Peace</string>
+    <string name="respwan">Respawn</string>
     
     <string name="strMeal"></string>
     <string name="strInfo"></string>
