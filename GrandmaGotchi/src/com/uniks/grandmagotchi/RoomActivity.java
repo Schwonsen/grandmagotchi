@@ -184,7 +184,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		
 		Root.getUniqueRootInstance();
 	
-//		this.setTitle(Root.getAttributes().getName() + " - Difficulty: " + Root.getAttributes().getDifficultyLevel());
+		this.setTitle(Root.getAttributes().getName() + " - Difficulty: " + Root.getAttributes().getDifficultyLevel());
 		
 		init();
 		Root.getAttributes().setCurrentFragmentPosition(LIVINGROOM_POS);
@@ -775,6 +775,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
                 Root.getUniqueRootInstance().removeNeed(Needs.SLEEP);
 			}
 		}
+		
+		//shakes device and wash clothes
 		if(Root.getAttributes().getCurrentFragmentPosition() == WASHINGROOM_POS)
 		{
 			if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
@@ -789,15 +791,15 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 				 
 				 if(mAccel > SHAKE_THRESHOLD)
 				 {
+					 Message.message(this, "Grandma washed cloth " + mAccel);
+//					 Message.message(this,"All clothes are clean again!");
+					 Root.getUniqueRootInstance().removeNeed(Needs.WASH);
 					 
 					 for(ClotheAttributes clotheItem : Root.getClotheList())
 					 {
 						 clotheItem.setDirty(false);
 						 }
 					 }
-					 Message.message(this, "Grandma washed cloth " + mAccel);
-//					 Message.message(this,"All clothes are clean again!");
-					 Root.getUniqueRootInstance().removeNeed(Needs.WASH);
 			}
 		}	
 	}
@@ -931,27 +933,27 @@ youtubebuttonclicked=false;
 		startActivity(new Intent(RoomActivity.this, ShopActivity.class));
 	}
 	
-	public void btnOnClickDrink(View view)
-	{
-		for(FoodAttributes foodAttribute : Root.getFoodList())
-		{
-			if(foodAttribute.getName().equals("Water"))
-			{
-				if(foodAttribute.getCount() > 0)
-				{
-					foodAttribute.setCount(foodAttribute.getCount() - 1);
-					Message.message(this,"Grandma is not thirsty anymore");
-					//every 8 hours
-					createTimer(10000, DrinkTimer.class);
-				}
-				else
-				{
-					Message.message(this, "No Items, buy new Water");
-                    Root.getUniqueRootInstance().addNeed(Needs.BUY);
-				}
-			}
-		}
-	}
+//	public void btnOnClickDrink(View view)
+//	{
+//		for(FoodAttributes foodAttribute : Root.getFoodList())
+//		{
+//			if(foodAttribute.getName().equals("Water"))
+//			{
+//				if(foodAttribute.getCount() > 0)
+//				{
+//					foodAttribute.setCount(foodAttribute.getCount() - 1);
+//					Message.message(this,"Grandma is not thirsty anymore");
+//					//every 8 hours
+//					createTimer(10000, DrinkTimer.class);
+//				}
+//				else
+//				{
+//					Message.message(this, "No Items, buy new Water");
+//                    Root.getUniqueRootInstance().addNeed(Needs.BUY);
+//				}
+//			}
+//		}
+//	}
 	
 	public void btnOnClickBedroomHelp(View view)
 	{
