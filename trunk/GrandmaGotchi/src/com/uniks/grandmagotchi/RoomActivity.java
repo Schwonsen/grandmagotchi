@@ -736,10 +736,15 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 				 
 				 if(mAccel > SHAKE_THRESHOLD)
 				 {
+					 
+					 for(ClotheAttributes clotheItem : Root.getClotheList())
+					 {
+						 clotheItem.setDirty(false);
+						 }
+					 }
 					 Message.message(this, "Grandma washed cloth " + mAccel);
-				 }
-				 
-		
+//					 Message.message(this,"All clothes are clean again!");
+					 Root.getUniqueRootInstance().removeNeed(Needs.WASH);
 			}
 		}	
 	}
@@ -792,7 +797,11 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	{		
 		Message.message(this,"All clothes are clean again!");
         Root.getUniqueRootInstance().removeNeed(Needs.WASH);
-		diedPopup(context);
+		for(ClotheAttributes clotheItem : Root.getClotheList())
+		{
+			 clotheItem.setDirty(false);
+		}
+//		diedPopup(context);
 	}
 	
 	public void btnOnClickBrush(View view)
