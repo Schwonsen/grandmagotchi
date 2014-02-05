@@ -192,6 +192,7 @@ public class WarderobeActivity extends Activity {
 					        			}
 					        			clotheItem.setCurrentDress(true);
 					        			adapter.notifyDataSetChanged(); 
+					        			WarderobeActivity.this.finish();
 //					        			
 //					        			if(clotheItem.getCount() == 0)
 //						        		{

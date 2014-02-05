@@ -191,6 +191,7 @@ public class MealActivity extends Activity {
 					        			}
 					        			foodItem.setCount(foodItem.getCount() - 1);
 					        			adapter.notifyDataSetChanged(); 
+					        			MealActivity.this.finish();
 					        			
 //					        			if(foodItem.getCount() == 0)
 //						        		{
