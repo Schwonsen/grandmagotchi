@@ -20,8 +20,9 @@ public abstract class Timer extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent workIntent) {
-        time = workIntent.getIntExtra("countdown", 500);
+        time = workIntent.getLongExtra("countdown", 5000);
         time = getTime(time);
+        Log.d("grandmatime", "" + time);
         setNeed();
         Intent startIntent = new Intent();
         Log.d("grandmaString", BROADCAST_ACTION);
