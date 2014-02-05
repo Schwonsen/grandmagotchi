@@ -330,12 +330,10 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 
 		if(Root.isCalledFromExistingAccount())
 		{
-			Log.e("isExisting", "asdfgh");
+
 			Root.setFoodList(databaseHandler.getFoodDataById(Root.getId()));
-			for(FoodAttributes fA : Root.getFoodList())
-			{
-				Log.e(fA.getName(), String.valueOf(fA.getCount()));
-			}
+			Root.setClotheList(databaseHandler.getClothDataById(Root.getId()));
+			
 		}
 		else if(!Root.isCalledFromExistingAccount())
 		{
@@ -371,53 +369,52 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			Root.getFoodList().add(POTATOS);
 			Root.getFoodList().add(SANDWICH);
 			Root.getFoodList().add(WATER);
+			
+			//Clothes
+			PINK.setName("Pinky");
+			PINK.setDirty(false);
+			PINK.setCurrentDress(true);
+			RED.setName("Red skull");
+			RED.setDirty(false);
+			RED.setCurrentDress(false);
+			BLACK.setName("Black Dress");
+			BLACK.setDirty(false);
+			BLACK.setCurrentDress(false);
+			GREEN.setName("Camo");
+			GREEN.setDirty(false);
+			GREEN.setCurrentDress(false);
+			BLUE.setName("Sunny");
+			BLUE.setDirty(false);
+			BLUE.setCurrentDress(false);
+			
+			Root.getClotheList().add(PINK);
+			Root.getClotheList().add(RED);
+			Root.getClotheList().add(BLACK);
+			Root.getClotheList().add(GREEN);
+			Root.getClotheList().add(BLUE);
 		}
 
 		//Food
-		YOGURT.setName("Yogurt");
-		YOGURT.setCount(3);
-		FLAKES.setName("Flakes");
-		FLAKES.setCount(1);
-		EGGS.setName("Eggs");
-		EGGS.setCount(1);
-		FISH.setName("Fish");
-		FISH.setCount(1);
-		PIZZA.setName("Pizza");
-		PIZZA.setCount(1);
-		SALAT.setName("Salat");
-		SALAT.setCount(1);
-		PASTA.setName("Pasta");
-		PASTA.setCount(1);
-		POTATOS.setName("Potatos");
-		POTATOS.setCount(1);
-		SANDWICH.setName("Sandwich");
-		SANDWICH.setCount(1);
-		WATER.setName("Water");
-		WATER.setCount(3);
-
-		
-		//Clothes
-		PINK.setName("Pinky");
-		PINK.setDirty(false);
-		PINK.setCurrentDress(true);
-		RED.setName("Red skull");
-		RED.setDirty(false);
-		RED.setCurrentDress(false);
-		BLACK.setName("Black Dress");
-		BLACK.setDirty(false);
-		BLACK.setCurrentDress(false);
-		GREEN.setName("Camo");
-		GREEN.setDirty(false);
-		GREEN.setCurrentDress(false);
-		BLUE.setName("Sunny");
-		BLUE.setDirty(false);
-		BLUE.setCurrentDress(false);
-		
-		Root.getClotheList().add(PINK);
-		Root.getClotheList().add(RED);
-		Root.getClotheList().add(BLACK);
-		Root.getClotheList().add(GREEN);
-		Root.getClotheList().add(BLUE);
+//		YOGURT.setName("Yogurt");
+//		YOGURT.setCount(3);
+//		FLAKES.setName("Flakes");
+//		FLAKES.setCount(1);
+//		EGGS.setName("Eggs");
+//		EGGS.setCount(1);
+//		FISH.setName("Fish");
+//		FISH.setCount(1);
+//		PIZZA.setName("Pizza");
+//		PIZZA.setCount(1);
+//		SALAT.setName("Salat");
+//		SALAT.setCount(1);
+//		PASTA.setName("Pasta");
+//		PASTA.setCount(1);
+//		POTATOS.setName("Potatos");
+//		POTATOS.setCount(1);
+//		SANDWICH.setName("Sandwich");
+//		SANDWICH.setCount(1);
+//		WATER.setName("Water");
+//		WATER.setCount(3);
 		
 	}
 
@@ -494,8 +491,28 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		            			   databaseHandler.updateFoodData(Root.getId(), foodName, foodCount);
 		            		   }
 		            		   
-		            		   Message.message(RoomActivity.this, "hier2 " + databaseHandler.getAllFoodData());
+		            		   for(ClotheAttributes cA : Root.getClotheList())
+		            		   {
+		            			   String clothName = cA.getName();
+		            			   String clothDirtyStatus = String.valueOf(cA.isDirty());
+		            			   String clothCurrentDress = String.valueOf(cA.isCurrentDress());
+		            			   databaseHandler.updateClothdData(Root.getId(), clothName, clothDirtyStatus, clothCurrentDress);
+		            		   }
 		            		   
+		            		   if(status < 0)
+			            	   	{
+			   						if(Root.DEBUG) Message.message(RoomActivity.this, "Unsuccessful written in Database");
+			   						
+			   						RoomActivity.this.finish();
+			            	   	}
+				   				else
+				   				{
+				   					
+				   					if(Root.DEBUG) Message.message(RoomActivity.this, "Successfully written in Database");
+				  
+				   				}
+		            		   
+		            		  
 		            	   }
 		            	   else
 		            	   {
@@ -509,22 +526,17 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		            			   status = databaseHandler.insertFoodData(idCode, foodName, foodCount);
 		            		   }
 		            		   
-		            		   Log.e("abcd", "hier4 " + databaseHandler.getAllFoodData());
+		            		   for(ClotheAttributes cA : Root.getClotheList())
+		            		   {
+		            			   String clothName = cA.getName();
+		            			   String clothDirtyStatus = String.valueOf(cA.isDirty());
+		            			   String clothCurrentDress = String.valueOf(cA.isCurrentDress());
+		            			   databaseHandler.insertClothData(idCode, clothName, clothDirtyStatus, clothCurrentDress);
+		            		   }
+		            		   
 		            		   
 		            	   }
 		            	   
-		            	   	if(status < 0)
-		            	   	{
-		   						if(Root.DEBUG) Message.message(RoomActivity.this, "Unsuccessful written in Database");
-		   						
-		   						RoomActivity.this.finish();
-		            	   	}
-			   				else
-			   				{
-			   					
-			   					if(Root.DEBUG) Message.message(RoomActivity.this, "Successfully written in Database");
-			  
-			   				}
 		   				
 		            	   	RoomActivity.this.finish();
 		                   

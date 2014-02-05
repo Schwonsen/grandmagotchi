@@ -49,6 +49,21 @@ public class DatabaseAdapter
 		return status;
 	}
 	
+	public long insertClothData(String id, String clothName, String clothDirtyStatus, String clothCurrentDress)
+	{
+		SQLiteDatabase db = databaseHandler.getWritableDatabase();
+		ContentValues contentValues = new ContentValues();
+		
+		contentValues.put(DatabaseHandler.CLOTH_ID, id);
+		contentValues.put(DatabaseHandler.CLOTH_NAME, clothName);
+		contentValues.put(DatabaseHandler.CLOTH_DIRTY_STATUS, clothDirtyStatus);
+		contentValues.put(DatabaseHandler.CLOTH_CURRENT_DRESS, clothCurrentDress);
+		
+		
+		long status = db.insert(DatabaseHandler.CLOTH_TABLE, null, contentValues);
+		return status;
+	}
+	
 	public void updateFoodData(String id, String foodName, String foodCount)
 	{
 		SQLiteDatabase db = databaseHandler.getWritableDatabase();
@@ -59,6 +74,19 @@ public class DatabaseAdapter
 		
 		db.update(DatabaseHandler.FOOD_TABLE, contentValues, DatabaseHandler.FOOD_ID+ "=? AND "
 				+ DatabaseHandler.FOOD_NAME + "=?", whereArgs);
+	}
+	
+	public void updateClothdData(String id, String clothName, String clothDirtyStatus, String clothCurrentDress)
+	{
+		SQLiteDatabase db = databaseHandler.getWritableDatabase();
+		ContentValues contentValues = new ContentValues();
+		
+		contentValues.put(DatabaseHandler.CLOTH_DIRTY_STATUS, clothDirtyStatus);
+		contentValues.put(DatabaseHandler.CLOTH_CURRENT_DRESS, clothCurrentDress);
+		String[] whereArgs = {id, clothName};
+		
+		db.update(DatabaseHandler.CLOTH_TABLE, contentValues, DatabaseHandler.CLOTH_ID+ "=? AND "
+				+ DatabaseHandler.CLOTH_NAME + "=?", whereArgs);
 	}
 	
 	public void deleteFoodRow(String id)
@@ -109,6 +137,37 @@ public class DatabaseAdapter
 				}
 			}
 			return foodAttributes;
+	}
+	
+	
+	public LinkedList<ClotheAttributes> getClothDataById(String id)
+	{
+
+			SQLiteDatabase db = databaseHandler.getWritableDatabase();
+			String[] columns = {DatabaseHandler.CLOTH_ID, DatabaseHandler.CLOTH_NAME, DatabaseHandler.CLOTH_DIRTY_STATUS, DatabaseHandler.CLOTH_CURRENT_DRESS};
+			Cursor cursor = db.query(DatabaseHandler.CLOTH_TABLE, columns, null, null, null, null, null);
+			LinkedList<ClotheAttributes> clothAttributes = new LinkedList<ClotheAttributes>();
+			while(cursor.moveToNext())
+			{
+				int index1 = cursor.getColumnIndex(DatabaseHandler.CLOTH_ID);
+				int cid = cursor.getInt(index1);
+				int index2 = cursor.getColumnIndex(DatabaseHandler.CLOTH_NAME);
+				String clothName = cursor.getString(index2);
+				int index3 = cursor.getColumnIndex(DatabaseHandler.CLOTH_DIRTY_STATUS);
+				String clothDirtyStatus = cursor.getString(index3);
+				int index4 = cursor.getColumnIndex(DatabaseHandler.CLOTH_CURRENT_DRESS);
+				String clothCurrentDress = cursor.getString(index4);
+				
+				if(cid == Integer.parseInt(id))
+				{
+					ClotheAttributes cA = new ClotheAttributes();
+					cA.setName(clothName);
+					cA.setDirty(Boolean.valueOf(clothDirtyStatus));
+					cA.setCurrentDress(Boolean.valueOf(clothCurrentDress));
+					clothAttributes.add(cA);
+				}
+			}
+			return clothAttributes;
 	}
 	
 	
@@ -240,7 +299,7 @@ public class DatabaseAdapter
 	static class DatabaseHandler extends SQLiteOpenHelper
 	{
 		private static final String DATABASE_NAME = "savegame.db";
-		private static final int DATABASE_VERSION = 10;
+		private static final int DATABASE_VERSION = 13;
 		
 		private static final String SAVEGAME_TABLE = "savegame";
 		
@@ -265,6 +324,17 @@ public class DatabaseAdapter
 		private static final String DROP_TABLE_FOOD = "DROP TABLE IF EXISTS " + FOOD_TABLE;
 		
 		
+		private static final String CLOTH_TABLE = "savecloth";
+		
+		private static final String CLOTH_ID = "_id";
+		private static final String CLOTH_NAME = "clothName";
+		private static final String CLOTH_DIRTY_STATUS = "clothDirtyStatus";
+		private static final String CLOTH_CURRENT_DRESS = "clothCurrentDress";
+		private static final String QUERY_CLOTH = "CREATE TABLE " + CLOTH_TABLE + " (" +
+				CLOTH_ID + " VARCHAR(255), " + CLOTH_NAME + " VARCHAR(255), " + 
+				CLOTH_DIRTY_STATUS + " VARCHAR(255), " + CLOTH_CURRENT_DRESS +  " VARCHAR(255));";
+		private static final String DROP_TABLE_CLOTH = "DROP TABLE IF EXISTS " + CLOTH_TABLE;
+		
 		
 		
 		private Context context;
@@ -283,6 +353,7 @@ public class DatabaseAdapter
 			{
 				db.execSQL(QUERY);
 				db.execSQL(QUERY_FOOD);
+				db.execSQL(QUERY_CLOTH);
 				if(Root.DEBUG) Message.message(context, "onCreate called");
 			}
 			catch(SQLException e)
@@ -300,6 +371,7 @@ public class DatabaseAdapter
 				if(Root.DEBUG) Message.message(context, "onUpgrade called");
 				db.execSQL(DROP_TABLE);
 				db.execSQL(DROP_TABLE_FOOD);
+				db.execSQL(DROP_TABLE_CLOTH);
 				onCreate(db);
 			}
 			catch (SQLException e)
