@@ -120,6 +120,7 @@ public class ClotheAdapter extends BaseAdapter {
 		        		else
 		        		{
 		        			holder.tvFoodCount.setText(R.string.clean);
+		        			holder.tvFoodCount.setTextColor(R.color.currentClothe);
 		        		}
 		        		if(clotheItem.isCurrentDress())
 		        		{
