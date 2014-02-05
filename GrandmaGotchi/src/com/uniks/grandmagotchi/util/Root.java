@@ -29,6 +29,8 @@ public class Root
 
     private boolean isThirsty = false;
     private boolean isHungry = true;
+    private boolean fakeHunger = false;
+    private boolean fakeThirst = false;
     private boolean inForeground = true;
     private boolean isSleeping = false;
     private boolean isDressed = false;
@@ -38,6 +40,22 @@ public class Root
     private LinkedList<String> buys = new LinkedList<String>();
     private boolean foodTimerRunning = false;
     private boolean simMode = false;
+
+    public boolean isFakeHunger() {
+        return fakeHunger;
+    }
+
+    public void setFakeHunger(boolean fakeHunger) {
+        this.fakeHunger = fakeHunger;
+    }
+
+    public boolean isFakeThirst() {
+        return fakeThirst;
+    }
+
+    public void setFakeThirst(boolean fakeThirst) {
+        this.fakeThirst = fakeThirst;
+    }
 
     public boolean isSimMode() {
         return simMode;

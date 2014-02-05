@@ -11,7 +11,6 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.view.*;
 
-import com.google.android.gms.internal.ev;
 import com.uniks.grandmagotchi.data.DatabaseAdapter;
 
 import android.os.AsyncTask;
@@ -762,7 +761,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		if(Root.getAttributes().getCurrentFragmentPosition() == BEDROOM_POS)
 		{
 			if(event.sensor.getType() == Sensor.TYPE_PROXIMITY && event.values[0] == 0.0f && 
-					!Root.getAttributes().isSleeping())
+                    ((!Root.getAttributes().isSleeping() && Root.getUniqueRootInstance().containsNeed(Needs.SLEEP)) ||
+                    Root.getUniqueRootInstance().isSimMode()))
 			{
 				btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
 				Message.message(this, "You turned the light off, Grandma sleeps now");
@@ -771,7 +771,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 				grannyImage.setImageResource(R.drawable.image_sleeping_grandma);
 				
 				btnWakeUp.setVisibility(View.VISIBLE);
-
+                Root.getAttributes().setSleeping(true);
                 Root.getUniqueRootInstance().removeNeed(Needs.SLEEP);
 			}
 		}
@@ -892,8 +892,11 @@ youtubebuttonclicked=false;
 	
 	public void btnOnClickBrush(View view)
 	{
-		Message.message(this,"The house is clean again");
-        Root.getUniqueRootInstance().removeNeed(Needs.CLEAN);
+        if(Root.getUniqueRootInstance().containsNeed(Needs.CLEAN) ||Root.getUniqueRootInstance().isSimMode()){
+		    Message.message(this,"The house is clean again");
+            Root.getUniqueRootInstance().removeNeed(Needs.CLEAN);
+        }
+        Message.message(this, "The house is already clean.");
 		//createTimer(5000, FoodTimer.class);
 
 	}
@@ -917,7 +920,7 @@ youtubebuttonclicked=false;
 
     public void btnOnClickWashDishes(View view)
     {
-        if(Root.getUniqueRootInstance().containsNeed(Needs.DISHES)){
+        if(Root.getUniqueRootInstance().containsNeed(Needs.DISHES)||Root.getUniqueRootInstance().isSimMode()){
             Message.message(this, "Grandma washed the dishes");
             Root.getUniqueRootInstance().removeNeed(Needs.DISHES);
         }
@@ -993,24 +996,97 @@ youtubebuttonclicked=false;
 
 	//Testmethoden
 	public void essenswunsch(View view){
-		Toast.makeText(getApplicationContext(), "essen", Toast.LENGTH_LONG).show();	
+
+        if(!Root.getUniqueRootInstance().isHungry()){
+            Root.getUniqueRootInstance().setHungry(true);
+            Root.getUniqueRootInstance().addNeed(Needs.FOOD);
+            FoodReceiver.setRandomFood(this);
+            Root.getUniqueRootInstance().setFakeHunger(true);
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "is already hungry", Toast.LENGTH_LONG).show();
+
+        }
+
 	}
+    public void gosleep(View view){
+
+    if(!Root.getUniqueRootInstance().containsNeed(Needs.SLEEP)){
+        Root.getUniqueRootInstance().addNeed(Needs.SLEEP);
+    }
+    else{
+        Toast.makeText(getApplicationContext(), "wants already to go to bed", Toast.LENGTH_LONG).show();
+
+    }
+
+}
 	public void trinkenwunsch(View view){
-		Toast.makeText(getApplicationContext(), "trinken", Toast.LENGTH_LONG).show();	
+        if(!Root.getUniqueRootInstance().isThirsty()){
+		    Toast.makeText(getApplicationContext(), "is thirsty", Toast.LENGTH_LONG).show();
+            Root.getUniqueRootInstance().setThirsty(true);
+            Root.getUniqueRootInstance().addNeed(Needs.DRINK);
+            Root.getUniqueRootInstance().setFakeThirst(true);
+
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "is already thirsty", Toast.LENGTH_LONG).show();
+
+        }
+
 	}
 	public void medizinwunsch(View view){
-		Toast.makeText(getApplicationContext(), "medizin", Toast.LENGTH_LONG).show();	
+        if(!Root.getUniqueRootInstance().containsNeed(Needs.MEDICINE)) {
+            Toast.makeText(getApplicationContext(), "needs Med", Toast.LENGTH_LONG).show();
+            Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
+        }
+        else
+            Toast.makeText(getApplicationContext(), "needs med already", Toast.LENGTH_LONG).show();
+
 	}
 	public void spazierenwunsch(View view){
-		Toast.makeText(getApplicationContext(), "spazieren", Toast.LENGTH_LONG).show();	
+        if(!Root.getUniqueRootInstance().containsNeed(Needs.WALK)) {
+            Toast.makeText(getApplicationContext(), "needs a walk", Toast.LENGTH_LONG).show();
+            Root.getUniqueRootInstance().addNeed(Needs.WALK);
+        }
+        else
+            Toast.makeText(getApplicationContext(), "already wants a walk", Toast.LENGTH_LONG).show();
 	}
 	public void waschenwunsch(View view){
-		Toast.makeText(getApplicationContext(), "waschen", Toast.LENGTH_LONG).show();	
+        if(!Root.getUniqueRootInstance().containsNeed(Needs.DISHES)) {
+            Toast.makeText(getApplicationContext(), "dishes dirty", Toast.LENGTH_LONG).show();
+            Root.getUniqueRootInstance().addNeed(Needs.DISHES);
+        }
+        else
+            Toast.makeText(getApplicationContext(), "already wants a walk", Toast.LENGTH_LONG).show();
 	}
 	public void saubermachenwunsch(View view){
-		Toast.makeText(getApplicationContext(), "sauber machen", Toast.LENGTH_LONG).show();	
+        if(!Root.getUniqueRootInstance().containsNeed(Needs.CLEAN)) {
+            Toast.makeText(getApplicationContext(), "wants top clean", Toast.LENGTH_LONG).show();
+            Root.getUniqueRootInstance().addNeed(Needs.CLEAN);
+        }
+        else
+            Toast.makeText(getApplicationContext(), "already wants to clean", Toast.LENGTH_LONG).show();
 	}
-	
+    public void simulationsmodus(View view){
+        if(!Root.getUniqueRootInstance().isSimMode())  {
+            Toast.makeText(getApplicationContext(), "sim mode ON", Toast.LENGTH_LONG).show();
+            Root.getUniqueRootInstance().setSimMode(true);
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "sim mode OFF", Toast.LENGTH_LONG).show();
+            Root.getUniqueRootInstance().setSimMode(false);
+        }
+    }
+    public void dressme(View view){
+        if(!Root.getUniqueRootInstance().containsNeed(Needs.DRESS))  {
+            Toast.makeText(getApplicationContext(), "need a dress change", Toast.LENGTH_LONG).show();
+            Root.getUniqueRootInstance().addNeed(Needs.DRESS);
+
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "already wants to change the clothes", Toast.LENGTH_LONG).show();
+        }
+    }
 	
 }
 

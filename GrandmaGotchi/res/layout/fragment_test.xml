@@ -5,47 +5,61 @@
     tools:context=".FragmentSupermarket" >
 
 <LinearLayout 
-              android:layout_width="fill_parent" 
-              android:layout_height="fill_parent" 
-              android:orientation="vertical" >
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical" android:layout_gravity="bottom|right">
 
 
  <Button
      android:layout_height="wrap_content"
      android:layout_width="wrap_content"
      android:text="essen"
-     android:onClick="essenswunsch" />
+     android:onClick="essenswunsch" android:layout_gravity="right"/>
  
   <Button
      android:layout_height="wrap_content"
      android:layout_width="wrap_content"
      android:text="trinken"
-     android:onClick="trinkenwunsch" />
+     android:onClick="trinkenwunsch" android:layout_gravity="right"/>
   
    <Button
      android:layout_height="wrap_content"
      android:layout_width="wrap_content"
      android:text="medizin"
-     android:onClick="medizinwunsch" />
+     android:onClick="medizinwunsch" android:layout_gravity="right"/>
    
     <Button
      android:layout_height="wrap_content"
      android:layout_width="wrap_content"
      android:text="spazieren"
-     android:onClick="spazierenwunsch" />
+     android:onClick="spazierenwunsch" android:layout_gravity="right"/>
     
      <Button
      android:layout_height="wrap_content"
      android:layout_width="wrap_content"
-     android:text="waschen"
-     android:onClick="waschenwunsch" />
+     android:text="Geschir"
+     android:onClick="waschenwunsch" android:layout_gravity="right"/>
      
       <Button
      android:layout_height="wrap_content"
      android:layout_width="wrap_content"
      android:text="sauber machen"
-     android:onClick="saubermachenwunsch" />
- 
+     android:onClick="saubermachenwunsch" android:layout_gravity="right"/>
+    <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Umziehen"
+            android:onClick="dressme" android:layout_gravity="right"/>
+    <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Schlafen"
+            android:onClick="gosleep" android:layout_gravity="right"/>
+    <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Simulation"
+            android:onClick="simulationsmodus" android:layout_gravity="right"/>
 </LinearLayout>
 
 </FrameLayout>
