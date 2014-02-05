@@ -193,6 +193,7 @@ public class MealActivity extends Activity {
 					        			{
                                             if(Root.getUniqueRootInstance().isThirsty() || Root.getUniqueRootInstance().isSimMode()){
 					        				    Message.message(getBaseContext(), "The granny is no longer thirsty.");
+                                                Root.getUniqueRootInstance().setFakeThirst(false);
                                                 if(!Root.getUniqueRootInstance().isSimMode())
                                                 createTimer(RoomActivity.foodTimer, DrinkTimer.class);
                                             }
@@ -208,6 +209,7 @@ public class MealActivity extends Activity {
                                                 if(!Root.getUniqueRootInstance().containsNeed(Needs.DISHES) || Root.getUniqueRootInstance().isSimMode()) {
                                                     if(foodItem.getName().equals(Root.getUniqueRootInstance().getFood()) || Root.getUniqueRootInstance().isSimMode()){
 					        				            Message.message(getBaseContext(), "The granny is no longer hungry.");
+                                                        Root.getUniqueRootInstance().setFakeHunger(false);
                                                         if(!Root.getUniqueRootInstance().isSimMode())
                                                             createTimer(RoomActivity.foodTimer, FoodTimer.class);
                                                     }

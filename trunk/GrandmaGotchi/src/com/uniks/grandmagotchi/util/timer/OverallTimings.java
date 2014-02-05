@@ -95,7 +95,7 @@ public class OverallTimings extends AsyncTask {
             Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
         }
 
-        if(hour == 22 && !Root.getUniqueRootInstance().isSleeping()){
+        if(hour == 22 && !Root.getAttributes().isSleeping() && Root.getUniqueRootInstance().containsNeed(Needs.SLEEP)){
             createMessage("Grandma is tired", "Put her to sleep.");
             Root.getUniqueRootInstance().addNeed(Needs.SLEEP);
         }
@@ -184,6 +184,8 @@ public class OverallTimings extends AsyncTask {
                             text = "Grandma needs to clean the house"; break;
                         case DISHES: iv.setImageResource(R.drawable.ic_action_dishes);
                             text = "Grandma should clean the dishes"; break;
+                        case WALK: iv.setImageResource(R.drawable.outdoor);
+                            text = "Grandma want to take a walk"; break;
                         default: break;
                     }
                     final String clickText = text;
