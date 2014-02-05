@@ -15,6 +15,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.uniks.grandmagotchi.util.Needs;
+import com.uniks.grandmagotchi.util.Root;
 
 import android.location.Criteria;
 import android.location.Location;
@@ -138,18 +140,16 @@ private int gesamtdistanz=0;
 				}
 				}
 		public void getpositiongrandma() {
-			try{
-				
+			try{				
 				oldPositionlongitude= newPositionlongitude;
 				oldPositionlatitude= newPositionlatitude;
-				float[] Distanzzwischenwert = {0,0};
 				if(toast!=null){toast.cancel();}
 				Location myLocation = mMap.getMyLocation();
 				double longitude = myLocation.getLongitude();
 				double latitude = myLocation.getLatitude();
 				newPositionlongitude=longitude;
 				newPositionlatitude=latitude;
-				if(oldPositionlongitude==0){
+				if(oldPositionlongitude==0){ //position updaten + marker setzen
 					oldPositionlongitude=newPositionlongitude;
 					oldPositionlatitude=newPositionlatitude;
 	                mMap.addMarker(new MarkerOptions()
@@ -157,11 +157,12 @@ private int gesamtdistanz=0;
 			        .title("p"))
 			        .setIcon(BitmapDescriptorFactory.fromResource(R.drawable.grandmakopfklein));
 				}
+				//Kameraposition updaten mit Zoom
 				mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18));
 				mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18));
 				
 				
-				
+				//neue locations aus ermittelten Werten erstellen
 				Location locationA = new Location("point A");
 
 				locationA.setLatitude(oldPositionlongitude);
@@ -171,7 +172,8 @@ private int gesamtdistanz=0;
 
 				locationB.setLatitude(newPositionlongitude);
 				locationB.setLongitude(newPositionlatitude);
-
+                //distanz berechen + auswerten (erst ab 3 meterndistanz wird wegen gps ungenauigkeiten geupdatet
+				//da man sonst sozusagen "im sitzen laufen kˆnnte"
 				float distance = locationA.distanceTo(locationB);
 				if(distance>=3){
 				mMap.addMarker(new MarkerOptions()
@@ -179,21 +181,27 @@ private int gesamtdistanz=0;
 			        .title("p"))
 			        .setIcon(BitmapDescriptorFactory.fromResource(R.drawable.grandmakopfklein));
 				gesamtdistanz = gesamtdistanz + (int) distance;
+				//Abbruch/Endbedingung und erf¸llung des Needs
+				if (gesamtdistanz>=30){
+	            	Root.getUniqueRootInstance().removeNeed(Needs.WALK);
+	            	closegrandmawalking();
+	            	Toast.makeText(getApplicationContext(), 
+						     "Spaziergang erfolgreich beendet" , 
+						     Toast.LENGTH_LONG).show();
+	            }else{//Distanzausgabe aktualisieren
 				TextView gesamtdistanztext = (TextView)findViewById(R.id.GesamtDistanzWert);
 	            gesamtdistanztext.setText(gesamtdistanz +" Meter ");
 				Toast.makeText(getApplicationContext(), 
 					     "..erfolgreich.."+" + " +(int)distance+ " Meter", 
-					     Toast.LENGTH_SHORT).show();
-				}else{
+					     Toast.LENGTH_SHORT).show();}
+				}else{//ausgabe falls zur¸ckgelegte Distanz in vorgegebenen Zeitfenster zu niedrig
 					Toast.makeText(getApplicationContext(), 
 						     "..erfolgreich.."+ "Sie sind zu langsam", 
 						     Toast.LENGTH_SHORT).show();}
 				TextView gesamtdistanztext = (TextView)findViewById(R.id.GesamtDistanzWert);
 	            gesamtdistanztext.setText(gesamtdistanz +" Meter ");
 				
-	            if (gesamtdistanz>=30){
-	            	
-	            }
+	            
 				
 				
 			    }catch(Exception e){
@@ -204,51 +212,24 @@ private int gesamtdistanz=0;
 					toast.show();
 				}
 			}
-		
+		//schlieﬂen durch menubutton aufruf
 		public void closegrandmawalking(MenuItem item) {
-			toast.cancel();
-			close=true;
-			finish();
+			
+				if(toast!=null){toast.cancel();}
+			    close=true;
+			    finish();
+			    
+			
+		}
+		//schlieﬂen durch ausruf durch getpostiongrandma methode beim "fertigem" spaziergang
+		public void closegrandmawalking() {
+			    if(toast!=null){toast.cancel();}
+			    close=true;
+			    finish();
+			
 		}
 
-		private final class MyLocationListener implements LocationListener {
-			
-			 
-			
-			        @Override
-			
-			        public void onLocationChanged(Location locFromGps) {
-			
-			            // called when the listener is notified with a location update from the GPS
-			
-			        }
-			
-			 
-			
-			        public void onProviderDisabled(String provider) {
-			
-			           // called when the GPS provider is turned off (user turning off the GPS on the phone)
-			
-			        }
-			
-			 
-			
-			        public void onProviderEnabled(String provider) {
-			
-			           // called when the GPS provider is turned on (user turning on the GPS on the phone)
-			
-			        }
-			
-			 
-			
-			        public void onStatusChanged(String provider, int status, Bundle extras) {
-			
-			           // called when the status of the GPS provider changes
-			
-			        }
-			
-			}
-
+		
 		@Override
 		public boolean onMyLocationButtonClick() {
 			return false;
@@ -290,27 +271,7 @@ private int gesamtdistanz=0;
 			
 			
 		}
-
-		/*@Override
-		public void onLocationChanged(Location myLocation) {
-			Toast.makeText(getApplicationContext(), 
-				     "jaaaaa", 
-				     Toast.LENGTH_LONG).show();
-			int number=0;
-			try{
-				double longitude = myLocation.getLongitude();
-				double latitude = myLocation.getLatitude();
-				mMap.addMarker(new MarkerOptions()
-		        .position(new LatLng(latitude, longitude))
-		        .title(""+number));
-				}catch(Exception e){
-					Toast.makeText(getApplicationContext(), 
-						     "set Marker failed", 
-						     Toast.LENGTH_LONG).show();
-				}
-			
-			
-		}*/
+		
 
 		@Override
 		public void activate(OnLocationChangedListener arg0) {
