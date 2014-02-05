@@ -179,6 +179,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	updatecurrentgrandma();
 	updatecurrentgrandmaimage();
 	}
+	
 	//updatet omabild
 	public void startupdatehandler(){
 		
@@ -832,7 +833,6 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void updatecurrentgrandmaimage() {
 		ImageView grannyBedroom = (ImageView) findViewById(R.id.imageGrandma);
 		grannyBedroom.setImageResource(currentgrandma);
-		Message.message(this, "Grandma is awake");
 		Root.getAttributes().setSleeping(false);
 		Root.getUniqueRootInstance().setSleeping(false);
 	}
@@ -886,7 +886,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		
 		// slides to the fragment (room) you selected on the actionbar tabs
 		viewPager.setCurrentItem(tab.getPosition());
-		//updatecurrentgrandmaimage();
+//		updatecurrentgrandmaimage();
 		updatecurrentgrandmacomplete();
 	}
 
