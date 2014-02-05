@@ -1203,8 +1203,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	
 
 	public void setstartsetup(){	
-        createTimer(5000, FoodTimer.class);
-        createTimer(5000, DrinkTimer.class);
+        createTimer(foodTimer, FoodTimer.class);
+        createTimer(drinkTimer, DrinkTimer.class);
 	}
 
 }
