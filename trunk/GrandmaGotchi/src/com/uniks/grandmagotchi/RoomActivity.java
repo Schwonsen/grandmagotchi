@@ -413,6 +413,11 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			Root.setFoodList(databaseHandler.getFoodDataById(Root.getId()));
 			Root.setClotheList(databaseHandler.getClothDataById(Root.getId()));
 			
+			Cursor cursorMoodCloth = databaseHandler.getMoodClothById(Root.getId());
+			cursorMoodCloth.moveToFirst();
+			currentgrandmacloth = Integer.valueOf(cursorMoodCloth.getString(0));
+			currentgrandmastatus = Integer.valueOf(cursorMoodCloth.getString(1));
+			
 			Cursor cursorFood = databaseHandler.getCurrentTimeByNameAndId(Root.getId(), "FoodTimer");
 			cursorFood.moveToFirst();
 			String startFoodTime = cursorFood.getString(0);
@@ -695,19 +700,11 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		            		   allNeeds = allNeeds.substring(1);
 		            		   databaseHandler.updateNeedsData(Root.getId(), allNeeds);
 		            		   
-		            		   if(status < 0)
-			            	   	{
-			   						if(Root.DEBUG) Message.message(RoomActivity.this, "Unsuccessful written in Database");
-			   						
-			   						RoomActivity.this.finish();
-			            	   	}
-				   				else
-				   				{
-				   					
-				   					if(Root.DEBUG) Message.message(RoomActivity.this, "Successfully written in Database");
-				  
-				   				}
 		            		   
+		            		  String currentMoodCloth = String.valueOf(currentgrandmacloth); 
+		            		  String statusMoodCloth = String.valueOf(currentgrandmastatus);
+		            		  
+		            		  databaseHandler.updateMoodClothData(Root.getId(), currentMoodCloth, statusMoodCloth);
 		            		  
 		            	   }
 		            	   else
@@ -737,6 +734,11 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		            		   }
 		            		   allNeeds = allNeeds.substring(1);
 		            		   databaseHandler.insertNeedsData(idCode, allNeeds);
+		            		   
+		            		   String currentMoodCloth = String.valueOf(currentgrandmacloth); 
+			            	   String statusMoodCloth = String.valueOf(currentgrandmastatus);
+			            		  
+			            	   databaseHandler.insertMoodClothData(idCode, currentMoodCloth, statusMoodCloth);
 		            	   }
 		            	   
 		   				

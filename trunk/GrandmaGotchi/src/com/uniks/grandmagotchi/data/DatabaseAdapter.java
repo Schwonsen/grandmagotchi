@@ -88,6 +88,19 @@ public class DatabaseAdapter
 		return status;
 	}
 	
+	public long insertMoodClothData(String id, String currentgrandmacloth, String currentgrandmastatus)
+	{
+		SQLiteDatabase db = databaseHandler.getWritableDatabase();
+		ContentValues contentValues = new ContentValues();
+		
+		contentValues.put(DatabaseHandler.MOOD_CLOTH_ID, id);
+		contentValues.put(DatabaseHandler.MOOD_CLOTH_CURRENT, currentgrandmacloth);
+		contentValues.put(DatabaseHandler.MOOD_CLOTH_STATUS, currentgrandmastatus);
+		
+		long status = db.insert(DatabaseHandler.MOOD_CLOTH_TABLE, null, contentValues);
+		return status;
+	}
+	
 	public void updateFoodData(String id, String foodName, String foodCount)
 	{
 		SQLiteDatabase db = databaseHandler.getWritableDatabase();
@@ -138,6 +151,18 @@ public class DatabaseAdapter
 	}
 
 
+	public void updateMoodClothData(String id, String currentgrandmacloth, String currentgrandmastatus)
+	{
+		SQLiteDatabase db = databaseHandler.getWritableDatabase();
+		ContentValues contentValues = new ContentValues();
+		
+		contentValues.put(DatabaseHandler.MOOD_CLOTH_CURRENT, currentgrandmacloth);
+		contentValues.put(DatabaseHandler.MOOD_CLOTH_STATUS, currentgrandmastatus);
+		String[] whereArgs = {id};
+		
+		db.update(DatabaseHandler.MOOD_CLOTH_TABLE, contentValues, DatabaseHandler.MOOD_CLOTH_ID+ "=?", whereArgs);
+	}
+	
 	public LinkedList<FoodAttributes> getFoodDataById(String id)
 	{
 
@@ -214,6 +239,14 @@ public class DatabaseAdapter
 
 			Cursor c = db.query(DatabaseHandler.NEEDS_TABLE, new String[] {DatabaseHandler.NEEDS_NAME}, DatabaseHandler.NEEDS_ID + "= ?", new String[] {id}, null, null, null);
 			return c;
+	}
+	
+	public Cursor getMoodClothById(String id)
+	{
+		SQLiteDatabase db = databaseHandler.getWritableDatabase();
+
+		Cursor c = db.query(DatabaseHandler.MOOD_CLOTH_TABLE, new String[] {DatabaseHandler.MOOD_CLOTH_CURRENT, DatabaseHandler.MOOD_CLOTH_STATUS}, DatabaseHandler.MOOD_CLOTH_ID + "= ?", new String[] {id}, null, null, null);
+		return c;
 	}
 	
 	
@@ -351,7 +384,7 @@ public class DatabaseAdapter
 	static class DatabaseHandler extends SQLiteOpenHelper
 	{
 		private static final String DATABASE_NAME = "savegame.db";
-		private static final int DATABASE_VERSION = 17;
+		private static final int DATABASE_VERSION = 18;
 		
 		private static final String SAVEGAME_TABLE = "savegame";
 		
@@ -409,6 +442,17 @@ public class DatabaseAdapter
 		private static final String DROP_TABLE_NEEDS = "DROP TABLE IF EXISTS " + NEEDS_TABLE;
 		
 
+		private static final String MOOD_CLOTH_TABLE = "savemoodcloth";
+		
+		private static final String MOOD_CLOTH_ID = "_id";
+		private static final String MOOD_CLOTH_CURRENT = "currentgrandmacloth";
+		private static final String MOOD_CLOTH_STATUS = "currentgrandmastatus";
+		private static final String QUERY_MOOD_CLOTH = "CREATE TABLE " + MOOD_CLOTH_TABLE + " (" +
+				MOOD_CLOTH_ID + " VARCHAR(255), " + MOOD_CLOTH_CURRENT + " VARCHAR(255), " + 
+				MOOD_CLOTH_STATUS + " VARCHAR(255));";
+		private static final String DROP_TABLE_MOOD_CLOTH = "DROP TABLE IF EXISTS " + CLOTH_TABLE;
+		
+		
 
 
 		private Context context;
@@ -430,6 +474,7 @@ public class DatabaseAdapter
 				db.execSQL(QUERY_CLOTH);
 				db.execSQL(QUERY_TIMER);
 				db.execSQL(QUERY_NEEDS);
+				db.execSQL(QUERY_MOOD_CLOTH);
 				if(Root.DEBUG) Message.message(context, "onCreate called");
 			}
 			catch(SQLException e)
@@ -450,6 +495,7 @@ public class DatabaseAdapter
 				db.execSQL(DROP_TABLE_CLOTH);
 				db.execSQL(DROP_TABLE_TIMER);
 				db.execSQL(DROP_TABLE_NEEDS);
+				db.execSQL(DROP_TABLE_MOOD_CLOTH);
 				onCreate(db);
 			}
 			catch (SQLException e)
