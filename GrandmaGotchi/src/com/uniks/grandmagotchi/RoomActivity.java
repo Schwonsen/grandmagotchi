@@ -158,6 +158,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	protected int dancecounter=0;
 
 	private PopupWindow fadePopup;
+	private boolean updatehandler=false;
 
 
 	static int[][] grandmaimagearray=new int[5][5];
@@ -178,7 +179,17 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	updatecurrentgrandma();
 	updatecurrentgrandmaimage();
 	}
-	
+	//updatet omabild
+	public void startupdatehandler(){
+		if(updatehandler==true){
+		Handler handler = new Handler(); 
+		handler.postDelayed(new Runnable() { 
+			public void run() { 
+				 updatecurrentgrandmacomplete();	
+	        	 startupdatehandler();
+	         } 
+	    }, 200);}
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -205,7 +216,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		mAccelCurrent = SensorManager.GRAVITY_EARTH;
 		mAccelLast = SensorManager.GRAVITY_EARTH;
 		
-
+		updatehandler=true;
+		startupdatehandler();
 		updatecurrentgrandmacomplete();
 		
 		// adding rooms to a static list to reuse them
@@ -378,7 +390,14 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		});
 		dialog.show();
 	}
-
+	protected void onPause(Bundle savedInstanceState)
+	{
+		updatehandler=false;
+	}
+	protected void onResume(Bundle savedInstanceState)
+	{
+		updatehandler=true;
+	}
 
 	private void init()
 	{		
