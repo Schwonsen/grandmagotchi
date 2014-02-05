@@ -50,9 +50,7 @@
         <ImageView android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/bathroom"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:layout_marginTop="10dp"
-        android:id="@+id/bathroom"/>
+        android:id="@+id/bathroom" android:contentDescription="@string/bath_room"/>
 
 </FrameLayout>

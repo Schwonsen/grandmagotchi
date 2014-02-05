@@ -98,21 +98,6 @@ public class MedicAdapter extends BaseAdapter {
 		Drawable image = vi.getContext().getResources()
 				.getDrawable(imageResource);
 		holder.ic_image.setImageDrawable(image);
-		
-		String counter = data.get(position).get(WarderobeActivity.KEY_COUNT);
-		Iterator it = data.get(position).entrySet().iterator();
-		while (it.hasNext()) 
-		{
-		        Map.Entry pairs = (Map.Entry)it.next();
-//		        System.out.println(pairs.getKey() + " = " + pairs.getValue());
-		        for(MedicAttributes medicItem : Root.getMedicList())
-		        {
-		        	if(pairs.getValue().equals(medicItem.getName()))
-		        	{
-		        		holder.tvFoodCount.setText(String.valueOf(medicItem.getCount()));
-		        	}
-		        }
-		 }
 
 		return vi;
 

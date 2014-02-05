@@ -19,7 +19,6 @@ import android.view.*;
 
 import com.uniks.grandmagotchi.data.ClotheAttributes;
 import com.uniks.grandmagotchi.data.FoodAttributes;
-import com.uniks.grandmagotchi.data.MedicAttributes;
 import com.uniks.grandmagotchi.data.RoomAttributes;
 import com.uniks.grandmagotchi.rooms.FragmentBedroom;
 import com.uniks.grandmagotchi.rooms.FragmentDressingRoom;
@@ -102,9 +101,6 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	private static ClotheAttributes BLACK = new ClotheAttributes();
 	private static ClotheAttributes GREEN = new ClotheAttributes();
 	private static ClotheAttributes BLUE = new ClotheAttributes();
-	private static MedicAttributes PILL = new MedicAttributes();
-	private static MedicAttributes SYRUP = new MedicAttributes();
-	private static MedicAttributes WEED = new MedicAttributes();
 	
 	private Fragment livingRoomFragment;
 	private Fragment kitchenFragment;
@@ -135,6 +131,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	private DrinkReceiver mDrinkReceiver;
 	private MedReceiver mMedReceiver;
 	private AsyncTask aTask;
+	private ImageView grannyImage;
 
 	
 	@Override
@@ -145,7 +142,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		
 		Root.getUniqueRootInstance();
 	
-		this.setTitle(Root.getAttributes().getName() + " - Difficulty: " + Root.getAttributes().getDifficultyLevel());
+//		this.setTitle(Root.getAttributes().getName() + " - Difficulty: " + Root.getAttributes().getDifficultyLevel());
 		
 		init();
 		
@@ -390,18 +387,6 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		Root.getClotheList().add(GREEN);
 		Root.getClotheList().add(BLUE);
 		
-//		//Medicine
-//		PILL.setName("Pill");
-//		PILL.setCount(1);
-//		SYRUP.setName("Cough syrup");
-//		SYRUP.setCount(1);
-//		WEED.setName("Green medicine");
-//		WEED.setCount(1);
-//		
-//		Root.getMedicList().add(PILL);
-//		Root.getMedicList().add(SYRUP);
-//		Root.getMedicList().add(WEED);
-		
 	}
 
 	@Override
@@ -630,8 +615,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 				btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
 				Message.message(this, "You turned the light off, Grandma sleeps now");
 				
-				ImageView grannyBedroom = (ImageView) findViewById(R.id.imageGrandma);
-				grannyBedroom.setImageResource(R.drawable.image_sleeping_grandma);
+				grannyImage = (ImageView) findViewById(R.id.imageGrandma);
+				grannyImage.setImageResource(R.drawable.image_sleeping_grandma);
 				
 				btnWakeUp.setVisibility(View.VISIBLE);
 			}
@@ -773,8 +758,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		Message.message(this, "Grandma is awake");
 		Root.getAttributes().setSleeping(false);
 		
-		ImageView grannyBedroom = (ImageView) findViewById(R.id.imageGrandma);
-		grannyBedroom.setImageResource(R.drawable.image_grandma_confused);
+		grannyImage = (ImageView) findViewById(R.id.imageGrandma);
+		grannyImage.setImageResource(R.drawable.image_grandma_confused);
 		
 		btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
 		btnWakeUp.setVisibility(View.INVISIBLE);

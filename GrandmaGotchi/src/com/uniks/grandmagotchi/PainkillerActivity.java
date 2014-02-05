@@ -118,7 +118,7 @@ public class PainkillerActivity extends Activity {
 					
 //					switch (position) {
 //	                case 0:
-//	                	break;}
+//                	break;}
 					//TODO Hier Reaktionen auf klicken der items ( Oma nicht mehr hungrieg etc.)
 					Message.message(getBaseContext(), "Granny tooks her medicine!");
 					
