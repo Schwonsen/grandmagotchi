@@ -27,7 +27,16 @@ import java.util.LinkedList;
  * Created by Robin on 04.02.14.
  */
 public class OverallTimings extends AsyncTask {
-    private Activity act;
+    protected static final Object YOGURT = "Yogurt";
+	protected static final Object FLAKES = "Flakes";
+	protected static final Object EGGS = "Eggs";
+	protected static final Object FISH = "Fish";
+	protected static final Object PIZZA = "Pizza";
+	protected static final Object SALAT = "Salat";
+	protected static final Object PASTA = "Pasta";
+	protected static final Object POTATOS = "Potatos";
+	protected static final Object SANDWICH = "Sandwich";
+	private Activity act;
     private long houseClean;
     public OverallTimings (Activity act){
         this.act = act;
@@ -108,9 +117,49 @@ public class OverallTimings extends AsyncTask {
                     ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(pixels, pixels);
                     iv.setLayoutParams(lp);
                     String text = "";
+                    String food = "";
                     switch (need){
-                        case FOOD: iv.setImageResource(R.drawable.ic_action_eat);
-                            text = "Grandma wants to eat " + Root.getUniqueRootInstance().getFood(); break;
+                        case FOOD: 
+                        	food = Root.getUniqueRootInstance().getFood();
+                            text = "Grandma wants to eat " + food; 
+//                            iv.setImageResource(R.drawable.ic_action_eat);
+                            if(food.equals(YOGURT)) 
+                            {
+                            	iv.setImageResource(R.drawable.ic_meal_joghurt);
+                            } 
+                            else if(food.equals(FLAKES))
+                            { 
+                            	iv.setImageResource(R.drawable.ic_meal_flakes);
+                            } 
+                            else if(food.equals(EGGS))
+                            {
+                            	iv.setImageResource(R.drawable.ic_meal_egg);
+                            } 
+                            else if(food.equals(FISH))
+                            {
+                            	iv.setImageResource(R.drawable.ic_meal_fish);
+                            }
+                            else if(food.equals(PIZZA))
+                            {
+                            	iv.setImageResource(R.drawable.ic_meal_pizza);
+                            } 
+                            else if(food.equals(SALAT))
+                            {
+                            	iv.setImageResource(R.drawable.ic_meal_salat);
+                            }
+                            else if(food.equals(PASTA))
+                            {
+                            	iv.setImageResource(R.drawable.ic_meal_pasta);
+                            }
+                            else if(food.equals(POTATOS))
+                            {
+                            	iv.setImageResource(R.drawable.ic_meal_potatos);
+                            } 
+                            else if(food.equals(SANDWICH))
+                            {
+                            	iv.setImageResource(R.drawable.ic_meal_sandwich);
+                            }
+                            		break;
                         case DRINK: iv.setImageResource(R.drawable.ic_action_drink);
                             text ="Grandma wants to drink something"; break;
                         case MEDICINE: iv.setImageResource(R.drawable.ic_action_medication);
