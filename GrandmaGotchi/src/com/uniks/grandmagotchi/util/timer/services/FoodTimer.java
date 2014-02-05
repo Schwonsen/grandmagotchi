@@ -1,5 +1,6 @@
 package com.uniks.grandmagotchi.util.timer.services;
 
+import com.uniks.grandmagotchi.util.Message;
 import com.uniks.grandmagotchi.util.Needs;
 import com.uniks.grandmagotchi.util.Root;
 import com.uniks.grandmagotchi.util.timer.receiver.FoodReceiver;
@@ -31,6 +32,10 @@ public class FoodTimer extends Timer {
         Root.getUniqueRootInstance().setHungry(false);
         Root.getUniqueRootInstance().removeNeed(Needs.FOOD);
         Root.getUniqueRootInstance().addNeed(Needs.DISHES);
+        if(Root.getUniqueRootInstance().isUnhealthyFood()){
+            Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
+            Root.getUniqueRootInstance().setUnhealthyFood(false);
+        }
         BROADCAST_ACTION = FoodReceiver.BROADCAST_ACTION;
         if(Root.isCalledFromExistingAccount())
         {
