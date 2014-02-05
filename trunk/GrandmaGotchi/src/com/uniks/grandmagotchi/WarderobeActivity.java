@@ -197,7 +197,8 @@ public class WarderobeActivity extends Activity {
 //					        			{
 //					        				grannyClothes.setImageResource(R.drawable.image_grandma_confused_blue);
 //					        			}
-					        			
+					        			RoomActivity.currentgrandmacloth= (int) id;
+					        			RoomActivity.updatecurrentgrandma();
 					        			Message.message(getBaseContext(), "Changed clothes!");
 					        			for(ClotheAttributes cA : Root.getClotheList())
 					        			{
@@ -351,3 +352,4 @@ public class WarderobeActivity extends Activity {
 //android:layout_marginBottom="29dp"
 //android:onClick="btnOnClickGame"
 //android:text="@string/new_game" />
+

@@ -106,7 +106,7 @@ private double gesamtdistanz=0;
 	        if (mMap == null) {
 
 	            // Try to obtain the map from the SupportMapFragment.
-	        	 mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map1))
+	        	 mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map2))
 		                    .getMap();
 	            // Check if we were successful in obtaining the map.
 	            if (mMap != null) {

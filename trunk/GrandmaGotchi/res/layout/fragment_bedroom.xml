@@ -8,13 +8,12 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textView"
-        android:text="@string/fragment_bedroom"
-        android:layout_gravity="center" />
+        <ImageView android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bedroom"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/bedroom"/>
 
     <ImageButton
         android:id="@+id/btn_bedroom_help"
