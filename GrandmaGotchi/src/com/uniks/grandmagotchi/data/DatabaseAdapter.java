@@ -302,6 +302,12 @@ public class DatabaseAdapter
 		}
 		return data;
 	}
+
+    public boolean getTimer(int userid, String timername){
+        SQLiteDatabase db = databaseHandler.getWritableDatabase();
+        Cursor c = db.query(databaseHandler.TIMER_TABLE, new String[] {databaseHandler.TIMER_NAME}, databaseHandler.TIMER_ID + "= ? AND " + databaseHandler.TIMER_NAME + " = ?", new String[] {String.valueOf(userid), timername}, null, null, null, "1");
+        return c.getCount() > 0;
+    }
 	
 	
 	static class DatabaseHandler extends SQLiteOpenHelper
@@ -355,7 +361,9 @@ public class DatabaseAdapter
 				TIMER_START_TIME + " VARCHAR(255), " + TIMER_CURRENT_TIME +  " VARCHAR(255));";
 		private static final String DROP_TABLE_TIMER = "DROP TABLE IF EXISTS " + TIMER_TABLE;
 		
-		
+
+
+
 		private Context context;
 
 		public DatabaseHandler(Context context)
