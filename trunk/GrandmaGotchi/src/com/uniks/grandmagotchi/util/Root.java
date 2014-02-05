@@ -37,6 +37,15 @@ public class Root
     private LinkedList<Needs> needs= new LinkedList<Needs>();
     private LinkedList<String> buys = new LinkedList<String>();
     private boolean foodTimerRunning = false;
+    private boolean simMode = false;
+
+    public boolean isSimMode() {
+        return simMode;
+    }
+
+    public void setSimMode(boolean simMode) {
+        this.simMode = simMode;
+    }
 
     public boolean isDrinkTimerRunning() {
         return drinkTimerRunning;
