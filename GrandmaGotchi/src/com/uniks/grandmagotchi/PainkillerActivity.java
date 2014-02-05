@@ -7,6 +7,8 @@ import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import com.uniks.grandmagotchi.util.Needs;
+import com.uniks.grandmagotchi.util.Root;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -121,8 +123,10 @@ public class PainkillerActivity extends Activity {
 //                	break;}
 					//TODO Hier Reaktionen auf klicken der items ( Oma nicht mehr hungrieg etc.)
 					Message.message(getBaseContext(), "Granny tooks her medicine!");
-					
-					PainkillerActivity.this.finish();
+                    Root.getUniqueRootInstance().removeNeed(Needs.MEDICINE);
+                    Root.getUniqueRootInstance().setMed(true);
+
+                    PainkillerActivity.this.finish();
 										
 				}
 

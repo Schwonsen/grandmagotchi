@@ -24,7 +24,6 @@
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/imageGrandma"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:id="@+id/needs_view">

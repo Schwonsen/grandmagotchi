@@ -11,6 +11,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import android.content.Intent;
+import com.google.android.gms.games.multiplayer.realtime.Room;
+import com.uniks.grandmagotchi.util.timer.services.DrinkTimer;
+import com.uniks.grandmagotchi.util.timer.services.FoodTimer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -35,8 +39,8 @@ public class MealActivity extends Activity {
 
 	// XML node keys
 	private HashMap<String, Boolean> setNodeOneTime = new HashMap<String, Boolean>();
-	static final String KEY_MEALDATA = "mealdata"; // parent node
-	static final String KEY_ID = "id";
+	public static final String KEY_MEALDATA = "mealdata"; // parent node
+	public static final String KEY_ID = "id";
 	public static final String KEY_MEAL = "meal";
 	public static final String KEY_TIME = "time";
 	public static final String KEY_ICON = "icon";
@@ -163,6 +167,8 @@ public class MealActivity extends Activity {
 					
 					//TODO Hier Reaktionen auf klicken der items ( Oma nicht mehr hungrieg etc.)
 
+
+
 					
 					Iterator it = data.get(position).entrySet().iterator();
 					 while (it.hasNext()) 
@@ -181,18 +187,39 @@ public class MealActivity extends Activity {
 					        		}
 					        		else if(foodItem.getCount() > 0)
 					        		{
-					        			if(!foodItem.getName().equals("Water"))
+                                        boolean ate = true;
+					        			if(foodItem.getName().equals("Water"))
 					        			{
-					        				Message.message(getBaseContext(), "The granny is no longer hungry.");
-					        			}
+                                            if(Root.getUniqueRootInstance().isThirsty()){
+					        				    Message.message(getBaseContext(), "The granny is no longer thirsty.");
+                                                createTimer(RoomActivity.drinkTimer, DrinkTimer.class);
+                                            }
+                                            else{
+                                                Message.message(getApplicationContext(), "Grandma is not thristy.");
+                                                ate = false;
+                                            }
+                                        }
 					        			else
 					        			{
-					        				Message.message(getBaseContext(), "The granny is no longer thirsty.");
-					        			}
-					        			foodItem.setCount(foodItem.getCount() - 1);
-					        			adapter.notifyDataSetChanged(); 
-					        			MealActivity.this.finish();
-					        			
+
+                                            if(Root.getUniqueRootInstance().isHungry()){
+                                                if(foodItem.getName().equals(Root.getUniqueRootInstance().getFood())){
+					        				        Message.message(getBaseContext(), "The granny is no longer hungry.");
+                                                    createTimer(RoomActivity.foodTimer, FoodTimer.class);
+                                                }
+                                                else{
+                                                    Message.message(getApplicationContext(), "Grandma wants to eat " + Root.getUniqueRootInstance().getFood() + "!");
+                                                    ate = false;
+                                                }
+                                            }
+                                            else{
+                                                Message.message(getApplicationContext(), "Grandma is not hungry yet!");
+                                            }
+                                        }
+                                        if(ate){
+					        			    foodItem.setCount(foodItem.getCount() - 1);
+					        			    adapter.notifyDataSetChanged();
+                                        }
 //					        			if(foodItem.getCount() == 0)
 //						        		{
 //											data.remove(position);
@@ -201,7 +228,7 @@ public class MealActivity extends Activity {
 					        		}
 					        	}
 					        }
-					        
+					           /*
 					        int i = 0;
 					        
 					        for(FoodAttributes foodItem : Root.getFoodList())
@@ -215,8 +242,8 @@ public class MealActivity extends Activity {
 					        if(i == 9)
 					        {
 					        	MealActivity.this.finish();
-					        }
-					         
+					        }  */
+                         MealActivity.this.finish();
 					 }
 
 				}
@@ -229,4 +256,9 @@ public class MealActivity extends Activity {
 			Log.e("Error", "Loading exception");
 		}
 	}
+    private void createTimer(long countdown, Class target){
+        Intent mServiceIntent = new Intent(getApplicationContext(), target);
+        mServiceIntent.putExtra("countdown", countdown);
+        startService(mServiceIntent);
+    }
 }

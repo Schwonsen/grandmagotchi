@@ -22,7 +22,7 @@ public abstract class DeathTimer extends IntentService{
 
         Log.d("grandmaService", "Death Timer started");
         try {
-            Thread.sleep(5000);
+            Thread.sleep(3600000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
