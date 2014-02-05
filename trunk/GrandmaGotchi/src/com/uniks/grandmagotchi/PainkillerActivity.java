@@ -128,12 +128,14 @@ public class PainkillerActivity extends Activity {
                         rightMed = true;
                     if(hour > 18 && hour < 24 && position == 2)
                         rightMed = true;
-                    if(Root.getUniqueRootInstance().containsNeed(Needs.MEDICINE)){
+                    if(Root.getUniqueRootInstance().containsNeed(Needs.MEDICINE) || Root.getUniqueRootInstance().isSimMode()){
 
-					if(rightMed){
-					    Message.message(getBaseContext(), "Granny tooks her medicine!");
-                        Root.getUniqueRootInstance().removeNeed(Needs.MEDICINE);
-                       Root.getUniqueRootInstance().setMed(true);
+					if(rightMed|| Root.getUniqueRootInstance().isSimMode()){
+					    Message.message(getBaseContext(), "Granny took her medicine!");
+                        if(!Root.getUniqueRootInstance().isSimMode()){
+                            Root.getUniqueRootInstance().removeNeed(Needs.MEDICINE);
+                            Root.getUniqueRootInstance().setMed(true);
+                        }
                     }
                         else{
                         Message.message(getApplicationContext(), "Wrong medicine");
