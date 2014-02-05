@@ -86,20 +86,7 @@
         <activity 
             android:name="com.uniks.grandmagotchi.Wash"            
             android:screenOrientation="portrait">
-        </activity>
-        
-        <activity
-                android:name=".DimActivity"
-                android:label="@string/empty_Field" 
-                android:theme="@android:style/Theme.Dialog"
-                >
-                <intent-filter>
-                    <action android:name="transparent.text.SECONDACTIVITY"/>
-
-                    <category android:name="android.intent.category.DEFAULT" />
-                </intent-filter>
-            </activity>
-        
+        </activity>        
         <meta-data
 android:name="com.google.android.maps.v2.API_KEY"
 android:value="AIzaSyCmqTIr2_d4Iko_bQ5FAr1MFtIgEqMjKbk" />

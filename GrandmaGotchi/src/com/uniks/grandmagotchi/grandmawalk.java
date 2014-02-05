@@ -186,11 +186,14 @@ private int gesamtdistanz=0;
 					     Toast.LENGTH_SHORT).show();
 				}else{
 					Toast.makeText(getApplicationContext(), 
-						     "..erfolgreich.."+" + " +"0"+ " Meter", 
+						     "..erfolgreich.."+ "Sie sind zu langsam", 
 						     Toast.LENGTH_SHORT).show();}
 				TextView gesamtdistanztext = (TextView)findViewById(R.id.GesamtDistanzWert);
 	            gesamtdistanztext.setText(gesamtdistanz +" Meter ");
 				
+	            if (gesamtdistanz>=30){
+	            	
+	            }
 				
 				
 			    }catch(Exception e){
