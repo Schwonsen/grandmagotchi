@@ -59,10 +59,8 @@
         android:id="@+id/tvFoodCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tvMeal"
-        android:layout_alignBottom="@+id/tvMeal"
-        android:layout_marginRight="47dp"
-        android:layout_toLeftOf="@+id/imageView1"
-        android:text="" />
+        android:layout_centerVertical="true"
+        android:textColor="@color/common_signin_btn_light_text_default"
+        android:layout_toLeftOf="@+id/imageView1" />
 
 </RelativeLayout>

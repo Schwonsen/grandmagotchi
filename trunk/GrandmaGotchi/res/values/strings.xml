@@ -62,6 +62,9 @@
     <string name="timer_drink">DrinkTimer</string>
     <string name="dead">Rest in Peace</string>
     <string name="respwan">Respawn</string>
+    <string name="dirty">Dirty</string>
+    <string name="clean">Clean</string>
+    <string name="current">Current</string>
     
     <string name="strMeal"></string>
     <string name="strInfo"></string>

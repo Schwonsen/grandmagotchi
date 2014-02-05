@@ -6,11 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.uniks.grandmagotchi.R;
+import com.uniks.grandmagotchi.R.color;
 import com.uniks.grandmagotchi.WarderobeActivity;
 import com.uniks.grandmagotchi.util.Root;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+@SuppressLint("ResourceAsColor")
 public class ClotheAdapter extends BaseAdapter {
 
 	List<HashMap<String, String>> data;
@@ -110,13 +114,18 @@ public class ClotheAdapter extends BaseAdapter {
 		        	{
 		        		if(clotheItem.isDirty())
 		        		{
-		        			holder.tvFoodCount.setText("Dirty");
+		        			holder.tvFoodCount.setText(R.string.dirty);
+		        			holder.tvFoodCount.setTextColor(R.color.currentClothe);
 		        		}
 		        		else
 		        		{
-		        			holder.tvFoodCount.setText("Clean");
+		        			holder.tvFoodCount.setText(R.string.clean);
 		        		}
-		        		
+		        		if(clotheItem.isCurrentDress())
+		        		{
+		        			holder.tvFoodCount.setText(R.string.current);
+		        			holder.tvFoodCount.setTextColor(0xFF00FF00);
+		        		}
 		        	}
 		        }
 		 }
