@@ -66,7 +66,7 @@ public class CreateNewGameActivity extends Activity
 				Root.setCalledFromExistingAccount(false);
 				
 				startActivity(new Intent(CreateNewGameActivity.this, RoomActivity.class));
-				setstartsetup();
+
 				CreateNewGameActivity.this.finish();
 			}
 			else
@@ -87,9 +87,6 @@ public class CreateNewGameActivity extends Activity
         mServiceIntent.putExtra("countdown", countdown);
         startService(mServiceIntent);
     }
-	public void setstartsetup(){	
-        createTimer(5000, FoodTimer.class);
-        createTimer(5000, DrinkTimer.class);
-	}
+	
 
 }
