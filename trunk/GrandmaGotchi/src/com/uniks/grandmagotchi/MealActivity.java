@@ -34,6 +34,7 @@ import android.widget.TextView;
 public class MealActivity extends Activity {
 
 	// XML node keys
+	private HashMap<String, Boolean> setNodeOneTime = new HashMap<String, Boolean>();
 	static final String KEY_MEALDATA = "mealdata"; // parent node
 	static final String KEY_ID = "id";
 	public static final String KEY_MEAL = "meal";
@@ -81,6 +82,8 @@ public class MealActivity extends Activity {
 
 			for (int i = 0; i < mList.getLength(); i++) {
 				
+				boolean isOverNull = false;
+				
 				// creating new HashMap
 				HashMap<String, String> map = new HashMap<String, String>();
 				// Element e = (Element) mList.item(i);
@@ -107,7 +110,7 @@ public class MealActivity extends Activity {
 							NodeList mealCounter = firstMealElement.getElementsByTagName(KEY_COUNT);
 							Element firstCElement = (Element) mealCounter.item(0);
 							NodeList textCountList = firstCElement.getChildNodes();
-							
+
 							map.put(KEY_COUNT, ((Node) textCountList.item(0)).getNodeValue().trim());
 							
 							
@@ -130,17 +133,9 @@ public class MealActivity extends Activity {
 					// --Meal icon
 					map.put(KEY_ICON, ((Node) textIconList.item(0)).getNodeValue().trim());
 
-					for(FoodAttributes foodAttribute : Root.getFoodList())
-					{
-						if(foodAttribute.getName().equals(firstMElement.getTextContent()))
-						{
-							if(foodAttribute.getCount() > 0)
-							{
-								// adding HashList to ArrayList
-								data.add(map);
-							}
-						}
-					}
+					data.add(map);
+					
+
 				}
 			}
 			
@@ -167,8 +162,6 @@ public class MealActivity extends Activity {
 						int position, long id) {
 					
 					//TODO Hier Reaktionen auf klicken der items ( Oma nicht mehr hungrieg etc.)
-					
-					
 
 					
 					Iterator it = data.get(position).entrySet().iterator();
@@ -182,7 +175,8 @@ public class MealActivity extends Activity {
 					        	{
 					        		if(foodItem.getCount() == 0)
 					        		{
-										data.remove(position);
+									//	data.remove(position);
+					        			Message.message(getBaseContext(), "You don't have any " + foodItem.getName() + " left");
 							            adapter.notifyDataSetChanged(); 
 					        		}
 					        		else if(foodItem.getCount() > 0)
@@ -198,11 +192,11 @@ public class MealActivity extends Activity {
 					        			foodItem.setCount(foodItem.getCount() - 1);
 					        			adapter.notifyDataSetChanged(); 
 					        			
-					        			if(foodItem.getCount() == 0)
-						        		{
-											data.remove(position);
-								            adapter.notifyDataSetChanged(); 
-						        		}
+//					        			if(foodItem.getCount() == 0)
+//						        		{
+//											data.remove(position);
+//								            adapter.notifyDataSetChanged(); 
+//						        		}
 					        		}
 					        	}
 					        }
