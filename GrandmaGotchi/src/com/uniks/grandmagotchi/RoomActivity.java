@@ -63,10 +63,14 @@ import com.uniks.grandmagotchi.util.timer.services.FoodTimer;
 
 import android.widget.ImageView;
 
+
+
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class RoomActivity extends FragmentActivity implements TabListener, SensorEventListener
 {
-
+	public static int currentgrandma = R.drawable.image_grandma_normal;
+	public static int currentgrandmacloth = 0;
+	public static int currentgrandmastatus = 0;//0 normal /1 happy /2 ill /3confused /4 ideas
 	// positions for different Rooms 
 	// (always write a constant for a new Room for better legibility of code)
 	public static final int LIVINGROOM_POS = 0;
@@ -133,6 +137,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	private AsyncTask aTask;
 	private ImageView grannyImage;
 
+	static int[][] grandmaimagearray=new int[5][5];
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -298,7 +303,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 
 	private void init()
 	{		
-
+		initializegranmaimagearray();//fuer grandmaimageaustausch
+		
 		databaseHandler = new DatabaseAdapter(this);
 
 		if(Root.isCalledFromExistingAccount())
@@ -408,6 +414,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		String ns = Context.NOTIFICATION_SERVICE;
 		NotificationManager nMgr = (NotificationManager) getApplicationContext().getSystemService(ns);
 		nMgr.cancel(123456789);
+		updatecurrentgrandmaimage();
 	}
 	@Override
 	public void onDestroy(){
@@ -524,11 +531,10 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		@Override
 		public Fragment getItem(int position)
 		{
-			
 			//returns the fragment by its position
 			
 			Fragment fragment = null;
-			
+
 			if(position == LIVINGROOM_POS)
 			{
 				fragment = Root.getRoomList().get(LIVINGROOM_POS);
@@ -575,6 +581,47 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		
 	}
 	
+	public static void updatecurrentgrandma(){
+      currentgrandma=grandmaimagearray[currentgrandmacloth][currentgrandmastatus];
+	}
+	public void updatecurrentgrandmaimage(){
+		      ImageView grannyBedroom= (ImageView) findViewById(R.id.imageGrandma);
+		      grannyBedroom.setImageResource(currentgrandma);
+	}
+    public void initializegranmaimagearray(){
+	//normal
+	grandmaimagearray[0][0]= R.drawable.image_grandma_normal;
+	grandmaimagearray[0][1]= R.drawable.image_grandma_happy;
+	grandmaimagearray[0][2]= R.drawable.image_grandma_ill;
+	grandmaimagearray[0][3]= R.drawable.image_grandma_confused;
+	grandmaimagearray[0][4]= R.drawable.image_grandma_idea;
+	//blue
+	grandmaimagearray[4][0]= R.drawable.image_grandma_normal_blue;
+	grandmaimagearray[4][1]= R.drawable.image_grandma_happy_blue;
+	grandmaimagearray[4][2]= R.drawable.image_grandma_ill_blue;
+	grandmaimagearray[4][3]= R.drawable.image_grandma_confused_blue;
+	grandmaimagearray[4][4]= R.drawable.image_grandma_idea_blue;
+	
+	//red
+	grandmaimagearray[1][0]= R.drawable.image_grandma_normal_red;
+	grandmaimagearray[1][1]= R.drawable.image_grandma_happy_red;
+	grandmaimagearray[1][2]= R.drawable.image_grandma_ill_red;
+	grandmaimagearray[1][3]= R.drawable.image_grandma_confused_red;
+	grandmaimagearray[1][4]= R.drawable.image_grandma_idea_red;
+	
+	//green
+	grandmaimagearray[3][0]= R.drawable.image_grandma_normal_green;
+	grandmaimagearray[3][1]= R.drawable.image_grandma_happy_green;
+	grandmaimagearray[3][2]= R.drawable.image_grandma_ill_green;
+	grandmaimagearray[3][3]= R.drawable.image_grandma_confused_green;
+	grandmaimagearray[3][4]= R.drawable.image_grandma_idea_green;
+	//black
+	grandmaimagearray[2][0]= R.drawable.image_grandma_normal_black;
+	grandmaimagearray[2][1]= R.drawable.image_grandma_happy_black;
+	grandmaimagearray[2][2]= R.drawable.image_grandma_ill_black;
+	grandmaimagearray[2][3]= R.drawable.image_grandma_confused_black;
+	grandmaimagearray[2][4]= R.drawable.image_grandma_idea_black;
+    }
 	///////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////// ACTIONBAR-TABS METHODS ////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////
@@ -587,8 +634,11 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft)
 	{
+		
 		// slides to the fragment (room) you selected on the actionbar tabs
 		viewPager.setCurrentItem(tab.getPosition());
+		updatecurrentgrandmaimage();
+
 	}
 
 	@Override
@@ -596,7 +646,6 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	{
 	}
 
-	
 	
 	///////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////// SENSOR METHODS ////////////////////////////////////////
@@ -764,7 +813,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		Root.getAttributes().setSleeping(false);
 		
 		grannyImage = (ImageView) findViewById(R.id.imageGrandma);
-		grannyImage.setImageResource(R.drawable.image_grandma_confused);
+		grannyImage.setImageResource(currentgrandma);
 		
 		btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
 		btnWakeUp.setVisibility(View.INVISIBLE);

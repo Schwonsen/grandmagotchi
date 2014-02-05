@@ -7,13 +7,13 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textView"
-        android:text="@string/fragment_dressing_room"
-        android:layout_gravity="center" />
+<ImageView android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/dressingroom"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/dressingroom"/>
     <ImageButton
         android:id="@+id/btn_warderobe"
         android:layout_width="71dp"

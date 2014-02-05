@@ -5,12 +5,16 @@
     tools:context=".FragmentSupermarket" >
 
     <!-- TODO: Update blank fragment layout -->
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
     
+     <ImageView android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/supermarket"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/supermarket"/>
+
+ 
     <ImageButton
         android:id="@+id/btn_shopcart"
         android:onClick="btnOnClickShopcart"

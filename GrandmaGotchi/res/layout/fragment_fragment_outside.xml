@@ -8,9 +8,11 @@
 
     <ImageView android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/tuer"
+        android:src="@drawable/outdoor"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_marginTop="10dp"
         android:onClick="opendoorfunction"
-        android:id="@+id/doorimage" android:contentDescription="@string/door"/>
+        android:id="@+id/outdoor"/>
 
 </FrameLayout>
