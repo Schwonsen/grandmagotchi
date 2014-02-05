@@ -197,6 +197,7 @@ public class WarderobeActivity extends Activity {
 //					        			{
 //					        				grannyClothes.setImageResource(R.drawable.image_grandma_confused_blue);
 //					        			}
+					        			
 					        			Message.message(getBaseContext(), "Changed clothes!");
 					        			for(ClotheAttributes cA : Root.getClotheList())
 					        			{
