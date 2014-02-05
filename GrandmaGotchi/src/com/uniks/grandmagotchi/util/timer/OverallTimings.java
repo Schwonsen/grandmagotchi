@@ -81,7 +81,7 @@ public class OverallTimings extends AsyncTask {
                 }
             }
         }
-        if(hour == 14 && Root.getUniqueRootInstance().isMed()){
+        if(hour == 16 && Root.getUniqueRootInstance().isMed()){
             Root.getUniqueRootInstance().setMed(false);
         }
 

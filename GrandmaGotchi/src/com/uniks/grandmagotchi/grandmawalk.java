@@ -42,7 +42,7 @@ private double oldPositionlatitude=0;
 private double oldPositionlongitude=0;
 private double newPositionlatitude=0;
 private double newPositionlongitude=0;
-private double gesamtdistanz=0;
+private int gesamtdistanz=0;
 
 
 		@Override
@@ -88,7 +88,7 @@ private double gesamtdistanz=0;
 		              listener();
 		        	 }
 		         
-		    }, 2800);
+		    }, 6800);
 			} 
 		}
 		@Override
@@ -113,9 +113,12 @@ private double gesamtdistanz=0;
 	                mMap.setMyLocationEnabled(true);
 	            	mMap.getUiSettings().setZoomControlsEnabled(false);
 	                mMap.setOnMyLocationButtonClickListener(this);
+	                mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 	    			//mMap.getUiSettings().setMyLocationButtonEnabled(true);
 					/*mMap.addMarker(new MarkerOptions()
 			        .position(new LatLng(0, 0)));*/
+
+	                
 	            }
 	        }
 		}
@@ -149,13 +152,14 @@ private double gesamtdistanz=0;
 				if(oldPositionlongitude==0){
 					oldPositionlongitude=newPositionlongitude;
 					oldPositionlatitude=newPositionlatitude;
+	                mMap.addMarker(new MarkerOptions()
+			        .position(new LatLng(latitude, longitude))
+			        .title("p"))
+			        .setIcon(BitmapDescriptorFactory.fromResource(R.drawable.grandmakopfklein));
 				}
-				mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 16));
-				mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 16));
-				mMap.addMarker(new MarkerOptions()
-		        .position(new LatLng(latitude, longitude))
-		        .title("p"))
-		        .setIcon(BitmapDescriptorFactory.fromResource(R.drawable.grandmakopfklein));
+				mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18));
+				mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18));
+				
 				
 				
 				Location locationA = new Location("point A");
@@ -169,12 +173,24 @@ private double gesamtdistanz=0;
 				locationB.setLongitude(newPositionlatitude);
 
 				float distance = locationA.distanceTo(locationB);
-				gesamtdistanz = gesamtdistanz + distance;
+				if(distance>=3){
+				mMap.addMarker(new MarkerOptions()
+			        .position(new LatLng(latitude, longitude))
+			        .title("p"))
+			        .setIcon(BitmapDescriptorFactory.fromResource(R.drawable.grandmakopfklein));
+				gesamtdistanz = gesamtdistanz + (int) distance;
 				TextView gesamtdistanztext = (TextView)findViewById(R.id.GesamtDistanzWert);
 	            gesamtdistanztext.setText(gesamtdistanz +" Meter ");
 				Toast.makeText(getApplicationContext(), 
-					     "..erfolgreich.."+" + " +distance+ " Meter", 
+					     "..erfolgreich.."+" + " +(int)distance+ " Meter", 
 					     Toast.LENGTH_SHORT).show();
+				}else{
+					Toast.makeText(getApplicationContext(), 
+						     "..erfolgreich.."+" + " +"0"+ " Meter", 
+						     Toast.LENGTH_SHORT).show();}
+				TextView gesamtdistanztext = (TextView)findViewById(R.id.GesamtDistanzWert);
+	            gesamtdistanztext.setText(gesamtdistanz +" Meter ");
+				
 				
 				
 			    }catch(Exception e){
