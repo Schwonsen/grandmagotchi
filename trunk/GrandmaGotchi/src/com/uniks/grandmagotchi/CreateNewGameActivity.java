@@ -30,23 +30,6 @@ public class CreateNewGameActivity extends Activity
 		
 		Root.getUniqueRootInstance();
 		
-		difficultyLevels = (Spinner) findViewById(R.id.spinnerDifficultyLevels);
-		difficultyLevels.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-		{
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int pos, long id)
-			{
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0)
-			{
-			}
-			
-		});
-		
 		databaseHandler = new DatabaseAdapter(this);
 		
 		userName = (EditText) findViewById(R.id.createNewGameUserName);
@@ -66,8 +49,7 @@ public class CreateNewGameActivity extends Activity
 		{
 			if(!name.equals("") && !password.equals(""))
 			{
-				difficultyLevels = (Spinner) findViewById(R.id.spinnerDifficultyLevels);
-				long id = databaseHandler.insertData(name, password, difficultyLevels.getSelectedItem().toString());
+				long id = databaseHandler.insertData(name, password);
 				
 				if(id < 0)
 				{
@@ -76,7 +58,6 @@ public class CreateNewGameActivity extends Activity
 				else
 				{
 					String databaseId = databaseHandler.getID(name, password);
-					Root.getAttributes().setDifficultyLevel(difficultyLevels.getSelectedItem().toString());
 					Root.getAttributes().setName(name);
 					Root.getAttributes().setId(databaseId);
 					if(Root.DEBUG) Message.message(CreateNewGameActivity.this, "Successfully written in Database");

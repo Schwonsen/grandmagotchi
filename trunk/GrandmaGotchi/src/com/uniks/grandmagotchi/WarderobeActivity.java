@@ -113,20 +113,20 @@ public class WarderobeActivity extends Activity {
 						}
 					}
 					
-					// --Meal
+					// --Clothes
 					map.put(KEY_CLOTHE, ((Node) textMealList.item(0)).getNodeValue().trim());
 
 					NodeList infoList = firstMealElement.getElementsByTagName(KEY_TIME);
 					Element firstInfoElement = (Element) infoList.item(0);
 					NodeList textInfoList = firstInfoElement.getChildNodes();
 					
-					// --Meal Information
+					// --Clothes Information
 					map.put(KEY_TIME, ((Node) textInfoList.item(0)).getNodeValue().trim());
 
 					NodeList iconList = firstMealElement.getElementsByTagName(KEY_ICON);
 					Element firstIconElement = (Element) iconList.item(0);
 					NodeList textIconList = firstIconElement.getChildNodes();
-					// --Meal icon
+					// --Clothes icon
 					map.put(KEY_ICON, ((Node) textIconList.item(0)).getNodeValue().trim());
 
 								// adding HashList to ArrayList
@@ -157,11 +157,8 @@ public class WarderobeActivity extends Activity {
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
 					
-					//TODO Hier Reaktionen auf klicken der items ( Oma nicht mehr hungrieg etc.)
 					Root.getUniqueRootInstance().removeNeed(Needs.DRESS);
-					
-
-					
+										
 					Iterator it = data.get(position).entrySet().iterator();
 					 while (it.hasNext()) 
 					 {
@@ -174,7 +171,6 @@ public class WarderobeActivity extends Activity {
 					        		if(clotheItem.isDirty())
 					        		{
 					        			Message.message(getBaseContext(), "This Dress is dirty!");
-//										data.remove(position);
 							            adapter.notifyDataSetChanged(); 
 					        		}
 					        		else if(!clotheItem.isDirty())
@@ -195,12 +191,6 @@ public class WarderobeActivity extends Activity {
 					        			adapter.notifyDataSetChanged(); 
 					        			WarderobeActivity.this.finish();
 //					        			
-//					        			if(clotheItem.getCount() == 0)
-//						        		{
-//											data.remove(position);
-//								            adapter.notifyDataSetChanged(); 
-//						        		}
-					        			
 					        		}
 					        	}
 					        }

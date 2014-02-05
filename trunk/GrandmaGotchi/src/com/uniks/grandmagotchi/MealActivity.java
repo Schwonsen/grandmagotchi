@@ -58,6 +58,7 @@ public class MealActivity extends Activity {
 		
 		int countItems = 0;
         
+		// counter for food
         for(FoodAttributes foodItem : Root.getFoodList())
         {
         	if(foodItem.getCount() == 0)
@@ -65,7 +66,7 @@ public class MealActivity extends Activity {
         		countItems++;
         	}
         }
-        
+        // if food item is set 9 call no food
         if(countItems == 9)
         {
         	Message.message(this, "No Items");
@@ -166,23 +167,17 @@ public class MealActivity extends Activity {
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
 					
-					//TODO Hier Reaktionen auf klicken der items ( Oma nicht mehr hungrieg etc.)
-
-
-
-					
 					Iterator it = data.get(position).entrySet().iterator();
 					 while (it.hasNext()) 
 					 {
 					        Map.Entry pairs = (Map.Entry)it.next();
-//					        System.out.println(pairs.getKey() + " = " + pairs.getValue());
+					        
 					        for(FoodAttributes foodItem : Root.getFoodList())
 					        {
 					        	if(pairs.getValue().equals(foodItem.getName()))
 					        	{
 					        		if(foodItem.getCount() == 0)
 					        		{
-									//	data.remove(position);
 					        			Message.message(getBaseContext(), "You don't have any " + foodItem.getName() + " left");
 							            adapter.notifyDataSetChanged(); 
 					        		}
@@ -231,29 +226,9 @@ public class MealActivity extends Activity {
 					        			    foodItem.setCount(foodItem.getCount() - 1);
 					        			    adapter.notifyDataSetChanged();
                                         }
-//					        			if(foodItem.getCount() == 0)
-//						        		{
-//											data.remove(position);
-//								            adapter.notifyDataSetChanged(); 
-//						        		}
 					        		}
 					        	}
 					        }
-					           /*
-					        int i = 0;
-					        
-					        for(FoodAttributes foodItem : Root.getFoodList())
-					        {
-					        	if(foodItem.getCount() == 0)
-					        	{
-					        		i++;
-					        	}
-					        }
-					        
-					        if(i == 9)
-					        {
-					        	MealActivity.this.finish();
-					        }  */
                          MealActivity.this.finish();
 					 }
 

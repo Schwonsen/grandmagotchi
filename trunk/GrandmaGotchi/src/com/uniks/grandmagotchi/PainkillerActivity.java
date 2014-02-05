@@ -79,20 +79,20 @@ public class PainkillerActivity extends Activity {
 					Element firstMElement = (Element) mealList.item(0);
 					NodeList textMealList = firstMElement.getChildNodes();
 					
-					// --Meal
+					// --Medicine
 					map.put(KEY_MED, ((Node) textMealList.item(0)).getNodeValue().trim());
 
 					NodeList infoList = firstMealElement.getElementsByTagName(KEY_TIME);
 					Element firstInfoElement = (Element) infoList.item(0);
 					NodeList textInfoList = firstInfoElement.getChildNodes();
 					
-					// --Meal Information
+					// --Medicine Information
 					map.put(KEY_TIME, ((Node) textInfoList.item(0)).getNodeValue().trim());
 
 					NodeList iconList = firstMealElement.getElementsByTagName(KEY_ICON);
 					Element firstIconElement = (Element) iconList.item(0);
 					NodeList textIconList = firstIconElement.getChildNodes();
-					// --Meal icon
+					// --Med icon
 					map.put(KEY_ICON, ((Node) textIconList.item(0)).getNodeValue().trim());
 
 					// adding HashList to ArrayList
@@ -115,7 +115,6 @@ public class PainkillerActivity extends Activity {
 
 			// Click event for single list row
 			list.setOnItemClickListener(new OnItemClickListener() {
-                //Hier Reaktionen auf klicken der items ( Oma nicht mehr hungrieg etc.)
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {

@@ -71,9 +71,9 @@ public class ClotheAdapter extends BaseAdapter {
 			vi = inflater.inflate(R.layout.meal_list_row, null);
 			holder = new ViewHolder();
 
-			holder.meal = (TextView) vi.findViewById(R.id.tvMeal); // meal name
-			holder.information = (TextView) vi.findViewById(R.id.tvInformation); // lunch time
-			holder.ic_image = (ImageView) vi.findViewById(R.id.list_image); // meal image
+			holder.meal = (TextView) vi.findViewById(R.id.tvMeal); // clothe name
+			holder.information = (TextView) vi.findViewById(R.id.tvInformation); // description
+			holder.ic_image = (ImageView) vi.findViewById(R.id.list_image); // clothe image
 			holder.tvFoodCount = (TextView) vi.findViewById(R.id.tvFoodCount);
 
 			vi.setTag(holder);

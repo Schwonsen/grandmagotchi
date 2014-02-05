@@ -2,9 +2,9 @@ package com.uniks.grandmagotchi.data;
 
 public class Attributes {
 	
+	//data attributes
 	private String name;
 	private String id;
-	private String difficultyLevel;
 	private boolean isSleeping;
 	
 	private int currentFragmentPosition;
@@ -46,17 +46,4 @@ public class Attributes {
 	{
 		this.currentFragmentPosition = currentFragmentPosition;
 	}
-
-	public String getDifficultyLevel()
-	{
-		return difficultyLevel;
-	}
-
-	public void setDifficultyLevel(String difficultyLevel)
-	{
-		this.difficultyLevel = difficultyLevel;
-	}
-	
-	
-
 }
