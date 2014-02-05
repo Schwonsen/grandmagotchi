@@ -371,15 +371,20 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		
 		//Clothes
 		PINK.setName("Pinky");
-		PINK.setCount(1);
+		PINK.setDirty(false);
+		PINK.setCurrentDress(true);
 		RED.setName("Red skull");
-		RED.setCount(1);
+		RED.setDirty(false);
+		RED.setCurrentDress(false);
 		BLACK.setName("Black Dress");
-		BLACK.setCount(1);
+		BLACK.setDirty(false);
+		BLACK.setCurrentDress(false);
 		GREEN.setName("Camo");
-		GREEN.setCount(1);
+		GREEN.setDirty(false);
+		GREEN.setCurrentDress(false);
 		BLUE.setName("Sunny");
-		BLUE.setCount(1);
+		BLUE.setDirty(false);
+		BLUE.setCurrentDress(false);
 		
 		Root.getClotheList().add(PINK);
 		Root.getClotheList().add(RED);
