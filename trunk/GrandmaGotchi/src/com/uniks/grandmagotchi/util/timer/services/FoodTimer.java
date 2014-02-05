@@ -32,6 +32,7 @@ public class FoodTimer extends Timer {
         Root.getUniqueRootInstance().setHungry(false);
         Root.getUniqueRootInstance().removeNeed(Needs.FOOD);
         Root.getUniqueRootInstance().addNeed(Needs.DISHES);
+        Root.getUniqueRootInstance().setFoodTimerRunning(true);
         if(Root.getUniqueRootInstance().isUnhealthyFood()){
             Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
             Root.getUniqueRootInstance().setUnhealthyFood(false);

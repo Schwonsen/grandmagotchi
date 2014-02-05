@@ -29,6 +29,7 @@ public class DrinkReceiver extends NotificationReceiver
     protected void createNeed(){
         Root.getUniqueRootInstance().setThirsty(true);
         Root.getUniqueRootInstance().addNeed(Needs.DRINK);
+        Root.getUniqueRootInstance().setDrinkTimerRunning(false);
 
     }
     @Override
