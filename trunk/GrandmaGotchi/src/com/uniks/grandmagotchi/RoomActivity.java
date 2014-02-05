@@ -90,7 +90,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public static final int SUPERMARKET_POS = 6;
 	public static final int OUTSIDE_POS = 7;
 	public static final int TEST_POS = 8;	
-	public static final long foodTimer = 100000;
+	public static final long foodTimer = 18000000;
     public static final long drinkTimer = 21600000;
 
 	final Context context = this;
