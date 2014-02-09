@@ -159,6 +159,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 
 	private PopupWindow fadePopup;
 	private boolean updatehandler=false;
+	private int eyestatus = 4;
+	private ImageView eyesImage;
 
 
 	static int[][] grandmaimagearray=new int[5][5];
@@ -173,11 +175,84 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			currentgrandmastatus=4;
 		}else{currentgrandmastatus=1;}
 	}
+	public void updateeyestatus(){		
+	switch(eyestatus){
+	case 1 :
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyes1);
+		break;
+	case 2 :
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyes2);
+		break;
+	case 3 :
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyes3);
+		break;
+	case 4 :
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyes4);
+		break;
+	case 5 :
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyes4);
+		break;
+	case 6 :
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyes4);
+		break;
+	case 7 :
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyes4);
+		break;
+	case 8 :
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyes4);
+		break;
+	case 9 :
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyes4);
+		break;
+	case 10 :
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyes4);
+		break;
+	case 11 :
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyes4);
+		break;
+	case 12 :
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyes4);
+		break;
+	case 13 :
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyes4);
+		break;
+	case 14 :
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyes4);
+		break;
+	case 15 :
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyes4);
+		break;
+	case 16 :
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyes4);
+		break;
 	
+	}
+	
+	if(eyestatus<=16){
+    eyestatus=eyestatus+1;
+	}else{eyestatus=1;}
+	}
 	public void updatecurrentgrandmacomplete(){		
 	updatestatusgrandma();
 	updatecurrentgrandma();
 	updatecurrentgrandmaimage();
+	updateeyestatus();
 	}
 	
 	//updatet omabild
