@@ -118,11 +118,6 @@ public class PainkillerActivity extends Activity {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
-					switch(position){
-					case 2:
-						RoomActivity.grandmaondrugscounter=1;
-						break;	
-					}
                     String timeStamp = new SimpleDateFormat("HH").format(Calendar.getInstance().getTime());
                     int hour = Integer.valueOf(timeStamp);
                     boolean rightMed = false;
@@ -135,8 +130,17 @@ public class PainkillerActivity extends Activity {
 					if (Root.getUniqueRootInstance().containsNeed(Needs.MEDICINE)
 							|| Root.getUniqueRootInstance().isSimMode()) {
 						if (rightMed || Root.getUniqueRootInstance().isSimMode()) {
+							if(rightMed && Root.getUniqueRootInstance().isSimMode()) {
+								Message.message(getBaseContext(),"Granny took her medicine!");
+								Root.getUniqueRootInstance().removeNeed(Needs.MEDICINE);
+								RoomActivity.grandmaondrugscounter=1;
+								Root.getUniqueRootInstance().setMed(true);
+							}
 							Message.message(getBaseContext(),"Granny took her medicine!");
-							if (!Root.getUniqueRootInstance().isSimMode()) {
+							Root.getUniqueRootInstance().removeNeed(Needs.MEDICINE);
+							Root.getUniqueRootInstance().setMed(true);
+							if (rightMed && !Root.getUniqueRootInstance().isSimMode()) {
+								RoomActivity.grandmaondrugscounter=1;
 								Root.getUniqueRootInstance().removeNeed(Needs.MEDICINE);
 								Root.getUniqueRootInstance().setMed(true);
 							}
