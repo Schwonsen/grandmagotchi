@@ -40,6 +40,15 @@ public class Root
     private LinkedList<String> buys = new LinkedList<String>();
     private boolean foodTimerRunning = false;
     private boolean simMode = false;
+    private long sleeptime = 0;
+
+    public long getSleeptime() {
+        return sleeptime;
+    }
+
+    public void setSleeptime(long sleeptime) {
+        this.sleeptime = sleeptime;
+    }
 
     public boolean isFakeHunger() {
         return fakeHunger;
