@@ -567,8 +567,12 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			
 			Cursor cursorMoodCloth = databaseHandler.getMoodClothById(Root.getId());
 			cursorMoodCloth.moveToFirst();
-			currentgrandmacloth = Integer.valueOf(cursorMoodCloth.getString(0));
-			currentgrandmastatus = Integer.valueOf(cursorMoodCloth.getString(1));
+			String strcurrentgrandmacloth = cursorMoodCloth.getString(0);
+			int grandmacloth = Integer.valueOf(strcurrentgrandmacloth);
+			String strcurrentgrandmastatus = cursorMoodCloth.getString(1);
+			int grandmastatus = Integer.valueOf(strcurrentgrandmastatus);
+			currentgrandmacloth = grandmacloth;
+			currentgrandmastatus = grandmastatus;
 			
 			Cursor cursorFood = databaseHandler.getCurrentTimeByNameAndId(Root.getId(), "FoodTimer");
 			cursorFood.moveToFirst();
@@ -736,38 +740,20 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			Root.getClotheList().add(BLACK);
 			Root.getClotheList().add(GREEN);
 			Root.getClotheList().add(BLUE);
-		}
+			
 
-		//Food
-//		YOGURT.setName("Yogurt");
-//		YOGURT.setCount(3);
-//		FLAKES.setName("Flakes");
-//		FLAKES.setCount(1);
-//		EGGS.setName("Eggs");
-//		EGGS.setCount(1);
-//		FISH.setName("Fish");
-//		FISH.setCount(1);
-//		PIZZA.setName("Pizza");
-//		PIZZA.setCount(1);
-//		SALAT.setName("Salat");
-//		SALAT.setCount(1);
-//		PASTA.setName("Pasta");
-//		PASTA.setCount(1);
-//		POTATOS.setName("Potatos");
-//		POTATOS.setCount(1);
-//		SANDWICH.setName("Sandwich");
-//		SANDWICH.setCount(1);
-//		WATER.setName("Water");
-//		WATER.setCount(3);
+			currentgrandmacloth = 0;
+			currentgrandmastatus = 0;
+		}
 		
 	}
 
 	@Override
 	public void onPause(){
 		super.onPause();
+		writeIntoDatabase();
 		Root.getUniqueRootInstance().setInForeground(false);
-	  //  unregisterReceiver(mDrinkReceiver);
-	  //  unregisterReceiver(mFoodReceiver);
+		
 	}
 	@Override
 	public void onResume(){
@@ -823,78 +809,9 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		           .setCancelable(false)
 		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int id) {
-		            	   updatehandler=false;
-
-		            	   long status = -1;
-		            	   if(Root.isCalledFromExistingAccount())
-		            	   {
-
-		            		   for(FoodAttributes fA : Root.getFoodList())
-		            		   {
-		            			   String foodName = fA.getName();
-		            			   String foodCount = String.valueOf(fA.getCount());
-		            			   databaseHandler.updateFoodData(Root.getId(), foodName, foodCount);
-		            		   }
-		            		   
-		            		   for(ClotheAttributes cA : Root.getClotheList())
-		            		   {
-		            			   String clothName = cA.getName();
-		            			   String clothDirtyStatus = String.valueOf(cA.isDirty());
-		            			   String clothCurrentDress = String.valueOf(cA.isCurrentDress());
-		            			   databaseHandler.updateClothdData(Root.getId(), clothName, clothDirtyStatus, clothCurrentDress);
-		            		   }
-		            		   
-		            		   String allNeeds = "";
-		            		   for(Needs need : Root.getUniqueRootInstance().getAllNeeds())
-		            		   {
-		            			   allNeeds += "," + need.getValue();
-		            		   }
-		            		   allNeeds = allNeeds.substring(1);
-		            		   databaseHandler.updateNeedsData(Root.getId(), allNeeds);
-		            		   
-		            		   
-		            		  String currentMoodCloth = String.valueOf(currentgrandmacloth); 
-		            		  String statusMoodCloth = String.valueOf(currentgrandmastatus);
-		            		  
-		            		  databaseHandler.updateMoodClothData(Root.getId(), currentMoodCloth, statusMoodCloth);
-		            		  
-		            	   }
-		            	   else
-		            	   {
-		            		   
-		            		   String[] countNames = databaseHandler.getNamesArray();
-		            		   String idCode = String.valueOf(countNames.length);
-		            		   for(FoodAttributes fA : Root.getFoodList())
-		            		   {
-		            			   String foodName = fA.getName();
-		            			   String foodCount = String.valueOf(fA.getCount());
-		            			   status = databaseHandler.insertFoodData(idCode, foodName, foodCount);
-		            		   }
-		            		   
-		            		   for(ClotheAttributes cA : Root.getClotheList())
-		            		   {
-		            			   String clothName = cA.getName();
-		            			   String clothDirtyStatus = String.valueOf(cA.isDirty());
-		            			   String clothCurrentDress = String.valueOf(cA.isCurrentDress());
-		            			   databaseHandler.insertClothData(idCode, clothName, clothDirtyStatus, clothCurrentDress);
-		            		   }
-		            		   
-		            		   String allNeeds = "";
-		            		   for(Needs need : Root.getUniqueRootInstance().getAllNeeds())
-		            		   {
-		            			   allNeeds += "," + need.getValue();
-		            		   }
-		            		   allNeeds = allNeeds.substring(1);
-		            		   databaseHandler.insertNeedsData(idCode, allNeeds);
-		            		   
-		            		   String currentMoodCloth = String.valueOf(currentgrandmacloth); 
-			            	   String statusMoodCloth = String.valueOf(currentgrandmastatus);
-			            		  
-			            	   databaseHandler.insertMoodClothData(idCode, currentMoodCloth, statusMoodCloth);
-		            	   }
 		            	   
-		   				
-		            	   	RoomActivity.this.finish();
+		            	   writeIntoDatabase();
+		            	   RoomActivity.this.finish();
 		                   
 		                   
 		               }
@@ -907,6 +824,80 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		    AlertDialog alert = builder.create();
 		    alert.show();
 
+	}
+
+	
+	public void writeIntoDatabase()
+	{
+		updatehandler=false;
+
+ 	   long status = -1;
+ 	   if(Root.isCalledFromExistingAccount())
+ 	   {
+
+ 		   for(FoodAttributes fA : Root.getFoodList())
+ 		   {
+ 			   String foodName = fA.getName();
+ 			   String foodCount = String.valueOf(fA.getCount());
+ 			   databaseHandler.updateFoodData(Root.getId(), foodName, foodCount);
+ 		   }
+ 		   
+ 		   for(ClotheAttributes cA : Root.getClotheList())
+ 		   {
+ 			   String clothName = cA.getName();
+ 			   String clothDirtyStatus = String.valueOf(cA.isDirty());
+ 			   String clothCurrentDress = String.valueOf(cA.isCurrentDress());
+ 			   databaseHandler.updateClothdData(Root.getId(), clothName, clothDirtyStatus, clothCurrentDress);
+ 		   }
+ 		   
+ 		   String allNeeds = "";
+ 		   for(Needs need : Root.getUniqueRootInstance().getAllNeeds())
+ 		   {
+ 			   allNeeds += "," + need.getValue();
+ 		   }
+ 		   allNeeds = allNeeds.substring(1);
+ 		   databaseHandler.updateNeedsData(Root.getId(), allNeeds);
+ 		   
+ 		   
+ 		  String currentMoodCloth = String.valueOf(currentgrandmacloth); 
+ 		  String statusMoodCloth = String.valueOf(currentgrandmastatus);
+ 		  
+ 		  databaseHandler.updateMoodClothData(Root.getId(), currentMoodCloth, statusMoodCloth);
+ 		  
+ 	   }
+ 	   else
+ 	   {
+ 		   
+ 		   String[] countNames = databaseHandler.getNamesArray();
+ 		   String idCode = String.valueOf(countNames.length);
+ 		   for(FoodAttributes fA : Root.getFoodList())
+ 		   {
+ 			   String foodName = fA.getName();
+ 			   String foodCount = String.valueOf(fA.getCount());
+ 			   status = databaseHandler.insertFoodData(idCode, foodName, foodCount);
+ 		   }
+ 		   
+ 		   for(ClotheAttributes cA : Root.getClotheList())
+ 		   {
+ 			   String clothName = cA.getName();
+ 			   String clothDirtyStatus = String.valueOf(cA.isDirty());
+ 			   String clothCurrentDress = String.valueOf(cA.isCurrentDress());
+ 			   databaseHandler.insertClothData(idCode, clothName, clothDirtyStatus, clothCurrentDress);
+ 		   }
+ 		   
+ 		   String allNeeds = "";
+ 		   for(Needs need : Root.getUniqueRootInstance().getAllNeeds())
+ 		   {
+ 			   allNeeds += "," + need.getValue();
+ 		   }
+ 		   allNeeds = allNeeds.substring(1);
+ 		   databaseHandler.insertNeedsData(idCode, allNeeds);
+ 		   
+ 		   String currentMoodCloth = String.valueOf(currentgrandmacloth); 
+     	   String statusMoodCloth = String.valueOf(currentgrandmastatus);
+     		  
+     	   databaseHandler.insertMoodClothData(idCode, currentMoodCloth, statusMoodCloth);
+ 	   }
 	}
 	
 	class FragAdapter extends FragmentPagerAdapter
