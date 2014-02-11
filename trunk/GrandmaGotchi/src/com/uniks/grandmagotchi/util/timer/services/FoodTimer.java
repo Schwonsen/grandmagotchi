@@ -30,7 +30,7 @@ public class FoodTimer extends Timer {
         if(hour > 18 && hour < 22 && (9+(24-hour))*60*60 < time/1000) //TODO: Add min time
             time = (14-hour)*60*60*1000;
         if(hour > 18 && hour < 22 && (9+(24-hour))*60*60 > time/1000)
-            time = (14-hour)*60*60*1000;
+            time = (hour-14)*60*60*1000;
         return time;
     }
 

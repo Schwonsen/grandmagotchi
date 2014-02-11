@@ -35,9 +35,11 @@ public abstract class Timer extends IntentService {
         startIntent.putExtra("percent", 0);
         sendBroadcast(startIntent);
 
-        Log.d("grandmaService", "Timer started");
+        Log.w("grandmaService", "Timer started");
+        Log.w("grandmaservice", "Time:" + time);
         for(int i = 1; i <= 100; i++){
             try {
+                Log.w("grandmaservice", "Time100:" + time/100);
                 Thread.sleep(time/100);
             } catch (InterruptedException e) {
                 e.printStackTrace();

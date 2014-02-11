@@ -95,7 +95,7 @@ public class OverallTimings extends AsyncTask {
             Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
         }
 
-        if(hour == 22 && !Root.getAttributes().isSleeping() && Root.getUniqueRootInstance().containsNeed(Needs.SLEEP)){
+        if(hour == 19 && !Root.getAttributes().isSleeping() && Root.getUniqueRootInstance().containsNeed(Needs.SLEEP)){
             createMessage("Grandma is tired", "Put her to sleep.");
             Root.getUniqueRootInstance().addNeed(Needs.SLEEP);
         }
@@ -226,7 +226,7 @@ public class OverallTimings extends AsyncTask {
 
     private void startTimer(Class cl){
         Intent mServiceIntent = new Intent(act.getApplicationContext(), cl);
-        mServiceIntent.putExtra("countdown", 10000);
+       // mServiceIntent.putExtra("countdown", 10000l);
         act.startService(mServiceIntent);
     }
 

@@ -93,8 +93,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public static final int SUPERMARKET_POS = 6;
 	public static final int OUTSIDE_POS = 7;
 	public static final int TEST_POS = 8;	
-	public static final long foodTimer = 18000000;
-    public static final long drinkTimer = 21600000;
+	public static final long foodTimer =  18000000l;
+    public static final long drinkTimer = 19000000l;
 
 	final Context context = this;
 	
@@ -1073,8 +1073,10 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			{
 				btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
 				Message.message(this, "You turned the light off, Grandma sleeps now");
-				
-				grannyImage = (ImageView) findViewById(R.id.imageGrandma);
+
+                String date = String.valueOf(System.currentTimeMillis());
+                databaseHandler.updateTimerData(Root.getId(), "SleepTimer" , date, "");
+                grannyImage = (ImageView) findViewById(R.id.imageGrandma);
 				grannyImage.setImageResource(R.drawable.image_sleeping_grandma);
 				
 				btnWakeUp.setVisibility(View.VISIBLE);
@@ -1268,8 +1270,17 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	//on click for takes the granny to beed
 	public void btnOnClickWakeUp(View view)
 	{
-		Message.message(this, "Grandma is awake");
-		Root.getAttributes().setSleeping(false);
+        Cursor c = databaseHandler.getCurrentTimeByNameAndId(Root.getId(), "SleepTimer");
+        String start = c.getString(0);
+        long currentSleep = Long.valueOf(start) - System.currentTimeMillis();
+        if(currentSleep < 28800000){
+            Root.getUniqueRootInstance().addNeed(Needs.SLEEP);
+            Message.message(this, "Grandma is awake. But she is still tired.");
+        }
+        else
+        Message.message(this, "Grandma is awake");
+
+        Root.getAttributes().setSleeping(false);
 		Root.getUniqueRootInstance().setSleeping(false);
 		
 		grannyImage = (ImageView) findViewById(R.id.imageGrandma);
