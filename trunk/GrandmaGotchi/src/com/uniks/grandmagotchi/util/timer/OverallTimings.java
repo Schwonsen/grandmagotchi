@@ -120,85 +120,88 @@ public class OverallTimings extends AsyncTask {
                 needs.removeAllViews();
                 LinkedList<Needs> granniesNeeds =  Root.getUniqueRootInstance().getAllNeeds();
 
-                for(Needs need : granniesNeeds){
-                    ImageView iv = new ImageView(act.getApplicationContext());
-                    final float scale = act.getResources().getDisplayMetrics().density;
-                    int pixels = (int) (30 * scale + 0.5f);
-                    ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(pixels, pixels);
-                    iv.setLayoutParams(lp);
-                    String text = "";
-                    String food = "";
-                    switch (need){
-                        case FOOD: 
-                        	food = Root.getUniqueRootInstance().getFood();
-                            text = "Grandma wants to eat " + food; 
-//                            iv.setImageResource(R.drawable.ic_action_eat);
-                            if(food.equals(YOGURT)) 
-                            {
-                            	iv.setImageResource(R.drawable.ic_meal_joghurt);
-                            } 
-                            else if(food.equals(FLAKES))
-                            { 
-                            	iv.setImageResource(R.drawable.ic_meal_flakes);
-                            } 
-                            else if(food.equals(EGGS))
-                            {
-                            	iv.setImageResource(R.drawable.ic_meal_egg);
-                            } 
-                            else if(food.equals(FISH))
-                            {
-                            	iv.setImageResource(R.drawable.ic_meal_fish);
-                            }
-                            else if(food.equals(PIZZA))
-                            {
-                            	iv.setImageResource(R.drawable.ic_meal_pizza);
-                            } 
-                            else if(food.equals(SALAT))
-                            {
-                            	iv.setImageResource(R.drawable.ic_meal_salat);
-                            }
-                            else if(food.equals(PASTA))
-                            {
-                            	iv.setImageResource(R.drawable.ic_meal_pasta);
-                            }
-                            else if(food.equals(POTATOS))
-                            {
-                            	iv.setImageResource(R.drawable.ic_meal_potatos);
-                            } 
-                            else if(food.equals(SANDWICH))
-                            {
-                            	iv.setImageResource(R.drawable.ic_meal_sandwich);
-                            }
-                            		break;
-                        case DRINK: iv.setImageResource(R.drawable.ic_action_drink);
-                            text ="Grandma wants to drink something"; break;
-                        case MEDICINE: iv.setImageResource(R.drawable.ic_action_medication);
-                            text = "Grandma needs Medication"; break;
-                        case BUY: iv.setImageResource(R.drawable.ic_action_shopcart);
-                            text = "Grandma needs to buy " + Root.getUniqueRootInstance().getBuysAsString(); break;
-                        case WASH: iv.setImageResource(R.drawable.ic_washing_machine);
-                            text = "Grandma needs to wash hr clothes"; break;
-                        case SLEEP: iv.setImageResource(R.drawable.ic_action_wake_up);
-                            text = "Grandma wants to go to bed"; break;
-                        case DRESS: iv.setImageResource(R.drawable.ic_wardrobe);
-                            text = "Grandma needs to get dressed"; break;
-                        case CLEAN: iv.setImageResource(R.drawable.ic_action_brush);
-                            text = "Grandma needs to clean the house"; break;
-                        case DISHES: iv.setImageResource(R.drawable.ic_action_dishes);
-                            text = "Grandma should clean the dishes"; break;
-                        case WALK: iv.setImageResource(R.drawable.outdoor);
-                            text = "Grandma want to take a walk"; break;
-                        default: break;
-                    }
-                    final String clickText = text;
-                    iv.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Message.message(act, clickText);
+                synchronized (granniesNeeds)
+				{
+                    for(Needs need : granniesNeeds){
+                        ImageView iv = new ImageView(act.getApplicationContext());
+                        final float scale = act.getResources().getDisplayMetrics().density;
+                        int pixels = (int) (30 * scale + 0.5f);
+                        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(pixels, pixels);
+                        iv.setLayoutParams(lp);
+                        String text = "";
+                        String food = "";
+                        switch (need){
+                            case FOOD: 
+                            	food = Root.getUniqueRootInstance().getFood();
+                                text = "Grandma wants to eat " + food; 
+//                                iv.setImageResource(R.drawable.ic_action_eat);
+                                if(food.equals(YOGURT)) 
+                                {
+                                	iv.setImageResource(R.drawable.ic_meal_joghurt);
+                                } 
+                                else if(food.equals(FLAKES))
+                                { 
+                                	iv.setImageResource(R.drawable.ic_meal_flakes);
+                                } 
+                                else if(food.equals(EGGS))
+                                {
+                                	iv.setImageResource(R.drawable.ic_meal_egg);
+                                } 
+                                else if(food.equals(FISH))
+                                {
+                                	iv.setImageResource(R.drawable.ic_meal_fish);
+                                }
+                                else if(food.equals(PIZZA))
+                                {
+                                	iv.setImageResource(R.drawable.ic_meal_pizza);
+                                } 
+                                else if(food.equals(SALAT))
+                                {
+                                	iv.setImageResource(R.drawable.ic_meal_salat);
+                                }
+                                else if(food.equals(PASTA))
+                                {
+                                	iv.setImageResource(R.drawable.ic_meal_pasta);
+                                }
+                                else if(food.equals(POTATOS))
+                                {
+                                	iv.setImageResource(R.drawable.ic_meal_potatos);
+                                } 
+                                else if(food.equals(SANDWICH))
+                                {
+                                	iv.setImageResource(R.drawable.ic_meal_sandwich);
+                                }
+                                		break;
+                            case DRINK: iv.setImageResource(R.drawable.ic_action_drink);
+                                text ="Grandma wants to drink something"; break;
+                            case MEDICINE: iv.setImageResource(R.drawable.ic_action_medication);
+                                text = "Grandma needs Medication"; break;
+                            case BUY: iv.setImageResource(R.drawable.ic_action_shopcart);
+                                text = "Grandma needs to buy " + Root.getUniqueRootInstance().getBuysAsString(); break;
+                            case WASH: iv.setImageResource(R.drawable.ic_washing_machine);
+                                text = "Grandma needs to wash hr clothes"; break;
+                            case SLEEP: iv.setImageResource(R.drawable.ic_action_wake_up);
+                                text = "Grandma wants to go to bed"; break;
+                            case DRESS: iv.setImageResource(R.drawable.ic_wardrobe);
+                                text = "Grandma needs to get dressed"; break;
+                            case CLEAN: iv.setImageResource(R.drawable.ic_action_brush);
+                                text = "Grandma needs to clean the house"; break;
+                            case DISHES: iv.setImageResource(R.drawable.ic_action_dishes);
+                                text = "Grandma should clean the dishes"; break;
+                            case WALK: iv.setImageResource(R.drawable.outdoor);
+                                text = "Grandma want to take a walk"; break;
+                            default: break;
                         }
-                    });
-                    needs.addView(iv);
-                }
+                        final String clickText = text;
+                        iv.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Message.message(act, clickText);
+                            }
+                        });
+                        needs.addView(iv);
+                    }
+				}
             }
         });
 

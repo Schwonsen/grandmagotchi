@@ -544,15 +544,24 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	}
 	protected void onPause(Bundle savedInstanceState)
 	{
+		writeIntoDatabase();
+		Root.setAlreadyInit(false);
 		updatehandler=false;
 	}
 	protected void onResume(Bundle savedInstanceState)
 	{
+		if(!Root.isAlreadyInit())
+		{
+			init();
+		}
 		updatehandler=true;
 	}
 
 	private void init()
 	{		
+		
+		Root.setAlreadyInit(true);
+		
 		initializegranmaimagearray();//fuer grandmaimageaustausch
 		
 		databaseHandler = new DatabaseAdapter(this);
@@ -574,20 +583,31 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			currentgrandmacloth = grandmacloth;
 			currentgrandmastatus = grandmastatus;
 			
+			Log.d("INIT CLOTH NUMBER: " , "--> " + grandmacloth);
+			Log.d("INIT STATUS NUMBER: " , "--> " + grandmastatus);
 			
 			Cursor cursorFood = databaseHandler.getCurrentTimeByNameAndId(Root.getId(), "FoodTimer");
 			cursorFood.moveToFirst();
 			String startFoodTime = cursorFood.getString(0);
 			String currentFoodTime = cursorFood.getString(1);
 			
+			Log.d("START FOOD TIME: " , "--> " + startFoodTime);
+			Log.d("CURRENT FOOD TIME: " , "--> " + currentFoodTime);
+			
 			Cursor cursorDrink = databaseHandler.getCurrentTimeByNameAndId(Root.getId(), "DrinkTimer");
 			cursorDrink.moveToFirst();
 			String startDrinkTime = cursorDrink.getString(0);
 			String currentDrinkTime = cursorDrink.getString(1);
 			
+			Log.d("START DRINK TIME: " , "--> " + startDrinkTime);
+			Log.d("CURRENT DRINK TIME: " , "--> " + currentDrinkTime);
+			
 			Cursor cursorNeeds = databaseHandler.getNeedsById(Root.getId());
 			cursorNeeds.moveToFirst();
 			String allNeeds = cursorNeeds.getString(0);
+			
+			Log.d("CURRENT NEEDS: " , "--> " + allNeeds);
+			
 			String[] needsArray = allNeeds.split(",");
 			for(String need : needsArray)
 			{
@@ -629,9 +649,9 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 					Root.getUniqueRootInstance().addNeed(Needs.DISHES);
 					break;
 					
-//				case 10:
-//					Root.getUniqueRootInstance().addNeed(Needs.WALK);
-//					break;
+				case 10:
+					Root.getUniqueRootInstance().addNeed(Needs.WALK);
+					break;
 					
 				default:
 					break;
@@ -812,6 +832,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		               public void onClick(DialogInterface dialog, int id) {
 		            	   
 		            	   writeIntoDatabase();
+		            	   Root.setAlreadyInit(false);
 		            	   RoomActivity.this.finish();
 		                   
 		                   
@@ -856,9 +877,13 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
  		   {
  			   allNeeds += "," + need.getValue();
  		   }
- 		   allNeeds = allNeeds.substring(1);
- 		   databaseHandler.updateNeedsData(Root.getId(), allNeeds);
- 		   
+ 		   if(allNeeds.length() > 1)
+ 		   {
+ 			  Log.d("ALL NEEDS TO DB: " , "--> " + allNeeds);
+ 			  allNeeds = allNeeds.substring(1);
+ 			  Log.d("ALL NEEDS TO DB AFTER SUB: " , "--> " + allNeeds);
+ 	 		  databaseHandler.updateNeedsData(Root.getId(), allNeeds);
+ 		   }
  		   
  		  String currentMoodCloth = String.valueOf(currentgrandmacloth); 
  		  String statusMoodCloth = String.valueOf(currentgrandmastatus);

@@ -26,7 +26,7 @@ public class Root
 
     private int foodTime = 0;
 
-
+    private static boolean isAlreadyInit = false;
     private boolean isThirsty = false;
     private boolean isHungry = true;
     private boolean fakeHunger = false;
@@ -158,11 +158,13 @@ public class Root
         }
     }
     public boolean containsNeed(Needs need){
+    	synchronized(needs){
         for(Needs exNeed : needs){
             if(Needs.compare(exNeed, need))
                 return true;
         }
-        return false;
+        	return false;
+    	}
     }
     public LinkedList<Needs> getAllNeeds(){
         return needs;
@@ -289,6 +291,16 @@ public class Root
 	public static void setClotheList(LinkedList<ClotheAttributes> clotheList)
 	{
 		Root.clotheList = clotheList;
+	}
+
+	public static boolean isAlreadyInit()
+	{
+		return isAlreadyInit;
+	}
+
+	public static void setAlreadyInit(boolean isAlreadyInit)
+	{
+		Root.isAlreadyInit = isAlreadyInit;
 	}
 
 }
