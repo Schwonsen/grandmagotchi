@@ -575,130 +575,148 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			Root.setClotheList(databaseHandler.getClothDataById(Root.getId()));
 			
 			Cursor cursorMoodCloth = databaseHandler.getMoodClothById(Root.getId());
-			cursorMoodCloth.moveToFirst();
-			String strcurrentgrandmacloth = cursorMoodCloth.getString(0);
-			int grandmacloth = Integer.valueOf(strcurrentgrandmacloth);
-			String strcurrentgrandmastatus = cursorMoodCloth.getString(1);
-			int grandmastatus = Integer.valueOf(strcurrentgrandmastatus);
-			currentgrandmacloth = grandmacloth;
-			currentgrandmastatus = grandmastatus;
-			
-			Log.d("INIT CLOTH NUMBER: " , "--> " + grandmacloth);
-			Log.d("INIT STATUS NUMBER: " , "--> " + grandmastatus);
+			if(cursorMoodCloth != null && cursorMoodCloth.moveToFirst())
+			{
+				cursorMoodCloth.moveToFirst();
+				String strcurrentgrandmacloth = cursorMoodCloth.getString(0);
+				int grandmacloth = Integer.valueOf(strcurrentgrandmacloth);
+				String strcurrentgrandmastatus = cursorMoodCloth.getString(1);
+				int grandmastatus = Integer.valueOf(strcurrentgrandmastatus);
+				currentgrandmacloth = grandmacloth;
+				currentgrandmastatus = grandmastatus;
+				
+				Log.d("INIT CLOTH NUMBER: " , "--> " + grandmacloth);
+				Log.d("INIT STATUS NUMBER: " , "--> " + grandmastatus);
+			}
 			
 			Cursor cursorFood = databaseHandler.getCurrentTimeByNameAndId(Root.getId(), "FoodTimer");
-			cursorFood.moveToFirst();
-			String startFoodTime = cursorFood.getString(0);
-			String currentFoodTime = cursorFood.getString(1);
-			
-			Log.d("START FOOD TIME: " , "--> " + startFoodTime);
-			Log.d("CURRENT FOOD TIME: " , "--> " + currentFoodTime);
+			if(cursorFood != null && cursorFood.moveToFirst())
+			{
+				cursorFood.moveToFirst();
+				String startFoodTime = cursorFood.getString(0);
+				String currentFoodTime = cursorFood.getString(1);
+				
+				Log.d("START FOOD TIME: " , "--> " + startFoodTime);
+				Log.d("CURRENT FOOD TIME: " , "--> " + currentFoodTime);
+				
+				long currentFood = (Long.valueOf(currentFoodTime) + Long.valueOf(startFoodTime)) - System.currentTimeMillis();
+				
+				if(currentFood < 0)
+				{
+					
+					if(currentFood < -(60*60*1000))
+					{
+						diedPopup(this);
+					}
+					else
+					{
+						createTimer(60*60*1000 + currentFood, FoodDeathTimer.class);
+						FoodReceiver.setRandomFood(this);
+						Root.getUniqueRootInstance().addNeed(Needs.FOOD);
+					}
+					
+				}
+				else
+				{
+					createTimer(currentFood, FoodTimer.class);
+				}
+				
+			}
 			
 			Cursor cursorDrink = databaseHandler.getCurrentTimeByNameAndId(Root.getId(), "DrinkTimer");
-			cursorDrink.moveToFirst();
-			String startDrinkTime = cursorDrink.getString(0);
-			String currentDrinkTime = cursorDrink.getString(1);
+			if(cursorDrink != null && cursorDrink.moveToFirst())
+			{
+				cursorDrink.moveToFirst();
+				String startDrinkTime = cursorDrink.getString(0);
+				String currentDrinkTime = cursorDrink.getString(1);
+				
+				Log.d("START DRINK TIME: " , "--> " + startDrinkTime);
+				Log.d("CURRENT DRINK TIME: " , "--> " + currentDrinkTime);
+				
+				long currentDrink = (Long.valueOf(currentDrinkTime) + Long.valueOf(startDrinkTime)) - System.currentTimeMillis();
+				
+				if(currentDrink < 0)
+				{
+					
+					if(currentDrink < -(60*60*1000))
+					{
+						diedPopup(this);
+					}
+					else
+					{
+						createTimer(60*60*1000 + currentDrink, DrinkDeathTimer.class);
+						Root.getUniqueRootInstance().addNeed(Needs.DRINK);
+					}
+					
+				}
+				else
+				{
+					createTimer(currentDrink, DrinkTimer.class);
+				}
+				
+			}
 			
-			Log.d("START DRINK TIME: " , "--> " + startDrinkTime);
-			Log.d("CURRENT DRINK TIME: " , "--> " + currentDrinkTime);
 			
 			Cursor cursorNeeds = databaseHandler.getNeedsById(Root.getId());
-			cursorNeeds.moveToFirst();
-			String allNeeds = cursorNeeds.getString(0);
-			
-			Log.d("CURRENT NEEDS: " , "--> " + allNeeds);
-			
-			String[] needsArray = allNeeds.split(",");
-			for(String need : needsArray)
+			if(cursorNeeds != null && cursorNeeds.moveToFirst())
 			{
-				switch (Integer.valueOf(need))
+				cursorNeeds.moveToFirst();
+				String allNeeds = cursorNeeds.getString(0);
+				Log.d("CURRENT NEEDS: " , "--> " + allNeeds);
+				String[] needsArray = allNeeds.split(",");
+				for(String need : needsArray)
 				{
-				case 1:
-					Root.getUniqueRootInstance().addNeed(Needs.DRINK);
-					break;
-					
-				case 2:
-					Root.getUniqueRootInstance().addNeed(Needs.FOOD);
-					break;
-					
-				case 3:
-					Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
-					break;
-					
-				case 4:
-					Root.getUniqueRootInstance().addNeed(Needs.SLEEP);
-					break;
-					
-				case 5:
-					Root.getUniqueRootInstance().addNeed(Needs.DRESS);
-					break;
-					
-				case 6:
-					Root.getUniqueRootInstance().addNeed(Needs.WASH);
-					break;
-					
-				case 7:
-					Root.getUniqueRootInstance().addNeed(Needs.BUY);
-					break;
-					
-				case 8:
-					Root.getUniqueRootInstance().addNeed(Needs.CLEAN);
-					break;
-					
-				case 9:
-					Root.getUniqueRootInstance().addNeed(Needs.DISHES);
-					break;
-					
-				case 10:
-					Root.getUniqueRootInstance().addNeed(Needs.WALK);
-					break;
-					
-				default:
-					break;
-				}
+					switch (Integer.valueOf(need))
+					{
+					case 1:
+						Root.getUniqueRootInstance().addNeed(Needs.DRINK);
+						break;
+						
+					case 2:
+						Root.getUniqueRootInstance().addNeed(Needs.FOOD);
+						break;
+						
+					case 3:
+						Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
+						break;
+						
+					case 4:
+						Root.getUniqueRootInstance().addNeed(Needs.SLEEP);
+						break;
+						
+					case 5:
+						Root.getUniqueRootInstance().addNeed(Needs.DRESS);
+						break;
+						
+					case 6:
+						Root.getUniqueRootInstance().addNeed(Needs.WASH);
+						break;
+						
+					case 7:
+						Root.getUniqueRootInstance().addNeed(Needs.BUY);
+						break;
+						
+					case 8:
+						Root.getUniqueRootInstance().addNeed(Needs.CLEAN);
+						break;
+						
+					case 9:
+						Root.getUniqueRootInstance().addNeed(Needs.DISHES);
+						break;
+						
+					case 10:
+						Root.getUniqueRootInstance().addNeed(Needs.WALK);
+						break;
+						
+					default:
+						break;
+					}
 
-			}
-			
-			long currentFood = (Long.valueOf(currentFoodTime) + Long.valueOf(startFoodTime)) - System.currentTimeMillis();
-			long currentDrink = (Long.valueOf(currentDrinkTime) + Long.valueOf(startDrinkTime)) - System.currentTimeMillis();
-			
-			if(currentFood < 0)
-			{
-				
-				if(currentFood < -(60*60*1000))
-				{
-					diedPopup(this);
 				}
-				else
-				{
-					createTimer(60*60*1000 + currentFood, FoodDeathTimer.class);
-					FoodReceiver.setRandomFood(this);
-					Root.getUniqueRootInstance().addNeed(Needs.FOOD);
-				}
-				
 			}
 			else
 			{
-				createTimer(currentFood, FoodTimer.class);
-			}
-			
-			if(currentDrink < 0)
-			{
-				
-				if(currentDrink < -(60*60*1000))
-				{
-					diedPopup(this);
-				}
-				else
-				{
-					createTimer(60*60*1000 + currentDrink, DrinkDeathTimer.class);
-					Root.getUniqueRootInstance().addNeed(Needs.DRINK);
-				}
-				
-			}
-			else
-			{
-				createTimer(currentDrink, DrinkTimer.class);
+				Log.d("CURSOR IS NULL!!!" , " WTF?!?!?");
 			}
 			
 		}
@@ -879,10 +897,14 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
  		   }
  		   if(allNeeds.length() > 1)
  		   {
- 			  Log.d("ALL NEEDS TO DB: " , "--> " + allNeeds);
  			  allNeeds = allNeeds.substring(1);
  			  Log.d("ALL NEEDS TO DB AFTER SUB: " , "--> " + allNeeds);
  	 		  databaseHandler.updateNeedsData(Root.getId(), allNeeds);
+ 		   }
+ 		   else
+ 		   {
+ 			  allNeeds = "0";
+ 			  databaseHandler.updateNeedsData(Root.getId(), allNeeds); 
  		   }
  		   
  		  String currentMoodCloth = String.valueOf(currentgrandmacloth); 
@@ -920,6 +942,11 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
  		   {
  			  allNeeds = allNeeds.substring(1);
  	 		  databaseHandler.insertNeedsData(idCode, allNeeds);
+ 		   }
+ 		   else
+ 		   {
+ 			   allNeeds = "0";
+ 			  databaseHandler.insertNeedsData(idCode, allNeeds);
  		   }
  		   
  		   String currentMoodCloth = String.valueOf(currentgrandmacloth); 
