@@ -565,14 +565,14 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			Root.setFoodList(databaseHandler.getFoodDataById(Root.getId()));
 			Root.setClotheList(databaseHandler.getClothDataById(Root.getId()));
 			
-			Cursor cursorMoodCloth = databaseHandler.getMoodClothById(Root.getId());
-			cursorMoodCloth.moveToFirst();
-			String strcurrentgrandmacloth = cursorMoodCloth.getString(0);
-			int grandmacloth = Integer.valueOf(strcurrentgrandmacloth);
-			String strcurrentgrandmastatus = cursorMoodCloth.getString(1);
-			int grandmastatus = Integer.valueOf(strcurrentgrandmastatus);
-			currentgrandmacloth = grandmacloth;
-			currentgrandmastatus = grandmastatus;
+//			Cursor cursorMoodCloth = databaseHandler.getMoodClothById(Root.getId());
+//			cursorMoodCloth.moveToFirst();
+//			String strcurrentgrandmacloth = cursorMoodCloth.getString(0);
+//			int grandmacloth = Integer.valueOf(strcurrentgrandmacloth);
+//			String strcurrentgrandmastatus = cursorMoodCloth.getString(1);
+//			int grandmastatus = Integer.valueOf(strcurrentgrandmastatus);
+//			currentgrandmacloth = grandmacloth;
+//			currentgrandmastatus = grandmastatus;
 			
 			Cursor cursorFood = databaseHandler.getCurrentTimeByNameAndId(Root.getId(), "FoodTimer");
 			cursorFood.moveToFirst();
@@ -890,8 +890,11 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
  		   {
  			   allNeeds += "," + need.getValue();
  		   }
- 		   allNeeds = allNeeds.substring(1);
- 		   databaseHandler.insertNeedsData(idCode, allNeeds);
+ 		   if(allNeeds.length() > 1)
+ 		   {
+ 			  allNeeds = allNeeds.substring(1);
+ 	 		  databaseHandler.insertNeedsData(idCode, allNeeds);
+ 		   }
  		   
  		   String currentMoodCloth = String.valueOf(currentgrandmacloth); 
      	   String statusMoodCloth = String.valueOf(currentgrandmastatus);
