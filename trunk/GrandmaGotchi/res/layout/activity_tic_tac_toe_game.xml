@@ -114,6 +114,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:onClick="btnOnClickGame"
+        android:visibility="invisible"
         android:text="@string/new_game" />
 
     <TextView
