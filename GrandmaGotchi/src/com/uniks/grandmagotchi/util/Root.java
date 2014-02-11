@@ -130,18 +130,22 @@ public class Root
     private String food;
 
     public void addNeed(Needs need){
+        synchronized(needs){
         for(Needs exNeed : needs){
             if(Needs.compare(need, exNeed))
                 return;
         }
         needs.add(need);
+        }
     }
     public void removeNeed(Needs need){
+        synchronized(needs){
         for(Needs exNeed : needs){
             if(Needs.compare(need, exNeed)){
                 needs.remove(exNeed);
                 break;
             }
+        }
         }
     }
     public boolean containsNeed(Needs need){
