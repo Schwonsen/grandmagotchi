@@ -161,6 +161,9 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	private boolean updatehandler=false;
 	private int eyestatus = 4;
 	private ImageView eyesImage;
+	static boolean grandmaondrugs = false ;
+	private ImageView grandmaondrugsImage;
+	static int grandmaondrugscounter;
 
 
 	static int[][] grandmaimagearray=new int[5][5];
@@ -169,13 +172,13 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		if (Root.getUniqueRootInstance().containsNeed(Needs.MEDICINE)){
 			currentgrandmastatus=2;
 			
-		}if(Root.getUniqueRootInstance().isThirsty()==true){
+		}else if(Root.getUniqueRootInstance().isThirsty()==true){
 			currentgrandmastatus=4;
 		}else if(Root.getUniqueRootInstance().isHungry()==true){
 			currentgrandmastatus=4;
 		}else{currentgrandmastatus=1;}
 	}
-	public void updateeyestatus(){		
+	public void updateeyestatus(){	
 	switch(eyestatus){
 	case 1 :
 		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
@@ -242,17 +245,77 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		eyesImage.setImageResource(R.drawable.eyes4);
 		break;
 	
-	}
+	}	
 	
 	if(eyestatus<=16){
     eyestatus=eyestatus+1;
 	}else{eyestatus=1;}
 	}
-	public void updatecurrentgrandmacomplete(){		
+	
+	
+	
+	public void setgrandmaondrugs(){
+		if(grandmaondrugscounter!=0){
+		Handler handler = new Handler(); 
+		handler.postDelayed(new Runnable() { 
+			public void run() { 
+	        	 if(grandmaondrugscounter<=10){
+	        	 grandmaondrugscounter=grandmaondrugscounter+1;
+	        	 setgrandmaondrugs();}else{grandmaondrugscounter=0;}
+	         } 
+	    }, 200);}
+		
+	switch(grandmaondrugscounter){
+	case 1 :
+		grandmaondrugsImage = (ImageView) findViewById(R.id.imageGrandma);
+		grandmaondrugsImage.setImageResource(R.drawable.grandmaondrugs1);
+		break;
+	case 2 :
+		grandmaondrugsImage = (ImageView) findViewById(R.id.imageGrandma);
+		grandmaondrugsImage.setImageResource(R.drawable.grandmaondrugs2);
+		break;
+	case 3 :
+		grandmaondrugsImage = (ImageView) findViewById(R.id.imageGrandma);
+		grandmaondrugsImage.setImageResource(R.drawable.grandmaondrugs3);
+		break;
+	case 4 :
+		grandmaondrugsImage = (ImageView) findViewById(R.id.imageGrandma);
+		grandmaondrugsImage.setImageResource(R.drawable.grandmaondrugs4);
+		break;
+	case 5 :
+		grandmaondrugsImage = (ImageView) findViewById(R.id.imageGrandma);
+		grandmaondrugsImage.setImageResource(R.drawable.grandmaondrugs5);
+		break;
+	case 6 :
+		grandmaondrugsImage = (ImageView) findViewById(R.id.imageGrandma);
+		grandmaondrugsImage.setImageResource(R.drawable.grandmaondrugs6);
+		break;
+	case 7 :
+		grandmaondrugsImage = (ImageView) findViewById(R.id.imageGrandma);
+		grandmaondrugsImage.setImageResource(R.drawable.grandmaondrugs7);
+		break;
+	case 8 :
+		grandmaondrugsImage = (ImageView) findViewById(R.id.imageGrandma);
+		grandmaondrugsImage.setImageResource(R.drawable.grandmaondrugs8);
+		break;
+	case 9 :
+		grandmaondrugsImage = (ImageView) findViewById(R.id.imageGrandma);
+		grandmaondrugsImage.setImageResource(R.drawable.grandmaondrugs9);
+		break;
+	case 10 :
+		grandmaondrugsImage = (ImageView) findViewById(R.id.imageGrandma);
+		grandmaondrugsImage.setImageResource(R.drawable.grandmaondrugs10);
+		break;
+
+	}}
+	public void updatecurrentgrandmacomplete(){	
 	updatestatusgrandma();
 	updatecurrentgrandma();
 	updatecurrentgrandmaimage();
 	updateeyestatus();
+	if(grandmaondrugscounter!=0){
+		setgrandmaondrugs();
+	}
 	}
 	
 	//updatet omabild
@@ -262,9 +325,10 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		Handler handler = new Handler(); 
 		handler.postDelayed(new Runnable() { 
 			public void run() { 
-				if (!Root.getAttributes().isSleeping()&&dancecounter==0){//im schlaf und beim tanzen soll nicht upgedated werden
-				 updatecurrentgrandmacomplete();	
-				}
+				if (!Root.getAttributes().isSleeping()&&dancecounter==0&&grandmaondrugscounter==0){//im schlaf und beim tanzen soll nicht upgedated werden
+				 updatecurrentgrandmacomplete();				 
+				}else{eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		         eyesImage.setImageResource(R.drawable.eyeszero);}
 	        	 startupdatehandler();
 	         } 
 	    }, 200);}
@@ -958,6 +1022,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		viewPager.setCurrentItem(tab.getPosition());
 //		updatecurrentgrandmaimage();
 		updatecurrentgrandmacomplete();
+		
 	}
 
 	@Override
@@ -1061,7 +1126,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		if (Root.getAttributes().getCurrentFragmentPosition() == 0
 				&& dancecounter < 30) {
 			int grandmadancepicture = R.drawable.grandmadance1;
-			Handler handler = new Handler();
+			Handler handler1 = new Handler();
 			grannyImage = (ImageView) findViewById(R.id.imageGrandma);
 			grannyImage.setImageResource(R.drawable.grandmadancing1);
 			Random rn = new Random();
@@ -1078,7 +1143,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 				break;
 			}
 			grannyImage.setImageResource(grandmadancepicture);
-			handler.postDelayed(new Runnable() {
+			handler1.postDelayed(new Runnable() {
 
 				public void run() {
 					dancecounter = dancecounter + 1;
@@ -1087,6 +1152,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			}, 170);
 		} else {
 			grannyImage.setImageResource(currentgrandma);
+			dancecounter=0;
+			
 		}
 		youtubebuttonclicked = false;
 	}
