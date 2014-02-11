@@ -80,8 +80,8 @@ import android.widget.ImageView;
 public class RoomActivity extends FragmentActivity implements TabListener, SensorEventListener
 {
 	public static int currentgrandma = R.drawable.image_grandma_normal;
-	public static int currentgrandmacloth = 0;
-	public static int currentgrandmastatus = 0;//0 normal /1 happy /2 ill /3confused /4 ideas
+	public static int currentgrandmacloth ;
+	public static int currentgrandmastatus;//0 normal /1 happy /2 ill /3confused /4 ideas
 	// positions for different Rooms 
 	// (always write a constant for a new Room for better legibility of code)
 	public static final int LIVINGROOM_POS = 0;
@@ -565,14 +565,15 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			Root.setFoodList(databaseHandler.getFoodDataById(Root.getId()));
 			Root.setClotheList(databaseHandler.getClothDataById(Root.getId()));
 			
-//			Cursor cursorMoodCloth = databaseHandler.getMoodClothById(Root.getId());
-//			cursorMoodCloth.moveToFirst();
-//			String strcurrentgrandmacloth = cursorMoodCloth.getString(0);
-//			int grandmacloth = Integer.valueOf(strcurrentgrandmacloth);
-//			String strcurrentgrandmastatus = cursorMoodCloth.getString(1);
-//			int grandmastatus = Integer.valueOf(strcurrentgrandmastatus);
-//			currentgrandmacloth = grandmacloth;
-//			currentgrandmastatus = grandmastatus;
+			Cursor cursorMoodCloth = databaseHandler.getMoodClothById(Root.getId());
+			cursorMoodCloth.moveToFirst();
+			String strcurrentgrandmacloth = cursorMoodCloth.getString(0);
+			int grandmacloth = Integer.valueOf(strcurrentgrandmacloth);
+			String strcurrentgrandmastatus = cursorMoodCloth.getString(1);
+			int grandmastatus = Integer.valueOf(strcurrentgrandmastatus);
+			currentgrandmacloth = grandmacloth;
+			currentgrandmastatus = grandmastatus;
+			
 			
 			Cursor cursorFood = databaseHandler.getCurrentTimeByNameAndId(Root.getId(), "FoodTimer");
 			cursorFood.moveToFirst();
