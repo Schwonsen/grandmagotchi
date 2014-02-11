@@ -15,10 +15,9 @@ public class DrinkTimer extends Timer {
     }
     @Override
     protected void setNeed() {
-        BROADCAST_ACTION = DrinkReceiver.BROADCAST_ACTION;
         Root.getUniqueRootInstance().setThirsty(false);
         Root.getUniqueRootInstance().removeNeed(Needs.DRINK);
-
+        BROADCAST_ACTION = DrinkReceiver.BROADCAST_ACTION;
         
         
         DatabaseAdapter databaseHandler = getDatabaseHandler();
@@ -43,8 +42,8 @@ public class DrinkTimer extends Timer {
  		   	String date = String.valueOf(System.currentTimeMillis());
  		   	databaseHandler.insertTimerData(idCode, "DrinkTimer", date, String.valueOf(time));
         }
-
-        Root.getUniqueRootInstance().setDrinkTimerRunning(true);
+//TODO TEst
+//        Root.getUniqueRootInstance().setDrinkTimerRunning(true);
 
     }
 }
