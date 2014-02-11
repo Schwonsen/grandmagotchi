@@ -22,7 +22,12 @@ public class TicTacToeGameActivity extends Activity {
 
 	int i, j, k = 0;
 	TextView textView;
+	TextView points;
+	TextView drawPoints;
 	AI ai;
+	int playerPoints = 0;
+	int cpuPoints = 0;
+	int drawCount = 0;
 
 	private void init() {
 		ai = new AI();
@@ -58,6 +63,28 @@ public class TicTacToeGameActivity extends Activity {
 			}
 		}
 	}
+	
+	private void disableButtons() {
+		
+		buttons[1][3] = (Button) findViewById(R.id.one);
+		buttons[1][3].setEnabled(false);
+		buttons[1][2] = (Button) findViewById(R.id.two);
+		buttons[1][2].setEnabled(false);
+		buttons[1][1] = (Button) findViewById(R.id.three);
+		buttons[1][1].setEnabled(false);
+		buttons[2][3] = (Button) findViewById(R.id.four);
+		buttons[2][3].setEnabled(false);
+		buttons[2][2] = (Button) findViewById(R.id.five);
+		buttons[2][2].setEnabled(false);
+		buttons[2][1] = (Button) findViewById(R.id.six);
+		buttons[2][1].setEnabled(false);
+		buttons[3][3] = (Button) findViewById(R.id.seven);
+		buttons[3][3].setEnabled(false);
+		buttons[3][2] = (Button) findViewById(R.id.eight);
+		buttons[3][2].setEnabled(false);
+		buttons[3][1] = (Button) findViewById(R.id.nine);
+		buttons[3][1].setEnabled(false);
+	}
 
 	class MyClickListener implements View.OnClickListener {
 		int x;
@@ -78,7 +105,7 @@ public class TicTacToeGameActivity extends Activity {
 
 				// check to see if the user has won, if not let AI take turn
 				if (!checkBoard()) {
-					ai.takeTurn();
+					ai.takeTurn();					
 				}
 			}
 		}
@@ -87,6 +114,8 @@ public class TicTacToeGameActivity extends Activity {
 	// check the board to see if there is a winner
 	private boolean checkBoard() {
 		boolean gameOver = false;
+		points = (TextView) findViewById(R.id.points);
+		drawPoints = (TextView) findViewById(R.id.drawP);
 
 		// first check all possible combinations to see if the user has won.
 		if ((board[1][1] == 0 && board[2][2] == 0 && board[3][3] == 0)
@@ -100,6 +129,7 @@ public class TicTacToeGameActivity extends Activity {
 
 			// user has won
 			textView.setText(R.string.player_wins);
+			playerPoints++;
 			gameOver = true;
 
 		} else if ((board[1][1] == 1 && board[2][2] == 1 && board[3][3] == 1)
@@ -113,6 +143,7 @@ public class TicTacToeGameActivity extends Activity {
 
 			// computer has won
 			textView.setText(R.string.cpu_wins);
+			cpuPoints++;
 			gameOver = true;
 
 		}
@@ -126,12 +157,19 @@ public class TicTacToeGameActivity extends Activity {
 						break;
 					}
 				}
-			}
+			}			
 			if (isEmpty) {
-				gameOver = true;
 				textView.setText(R.string.play_draw);
+				drawCount++;
+				gameOver = true;
 			}
+		}		
+		if(gameOver == true) {
+			drawPoints.setText(drawCount+"");
+			points.setText(cpuPoints + " : " + playerPoints);
+			disableButtons();
 		}
+		
 		return gameOver;
 	}
 
@@ -227,5 +265,4 @@ public class TicTacToeGameActivity extends Activity {
 		init();
 		return true;
 	}
-
 }

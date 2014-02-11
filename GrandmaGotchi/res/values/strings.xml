@@ -50,6 +50,10 @@
     <string name="cpu_wins">Grandma wins!</string>
     <string name="play_draw">Draw!</string>
     <string name="new_game">New Game</string>
+    <string name="granny">Granny</string>
+    <string name="player">Player</string>
+    <string name="draw">Draw</string>
+    <string name="points"> </string>
     <string name="kitchen">Kitchen</string>
     <string name="living_room">Living Room</string>
     <string name="grannys_pic">Granny</string>
