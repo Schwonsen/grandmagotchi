@@ -166,16 +166,30 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	static int grandmaondrugscounter;
 
 
-	static int[][] grandmaimagearray=new int[5][5];
+	static int[][] grandmaimagearray=new int[5][6];
 	
 	public void updatestatusgrandma(){
 		if (Root.getUniqueRootInstance().containsNeed(Needs.MEDICINE)){
 			currentgrandmastatus=2;
 			
-		}else if(Root.getUniqueRootInstance().isThirsty()==true){
+		}else if (Root.getUniqueRootInstance().containsNeed(Needs.SLEEP)){
+			currentgrandmastatus=3;			
+		}else if(Root.getUniqueRootInstance().containsNeed(Needs.WALK)==true){
 			currentgrandmastatus=4;
+		}else if(Root.getUniqueRootInstance().containsNeed(Needs.CLEAN)==true){
+			currentgrandmastatus=4;
+		}
+		else if(Root.getUniqueRootInstance().containsNeed(Needs.WASH)==true){
+			currentgrandmastatus=4;
+		}else if(Root.getUniqueRootInstance().containsNeed(Needs.DISHES)==true){
+			currentgrandmastatus=4;
+		}else if(Root.getUniqueRootInstance().containsNeed(Needs.BUY)==true){
+			currentgrandmastatus=4;
+		}
+		else if(Root.getUniqueRootInstance().isThirsty()==true){
+			currentgrandmastatus=5;
 		}else if(Root.getUniqueRootInstance().isHungry()==true){
-			currentgrandmastatus=4;
+			currentgrandmastatus=5;
 		}else{currentgrandmastatus=1;}
 	}
 	public void updateeyestatus(){	
@@ -978,12 +992,14 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	grandmaimagearray[0][2]= R.drawable.image_grandma_ill;
 	grandmaimagearray[0][3]= R.drawable.image_grandma_confused;
 	grandmaimagearray[0][4]= R.drawable.image_grandma_idea;
+	grandmaimagearray[0][5]= R.drawable.image_grandma_angry;
 	//blue
 	grandmaimagearray[4][0]= R.drawable.image_grandma_normal_blue;
 	grandmaimagearray[4][1]= R.drawable.image_grandma_happy_blue;
 	grandmaimagearray[4][2]= R.drawable.image_grandma_ill_blue;
 	grandmaimagearray[4][3]= R.drawable.image_grandma_confused_blue;
 	grandmaimagearray[4][4]= R.drawable.image_grandma_idea_blue;
+	grandmaimagearray[4][5]= R.drawable.image_grandma_angry_blue;
 	
 	//red
 	grandmaimagearray[1][0]= R.drawable.image_grandma_normal_red;
@@ -991,6 +1007,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	grandmaimagearray[1][2]= R.drawable.image_grandma_ill_red;
 	grandmaimagearray[1][3]= R.drawable.image_grandma_confused_red;
 	grandmaimagearray[1][4]= R.drawable.image_grandma_idea_red;
+	grandmaimagearray[1][5]= R.drawable.image_grandma_angry_red;
 	
 	//green
 	grandmaimagearray[3][0]= R.drawable.image_grandma_normal_green;
@@ -998,12 +1015,15 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	grandmaimagearray[3][2]= R.drawable.image_grandma_ill_green;
 	grandmaimagearray[3][3]= R.drawable.image_grandma_confused_green;
 	grandmaimagearray[3][4]= R.drawable.image_grandma_idea_green;
+	grandmaimagearray[3][5]= R.drawable.image_grandma_angry_green;
+	
 	//black
 	grandmaimagearray[2][0]= R.drawable.image_grandma_normal_black;
 	grandmaimagearray[2][1]= R.drawable.image_grandma_happy_black;
 	grandmaimagearray[2][2]= R.drawable.image_grandma_ill_black;
 	grandmaimagearray[2][3]= R.drawable.image_grandma_confused_black;
 	grandmaimagearray[2][4]= R.drawable.image_grandma_idea_black;
+	grandmaimagearray[2][5]= R.drawable.image_grandma_angry_black;
     }
 	///////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////// ACTIONBAR-TABS METHODS ////////////////////////////////////
