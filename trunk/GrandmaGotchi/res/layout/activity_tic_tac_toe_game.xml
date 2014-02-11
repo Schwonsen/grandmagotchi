@@ -116,4 +116,47 @@
         android:onClick="btnOnClickGame"
         android:text="@string/new_game" />
 
+    <TextView
+        android:id="@+id/points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/grannyPoints"
+        android:layout_alignBottom="@+id/grannyPoints"
+        android:layout_centerHorizontal="true"
+        android:text="@string/points" />
+
+    <TextView
+        android:id="@+id/grannyPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/new_game"
+        android:layout_toLeftOf="@+id/new_game"
+        android:text="@string/granny" />
+
+    <TextView
+        android:id="@+id/playerPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/points"
+        android:layout_alignBottom="@+id/points"
+        android:layout_toRightOf="@+id/new_game"
+        android:text="@string/player" />
+
+    <TextView
+        android:id="@+id/drawTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/grannyPoints"
+        android:layout_below="@+id/points"
+        android:text="@string/draw" />
+
+    <TextView
+        android:id="@+id/drawP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/drawTV"
+        android:layout_alignBottom="@+id/drawTV"
+        android:layout_centerHorizontal = "true"
+        android:text="@string/points" />
+
 </RelativeLayout>
