@@ -21,12 +21,11 @@
          android:src="@drawable/image_grandma_confused" />
      <ImageView
          android:id="@+id/imageGrandmaEyes"
-         android:layout_width="204dp"
+         android:layout_width="214dp"
          android:layout_height="306dp"
          android:layout_centerHorizontal="true"
          android:layout_centerVertical="true"
          android:contentDescription="@string/grannys_pic"
-         android:paddingTop="5dp"
          android:src="@drawable/eyes1" />
     <LinearLayout
             android:orientation="vertical"
