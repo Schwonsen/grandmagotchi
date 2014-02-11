@@ -659,7 +659,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			}
 			else
 			{
-				createTimer(currentDrink, DrinkDeathTimer.class);
+				createTimer(currentDrink, DrinkTimer.class);
 			}
 			
 		}
