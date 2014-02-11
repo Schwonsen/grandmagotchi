@@ -27,11 +27,16 @@ public class DrinkReceiver extends NotificationReceiver
     }
     @Override
     protected void createNeed(){
+    	Root.getUniqueRootInstance().setDrinkTimerRunning(false);
         Root.getUniqueRootInstance().setThirsty(true);
         Root.getUniqueRootInstance().addNeed(Needs.DRINK);
-        Root.getUniqueRootInstance().setDrinkTimerRunning(false);
 
     }
+    
+    
+    
+    
+    
     @Override
     protected void startTimer(){
         Intent mServiceIntent = new Intent(act.getApplicationContext(), DrinkDeathTimer.class);
@@ -39,7 +44,8 @@ public class DrinkReceiver extends NotificationReceiver
     }
     @Override
     protected boolean restartTimer(){
-        return Root.getUniqueRootInstance().isSleeping();
+    	return false;
+//        return Root.getUniqueRootInstance().isSleeping();
     }
 
 }

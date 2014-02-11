@@ -121,24 +121,24 @@ public class PainkillerActivity extends Activity {
                     String timeStamp = new SimpleDateFormat("HH").format(Calendar.getInstance().getTime());
                     int hour = Integer.valueOf(timeStamp);
                     boolean rightMed = false;
-                    if(hour < 10 && position == 0)
+                    if(hour <= 10 && hour >= 11 && position == 0)
                         rightMed = true;
-                    if(hour > 12 && hour < 17 && position == 1)
+                    if(hour >= 12 && hour <= 17 && position == 1)
                         rightMed = true;
-                    if(hour > 18 && hour < 24 && position == 2)
+                    if(hour >= 18 && hour <= 24 && position == 2)
                         rightMed = true;
-                    if(Root.getUniqueRootInstance().containsNeed(Needs.MEDICINE) || Root.getUniqueRootInstance().isSimMode()){
-
-					if(rightMed|| Root.getUniqueRootInstance().isSimMode()){
-					    Message.message(getBaseContext(), "Granny took her medicine!");
-                        if(!Root.getUniqueRootInstance().isSimMode()){
-                            Root.getUniqueRootInstance().removeNeed(Needs.MEDICINE);
-                            Root.getUniqueRootInstance().setMed(true);
-                        }
-                    }
-                        else{
-                        Message.message(getApplicationContext(), "Wrong medicine");
-                    }
+					if (Root.getUniqueRootInstance().containsNeed(Needs.MEDICINE)
+							|| Root.getUniqueRootInstance().isSimMode()) {
+						if (rightMed || Root.getUniqueRootInstance().isSimMode()) {
+							Message.message(getBaseContext(),"Granny took her medicine!");
+							if (!Root.getUniqueRootInstance().isSimMode()) {
+								Root.getUniqueRootInstance().removeNeed(Needs.MEDICINE);
+								Root.getUniqueRootInstance().setMed(true);
+							}
+						} else {
+							Message.message(getApplicationContext(),
+									"Wrong medicine");
+						}
                     }
                     else{
                         Message.message(getApplicationContext(), "Grandma needs no Medicine at the moment");

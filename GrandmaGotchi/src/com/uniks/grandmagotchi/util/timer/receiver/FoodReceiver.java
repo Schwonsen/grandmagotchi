@@ -66,7 +66,6 @@ public class FoodReceiver extends NotificationReceiver
             meal="dinner";
         }
 
-
         try {
 
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
@@ -99,8 +98,9 @@ public class FoodReceiver extends NotificationReceiver
             int myRand = random.nextInt(2);
             Root.getUniqueRootInstance().setFood(possible[myRand]);
             Message.message(ctx, "Grandma wants to eat " + possible[myRand]);
-            if(possible[myRand].equals("Pizza"))
+            if(possible[myRand].equals("Pizza") || possible[myRand].equals("Pasta"))
                 Root.getUniqueRootInstance().setUnhealthyFood(true);
+            	Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
             for(FoodAttributes fa : Root.getFoodList()){
                 if(fa.getName().equals(possible[myRand])){
                     if(fa.getCount() == 0){

@@ -456,11 +456,6 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		// if button is clicked, respawn
 		dialogButton.setOnClickListener(new OnClickListener() {
 
-
-
-
-	
-
 			@Override
 			public void onClick(View v) {
 				Message.message(ctx, "Start a new Game with your granny!");
@@ -1207,6 +1202,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void opendoorfunction(View view)
 	{
 		Intent intent = new Intent(this, opendoor.class);
+		Root.getUniqueRootInstance().removeNeed(Needs.WALK);
 		startActivity(intent);
 	}
 
