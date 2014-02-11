@@ -24,6 +24,7 @@ public class TicTacToeGameActivity extends Activity {
 	TextView textView;
 	TextView points;
 	TextView drawPoints;
+	Button newGame;
 	AI ai;
 	int playerPoints = 0;
 	int cpuPoints = 0;
@@ -165,6 +166,8 @@ public class TicTacToeGameActivity extends Activity {
 			}
 		}		
 		if(gameOver == true) {
+			newGame = (Button) findViewById(R.id.new_game);
+			newGame.setVisibility(View.VISIBLE);
 			drawPoints.setText(drawCount+"");
 			points.setText(cpuPoints + " : " + playerPoints);
 			disableButtons();
@@ -245,6 +248,7 @@ public class TicTacToeGameActivity extends Activity {
 	
 	public void btnOnClickGame(View view) {
 		init();
+		newGame.setVisibility(View.INVISIBLE);
 	}
 
 	@Override
