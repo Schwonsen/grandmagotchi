@@ -975,8 +975,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	public void updatecurrentgrandmaimage() {
 		ImageView grannyBedroom = (ImageView) findViewById(R.id.imageGrandma);
 		grannyBedroom.setImageResource(currentgrandma);
-		Root.getAttributes().setSleeping(false);
-		Root.getUniqueRootInstance().setSleeping(false);
+		handleWakeUp();
 	}
 	
     public void initializegranmaimagearray(){
@@ -1067,9 +1066,27 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			{
 				btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
 				Message.message(this, "You turned the light off, Grandma sleeps now");
+                String date = null;
+                if(Root.getUniqueRootInstance().getSleeptime() == 0){
+                    date = String.valueOf(System.currentTimeMillis());
+                }
+                else
+                date = String.valueOf(28800000);
+                String id = null;
+                if(Root.isCalledFromExistingAccount())
+                {
+                    id = Root.getId();
+                    if(databaseHandler.getTimer(Root.getId(), "DrinkTimer"))
+                        databaseHandler.updateTimerData(id, "SleepTimer" , date, date);
+                    else
+                        databaseHandler.insertTimerData(id, "SleepTimer" , date, date);
+                }
+                else{
+                    String[] countNames = databaseHandler.getNamesArray();
+                    id = String.valueOf(countNames.length);
+                    databaseHandler.insertTimerData(id, "SleepTimer" , date, date);
+                }
 
-                String date = String.valueOf(System.currentTimeMillis());
-                databaseHandler.updateTimerData(Root.getId(), "SleepTimer" , date, "");
                 grannyImage = (ImageView) findViewById(R.id.imageGrandma);
 				grannyImage.setImageResource(R.drawable.image_sleeping_grandma);
 				
@@ -1264,25 +1281,43 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 	//on click for takes the granny to beed
 	public void btnOnClickWakeUp(View view)
 	{
-        Cursor c = databaseHandler.getCurrentTimeByNameAndId(Root.getId(), "SleepTimer");
-        String start = c.getString(0);
-        long currentSleep = Long.valueOf(start) - System.currentTimeMillis();
-        if(currentSleep < 28800000){
+        handleWakeUp();
+	}
+
+    public void handleWakeUp(){
+        if(Root.getUniqueRootInstance().isSleeping()){
+        String id = null;
+        if(Root.isCalledFromExistingAccount())
+            id = Root.getId();
+        else{
+            String[] countNames = databaseHandler.getNamesArray();
+            id = String.valueOf(countNames.length);
+        }
+
+        Cursor c = databaseHandler.getCurrentTimeByNameAndId(id, "SleepTimer");
+        c.moveToFirst();
+        String start = c.getString(1);
+        long currentSleep = System.currentTimeMillis() - Long.valueOf(start);
+        if(currentSleep < Root.getUniqueRootInstance().getSleeptime()){
             Root.getUniqueRootInstance().addNeed(Needs.SLEEP);
+            Root.getUniqueRootInstance().setSleeptime(currentSleep);
             Message.message(this, "Grandma is awake. But she is still tired.");
         }
-        else
-        Message.message(this, "Grandma is awake");
-
+        else{
+            Message.message(this, "Grandma is awake");
+            Root.getUniqueRootInstance().setSleeptime(0);
+        }
         Root.getAttributes().setSleeping(false);
-		Root.getUniqueRootInstance().setSleeping(false);
-		
-		grannyImage = (ImageView) findViewById(R.id.imageGrandma);
-		grannyImage.setImageResource(currentgrandma);
-		
-		btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
-		btnWakeUp.setVisibility(View.INVISIBLE);
-	} 
+        Root.getUniqueRootInstance().setSleeping(false);
+
+        grannyImage = (ImageView) findViewById(R.id.imageGrandma);
+        grannyImage.setImageResource(currentgrandma);
+
+        btnWakeUp = (ImageButton) findViewById(R.id.btn_bedroom_wake_up);
+        btnWakeUp.setVisibility(View.INVISIBLE);
+        }
+    }
+
 	
 	private void createTimer(long countdown, Class target){
 		Intent mServiceIntent = new Intent(getApplicationContext(), target);

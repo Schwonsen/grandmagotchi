@@ -87,6 +87,7 @@ public class OverallTimings extends AsyncTask {
 
         if(hour > 12 && hour < 15 && Root.getUniqueRootInstance().isUnhealthyFood()){
             createMessage("Grandma ate a lot", "She needs Medicine!");
+            Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
             startTimer(MedDeathTimer.class);
         }
         if(hour == 19 && !Root.getUniqueRootInstance().isMed() && !Root.getUniqueRootInstance().containsNeed(Needs.MEDICINE)){
@@ -94,10 +95,11 @@ public class OverallTimings extends AsyncTask {
             startTimer(MedDeathTimer.class);
             Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
         }
-
-        if(hour == 19 && !Root.getAttributes().isSleeping() && Root.getUniqueRootInstance().containsNeed(Needs.SLEEP)){
+        if(hour == 19 && !Root.getAttributes().isSleeping() && !Root.getUniqueRootInstance().containsNeed(Needs.SLEEP)
+                && Root.getUniqueRootInstance().getSleeptime() == 0){
             createMessage("Grandma is tired", "Put her to sleep.");
             Root.getUniqueRootInstance().addNeed(Needs.SLEEP);
+            Log.w("grandmaT", "tired set");
         }
         if(hour == 5 && Root.getUniqueRootInstance().isMed()){
             Root.getUniqueRootInstance().setMed(false);
