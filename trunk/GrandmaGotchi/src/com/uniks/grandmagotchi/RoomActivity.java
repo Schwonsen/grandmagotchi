@@ -341,8 +341,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		handler.postDelayed(new Runnable() { 
 			public void run() { 
 				if (!Root.getAttributes().isSleeping()&&dancecounter==0&&grandmaondrugscounter==0){//im schlaf und beim tanzen soll nicht upgedated werden
-				 updatecurrentgrandmacomplete();Toast.makeText(getApplicationContext(), "true", Toast.LENGTH_SHORT).show();				 
-				}else{eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);Toast.makeText(getApplicationContext(), "false", Toast.LENGTH_SHORT).show();
+				 updatecurrentgrandmacomplete();			 
+				}else{eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
 		         eyesImage.setImageResource(R.drawable.eyeszero);}
 	        	 startupdatehandler();
 	         } 
