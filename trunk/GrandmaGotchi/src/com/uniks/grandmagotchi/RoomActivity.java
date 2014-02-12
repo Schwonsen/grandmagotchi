@@ -323,6 +323,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 
 	}}
 	public void updatecurrentgrandmacomplete(){	
+		//Toast.makeText(getApplicationContext(), "update", Toast.LENGTH_SHORT).show();
 	updatestatusgrandma();
 	updatecurrentgrandma();
 	updatecurrentgrandmaimage();
@@ -340,8 +341,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		handler.postDelayed(new Runnable() { 
 			public void run() { 
 				if (!Root.getAttributes().isSleeping()&&dancecounter==0&&grandmaondrugscounter==0){//im schlaf und beim tanzen soll nicht upgedated werden
-				 updatecurrentgrandmacomplete();				 
-				}else{eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+				 updatecurrentgrandmacomplete();Toast.makeText(getApplicationContext(), "true", Toast.LENGTH_SHORT).show();				 
+				}else{eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);Toast.makeText(getApplicationContext(), "false", Toast.LENGTH_SHORT).show();
 		         eyesImage.setImageResource(R.drawable.eyeszero);}
 	        	 startupdatehandler();
 	         } 
@@ -555,6 +556,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 			init();
 		}
 		updatehandler=true;
+		startupdatehandler();
 	}
 
 	private void init()
@@ -954,6 +956,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
      		  
      	   databaseHandler.insertMoodClothData(idCode, currentMoodCloth, statusMoodCloth);
  	   }
+ 	   updatehandler=true;
+ 	   startupdatehandler();
 	}
 	
 	class FragAdapter extends FragmentPagerAdapter
@@ -1204,7 +1208,10 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 		startActivity(new Intent(Intent.ACTION_VIEW,
 				Uri.parse("http://m.youtube.com/watch?v=" + videoID)));
 		youtubebuttonclicked=true;
+		eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+		eyesImage.setImageResource(R.drawable.eyeszero);
 		dancecounter=0;
+		
 	}
 	
 	//dancing granny after returning from youtube
@@ -1402,9 +1409,10 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 
 	}
     public void gosleep(View view){
-
+    
     if(!Root.getUniqueRootInstance().containsNeed(Needs.SLEEP)){
         Root.getUniqueRootInstance().addNeed(Needs.SLEEP);
+        updatecurrentgrandmacomplete();
     }
     else{
         Toast.makeText(getApplicationContext(), "wants already to go to bed", Toast.LENGTH_LONG).show();
