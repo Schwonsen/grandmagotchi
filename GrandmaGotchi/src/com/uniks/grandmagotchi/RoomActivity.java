@@ -957,7 +957,7 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
      	   databaseHandler.insertMoodClothData(idCode, currentMoodCloth, statusMoodCloth);
  	   }
  	   updatehandler=true;
- 	   startupdatehandler();
+ 	   //startupdatehandler();
 	}
 	
 	class FragAdapter extends FragmentPagerAdapter
@@ -1146,7 +1146,8 @@ public class RoomActivity extends FragmentActivity implements TabListener, Senso
 
                 grannyImage = (ImageView) findViewById(R.id.imageGrandma);
 				grannyImage.setImageResource(R.drawable.image_sleeping_grandma);
-				
+				eyesImage = (ImageView) findViewById(R.id.imageGrandmaEyes);
+				eyesImage.setImageResource(R.drawable.eyeszero);
 				btnWakeUp.setVisibility(View.VISIBLE);
                 Root.getAttributes().setSleeping(true);
                 Root.getUniqueRootInstance().removeNeed(Needs.SLEEP);
