@@ -95,7 +95,7 @@ public class OverallTimings extends AsyncTask {
             startTimer(MedDeathTimer.class);
             Root.getUniqueRootInstance().addNeed(Needs.MEDICINE);
         }
-        if(hour == 19 && !Root.getAttributes().isSleeping() && !Root.getUniqueRootInstance().containsNeed(Needs.SLEEP)
+        if(hour == 22 && !Root.getAttributes().isSleeping() && !Root.getUniqueRootInstance().containsNeed(Needs.SLEEP)
                 && Root.getUniqueRootInstance().getSleeptime() == 0){
             createMessage("Grandma is tired", "Put her to sleep.");
             Root.getUniqueRootInstance().addNeed(Needs.SLEEP);
